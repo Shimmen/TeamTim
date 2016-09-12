@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.0/jars/classes.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="6eb9107eb34d2fe2b020662b7fbbec991dcba846">
+        <dex dex="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-media-compat-24.2.0_ae99c2f169912df315a314346e1faed3e159a607/classes.dex" />
+    </item>
+    <item
+        jar="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.0/jars/libs/internal_impl-24.2.0.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="771b3cc0e597b54da25f8086ba73180c59c6bc71">
+        <dex dex="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.0_38182c2917ba0da4b6936606431413d6611d80d6/classes.dex" />
+    </item>
+    <item
+        jar="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/24.2.0/jars/classes.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="f3ee23ef25c9a8fe3d40246d0b7097267963a612">
+        <dex dex="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-24.2.0_e74b28c8d42771aa942c1edce419c9c864831a95/classes.dex" />
+    </item>
+    <item
+        jar="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="1a2a9b8cd4647f39d5a66f40da66788b3b0c39dc">
+        <dex dex="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_8f0ff9f741cdad3a0b155bfa2bc3d171ab1b5c8d/classes.dex" />
+    </item>
+    <item
+        jar="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.0/jars/libs/internal_impl-24.2.0.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="032a4b53def5e2ceedfc2e793b126c0163cfa1dd">
+        <dex dex="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.0_950fb3b44e016dbf9bbe8c4c4d92a8cc6bb4f42b/classes.dex" />
+    </item>
+    <item
+        jar="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.0/jars/classes.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="fcc945a86ebcbf527429acb8216ec7dae2c06417">
+        <dex dex="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-24.2.0_e4cc53308044145add73377164682e21541e855a/classes.dex" />
+    </item>
+    <item
+        jar="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.0/jars/classes.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="c3c638be6e650b165ab9ae144857b64e82787fad">
+        <dex dex="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-24.2.0_f8ba67b37a5198da3e7ca45b57fe5e88a735089d/classes.dex" />
+    </item>
+    <item
+        jar="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.0/jars/classes.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="c84e216d9bf618464d6b9564d71d9a656433e7c4">
+        <dex dex="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-24.2.0_6abe5ff8bc2726e976e402f5baa106206914a433/classes.dex" />
+    </item>
+    <item
+        jar="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.0/jars/libs/internal_impl-24.2.0.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="60d7b23621d31e6f42f4f76f16af467e57a20cda">
+        <dex dex="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.0_9ae5cb053dd7de50a53db3c3350246e167f884ef/classes.dex" />
+    </item>
+    <item
+        jar="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.0/jars/libs/internal_impl-24.2.0.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="6e02e34594ebe9c0501ffda8dd48497f81b82977">
+        <dex dex="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.0_fd850ea8c197f8b4463b848ae18c0b93a7e97776/classes.dex" />
+    </item>
+    <item
+        jar="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.0/jars/libs/internal_impl-24.2.0.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="045be695d968dd707691cc55d23746dbf8cf569a">
+        <dex dex="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.0_c3534b3615550e33ec2476571088df205eaf8965/classes.dex" />
+    </item>
+    <item
+        jar="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.2.0/jars/classes.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="45f5eda279825ff470e3f51019d374d1ef61e000">
+        <dex dex="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-24.2.0_d6ef89b70eefe617e681ca7bbc1350c24a832576/classes.dex" />
+    </item>
+    <item
+        jar="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.0/jars/classes.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="f9b41622897665678d31d78e57a361cb0cebcb0d">
+        <dex dex="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-compat-24.2.0_327a06028c16c6fc651434042ac0eee59ce6eaf3/classes.dex" />
+    </item>
+    <item
+        jar="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.0/jars/classes.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="d8bd2268fdcbfd52c76ade65d9900cd8def93a44">
+        <dex dex="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-fragment-24.2.0_8005ec56eac61d82fb39e186de54b5a22e34224b/classes.dex" />
+    </item>
+    <item
+        jar="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/24.2.0/jars/classes.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="beac40bcc8a320a896dd15f5109cfcaea5e1e0e3">
+        <dex dex="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-24.2.0_ab10b2a1035d40c0a0b969ab99be95fac8fd7285/classes.dex" />
+    </item>
+    <item
+        jar="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="dca8811a2457043fffb223dca24c3623adc74e51">
+        <dex dex="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_a400022d11fd53f35a18e1a4c07d4deff0068265/classes.dex" />
+    </item>
+    <item
+        jar="/Users/Simon/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/24.2.0/support-annotations-24.2.0.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="6be858a75633b1f0a2d24cad740db57775cb6871">
+        <dex dex="/Users/Simon/Developer/TeamTimApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-24.2.0_a3a62eb37b14bc00333d84903f2744ad0f428bc1/classes.dex" />
+    </item>
+
+</items>
