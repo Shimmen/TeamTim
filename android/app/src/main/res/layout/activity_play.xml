@@ -20,4 +20,25 @@
         android:minWidth="250dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/answerTextField"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="33dp"
+        android:singleLine="true"
+        android:textSize="36dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Svara"
+        android:id="@+id/answerButton"
+        android:layout_marginTop="29dp"
+        android:layout_below="@+id/answerTextField"
+        android:layout_centerHorizontal="true"
+        android:onClick="checkAnswer"
+        android:nestedScrollingEnabled="false" />
 </RelativeLayout>
