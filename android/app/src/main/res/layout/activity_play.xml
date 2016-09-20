@@ -7,14 +7,17 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="teamtim.teamtimapp.MainActivity">
+    tools:context="teamtim.teamtimapp.PlayActivity">
 
-    <Button
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Play"
-        android:id="@+id/startGame_button"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="start" />
+        android:id="@+id/imageView"
+        android:layout_marginTop="60dp"
+        android:maxHeight="250dp"
+        android:maxWidth="250dp"
+        android:minHeight="250dp"
+        android:minWidth="250dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
