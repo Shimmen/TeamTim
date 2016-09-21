@@ -41,4 +41,12 @@
         android:layout_centerHorizontal="true"
         android:onClick="checkAnswer"
         android:nestedScrollingEnabled="false" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@+id/answerTextField"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/answerButton"
+        android:id="@+id/grid"></GridLayout>
 </RelativeLayout>
