@@ -6,6 +6,4 @@ public interface DatabaseInterface {
     public List<WordQuestion> getQuestions(WordDifficulty difficulty, int maxAmount);
     public List<WordQuestion> getQuestions(String category, int maxAmount);
     public List<WordQuestion> getQuestions(WordDifficulty difficulty, String category, int maxAmount);
-
-    public void filter(List<WordQuestion> query, int maxAmount);
 }

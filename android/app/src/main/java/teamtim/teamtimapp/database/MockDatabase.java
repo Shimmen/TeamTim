@@ -60,7 +60,6 @@ public class MockDatabase implements DatabaseInterface {
      * @param query the list with questions
      * @param maxAmount the preferred size of the list
      */
-    @Override
     public void filter(List<WordQuestion> query, int maxAmount) {
         if (maxAmount == -1) return;
         while (query.size() > maxAmount ){
