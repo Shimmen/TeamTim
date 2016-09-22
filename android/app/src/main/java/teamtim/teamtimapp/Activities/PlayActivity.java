@@ -1,7 +1,6 @@
-package teamtim.teamtimapp;
+package teamtim.teamtimapp.Activities;
 
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +10,8 @@ import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 
+import teamtim.teamtimapp.R;
+
 public class PlayActivity extends AppCompatActivity {
 
     private ImageView imageView;
@@ -18,13 +19,18 @@ public class PlayActivity extends AppCompatActivity {
     private GridLayout buttonGrid;
     private String check;
     private char[] test;
+    private int currentQ;
+    private int totalQ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
         imageView = (ImageView) findViewById(R.id.imageView);
-        imageView.setImageResource(R.mipmap.ic_launcher);
+        setImage(null);
+
+        totalQ = 1;
+        currentQ = 1;
 
         //Will change a lot, purely for demonstration
         test = shuffle(splitString("Android"));
@@ -37,8 +43,10 @@ public class PlayActivity extends AppCompatActivity {
     }
 
     public void setImage(Bitmap image){
-        imageView.setImageBitmap(image);
+        imageView.setImageResource(R.mipmap.ic_launcher);
+        //imageView.setImageBitmap(image);
     }
+
 
     public void checkAnswer(View v){
         answerText = (EditText) findViewById(R.id.answerTextField);
@@ -50,6 +58,10 @@ public class PlayActivity extends AppCompatActivity {
             Log.d("Answer:", "Wrong");
         }
 
+        if(currentQ == totalQ){
+            //finishGame();}
+        }
+        else {currentQ++;}
     }
 
     //Put into another class or something later
