@@ -17,6 +17,7 @@ public class PlayActivity extends AppCompatActivity {
 
     private ImageView imageView;
     private GridLayout buttonGrid;
+    EditText answerText;
     private char[] test;
     private int currentQ;
     private int totalQ;
@@ -28,6 +29,9 @@ public class PlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
         imageView = (ImageView) findViewById(R.id.imageView);
+        buttonGrid = (GridLayout) findViewById(R.id.grid);
+        answerText = (EditText) findViewById(R.id.answerTextField);
+
         p = new PlayPresenter(this);
         totalQ = 1;
         currentQ = 1;
@@ -48,10 +52,9 @@ public class PlayActivity extends AppCompatActivity {
     public void setKeyboard(){
         //Will change a lot, purely for demonstration
 
-        buttonGrid = (GridLayout) findViewById(R.id.grid);
         if(buttonGrid != null) {
-
             buttonGrid.removeAllViews();
+            answerText.getText().clear();
         }
         test = shuffle(splitString(word));
         for (int i = 0; i < word.length(); i++) {
@@ -63,7 +66,7 @@ public class PlayActivity extends AppCompatActivity {
 
 
     public void checkAnswer(View v){
-        EditText answerText = (EditText) findViewById(R.id.answerTextField);
+
         String check = answerText.getText().toString();
 
         p.checkAnswer(check);
