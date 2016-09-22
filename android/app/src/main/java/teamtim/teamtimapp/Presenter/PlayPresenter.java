@@ -23,12 +23,18 @@ public class PlayPresenter {
         playActivity.newQuestion(questions.get(currentQ));
     }
 
-    public void checkAnswer(String answer){
-        if(answer.equalsIgnoreCase(questions.get(currentQ).getWord())){
-            currentQ++;
-            playActivity.newQuestion(questions.get(currentQ));
-        } else {
+    public void checkAnswer(String answer) {
+        WordQuestion currentQuestion = questions.get(currentQ);
 
+        if (answer.equalsIgnoreCase(currentQuestion.getWord())){
+
+            // Get next question index. Cycle for now, so we don't access an index outside the array!
+            currentQ++;
+            currentQ %= questions.size();
+            playActivity.newQuestion(questions.get(currentQ));
+
+        } else {
+            // TODO: Handle incorrect word!
         }
 
     }
