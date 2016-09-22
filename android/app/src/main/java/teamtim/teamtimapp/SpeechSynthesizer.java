@@ -5,9 +5,6 @@ import android.speech.tts.TextToSpeech;
 
 import java.util.Locale;
 
-/**
- * Created by Gustav on 16-09-20.
- */
 public class SpeechSynthesizer implements ISpeechSynthesizer{
     private TextToSpeech tts;
 
@@ -15,8 +12,9 @@ public class SpeechSynthesizer implements ISpeechSynthesizer{
         tts=new TextToSpeech(context, new TextToSpeech.OnInitListener() {
         @Override
             public void onInit(int status) {
-                tts.setLanguage(Locale.US);
-                tts.speak("Sweden", TextToSpeech.QUEUE_FLUSH, null);
+                tts.setLanguage(Locale.GERMAN);
+                tts.setSpeechRate(0.5f);
+                tts.speak("Svenska", TextToSpeech.QUEUE_FLUSH, null);
             }
         }
     );}
@@ -25,7 +23,6 @@ public class SpeechSynthesizer implements ISpeechSynthesizer{
 
     @Override
     public void speak(String word) {
-        System.out.println("hit");
         tts.speak(word, TextToSpeech.QUEUE_FLUSH, null);
     }
 
