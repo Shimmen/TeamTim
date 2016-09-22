@@ -14,7 +14,8 @@ public class SpeechSynthesizer implements ISpeechSynthesizer{
             public void onInit(int status) {
                 tts.setLanguage(Locale.GERMAN);
                 tts.setSpeechRate(0.5f);
-                tts.speak("Svenska", TextToSpeech.QUEUE_FLUSH, null);
+                //tts.speak("Svenska", TextToSpeech.QUEUE_FLUSH, null);
+                //System.out.println("OnInit");
             }
         }
     );}
