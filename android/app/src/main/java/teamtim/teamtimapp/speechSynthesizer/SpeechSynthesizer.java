@@ -25,7 +25,7 @@ public class SpeechSynthesizer implements ISpeechSynthesizer{
         if(!tts.isSpeaking()) speak(word);
         else shutUp();
     }
-    
+
     @Override
     public void speak(String word) {
         String copy = word.replace('v','w');    //remove if Local is Sweden
@@ -37,5 +37,10 @@ public class SpeechSynthesizer implements ISpeechSynthesizer{
     @Override
     public void shutUp() {
         tts.stop();
+    }
+
+    @Override
+    public boolean isSpeaking() {
+        return tts.isSpeaking();
     }
 }

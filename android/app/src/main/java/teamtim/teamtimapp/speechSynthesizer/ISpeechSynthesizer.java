@@ -7,4 +7,6 @@ public interface ISpeechSynthesizer {
     void speak(String word);
 
     void shutUp();
+
+    boolean isSpeaking();
 }
