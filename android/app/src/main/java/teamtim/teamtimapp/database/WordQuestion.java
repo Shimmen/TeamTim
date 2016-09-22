@@ -10,21 +10,21 @@ public class WordQuestion {
     private final String word;
     private final List<String> categories;
     private final WordDifficulty difficulty;
-    private final Bitmap wordImage;
+    private final int imageId;
 
-    public WordQuestion(String word, List<String> categories, WordDifficulty difficulty, Bitmap wordImage){
+    public WordQuestion(String word, List<String> categories, WordDifficulty difficulty, int imageId){
         this.word = word;
         this.categories = categories;
         this.difficulty = difficulty;
-        this.wordImage = wordImage;
+        this.imageId = imageId;
     }
 
     public List<String> getCategories() {
         return new ArrayList<>(categories);
     }
 
-    public Bitmap getImageURI() {
-        return wordImage;
+    public int getImage() {
+        return imageId;
     }
 
     public String getWord() {

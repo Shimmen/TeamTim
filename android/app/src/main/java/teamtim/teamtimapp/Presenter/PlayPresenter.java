@@ -9,7 +9,6 @@ import teamtim.teamtimapp.database.WordDifficulty;
 import teamtim.teamtimapp.database.WordQuestion;
 
 public class PlayPresenter {
-
     private List<WordQuestion> questions;
     private PlayActivity playActivity;
     private DatabaseInterface db = new MockDatabase();

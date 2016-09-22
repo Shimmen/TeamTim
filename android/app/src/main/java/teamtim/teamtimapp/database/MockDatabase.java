@@ -4,22 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import teamtim.teamtimapp.R;
+
 public class MockDatabase implements DatabaseInterface {
     private List<WordQuestion> wordQuestions;
     private Random randomizer = new Random();
 
     public MockDatabase(){
         wordQuestions = new ArrayList<WordQuestion>();
-        wordQuestions.add(WordQuestionFactory.create("Apa", "Djur", WordDifficulty.EASY, "https://www.google.se/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0ahUKEwiszLr21Z3PAhUDDiwKHQhLBB4QjRwIBw&url=http%3A%2F%2Fdayviews.com%2Fstrawberrywhite%2F488194605%2F&psig=AFQjCNF9E4tBdsLZUT_kn7HlFjQF9lf-Dw&ust=1474451474413758"));
-        wordQuestions.add(WordQuestionFactory.create("Giraff", "Djur", WordDifficulty.HARD, "https://www.google.se/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0ahUKEwiszLr21Z3PAhUDDiwKHQhLBB4QjRwIBw&url=http%3A%2F%2Fdayviews.com%2Fstrawberrywhite%2F488194605%2F&psig=AFQjCNF9E4tBdsLZUT_kn7HlFjQF9lf-Dw&ust=1474451474413758"));
-        wordQuestions.add(WordQuestionFactory.create("Orm", "Djur", WordDifficulty.EASY, "https://www.google.se/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0ahUKEwiszLr21Z3PAhUDDiwKHQhLBB4QjRwIBw&url=http%3A%2F%2Fdayviews.com%2Fstrawberrywhite%2F488194605%2F&psig=AFQjCNF9E4tBdsLZUT_kn7HlFjQF9lf-Dw&ust=1474451474413758"));
-        wordQuestions.add(WordQuestionFactory.create("Häst", "Djur", WordDifficulty.MEDIUM, "https://www.google.se/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0ahUKEwiszLr21Z3PAhUDDiwKHQhLBB4QjRwIBw&url=http%3A%2F%2Fdayviews.com%2Fstrawberrywhite%2F488194605%2F&psig=AFQjCNF9E4tBdsLZUT_kn7HlFjQF9lf-Dw&ust=1474451474413758"));
-        wordQuestions.add(WordQuestionFactory.create("Ko", "Djur", WordDifficulty.EASY, "https://www.google.se/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0ahUKEwiszLr21Z3PAhUDDiwKHQhLBB4QjRwIBw&url=http%3A%2F%2Fdayviews.com%2Fstrawberrywhite%2F488194605%2F&psig=AFQjCNF9E4tBdsLZUT_kn7HlFjQF9lf-Dw&ust=1474451474413758"));
-        wordQuestions.add(WordQuestionFactory.create("Banan", "Frukt", WordDifficulty.EASY, "https://www.google.se/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0ahUKEwiszLr21Z3PAhUDDiwKHQhLBB4QjRwIBw&url=http%3A%2F%2Fdayviews.com%2Fstrawberrywhite%2F488194605%2F&psig=AFQjCNF9E4tBdsLZUT_kn7HlFjQF9lf-Dw&ust=1474451474413758"));
-        wordQuestions.add(WordQuestionFactory.create("Äpple", "Frukt", WordDifficulty.MEDIUM, "https://www.google.se/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0ahUKEwiszLr21Z3PAhUDDiwKHQhLBB4QjRwIBw&url=http%3A%2F%2Fdayviews.com%2Fstrawberrywhite%2F488194605%2F&psig=AFQjCNF9E4tBdsLZUT_kn7HlFjQF9lf-Dw&ust=1474451474413758"));
-        wordQuestions.add(WordQuestionFactory.create("Päron", "Frukt", WordDifficulty.MEDIUM, "https://www.google.se/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0ahUKEwiszLr21Z3PAhUDDiwKHQhLBB4QjRwIBw&url=http%3A%2F%2Fdayviews.com%2Fstrawberrywhite%2F488194605%2F&psig=AFQjCNF9E4tBdsLZUT_kn7HlFjQF9lf-Dw&ust=1474451474413758"));
-        wordQuestions.add(WordQuestionFactory.create("Apelsin", "Frukt", WordDifficulty.MEDIUM, "https://www.google.se/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0ahUKEwiszLr21Z3PAhUDDiwKHQhLBB4QjRwIBw&url=http%3A%2F%2Fdayviews.com%2Fstrawberrywhite%2F488194605%2F&psig=AFQjCNF9E4tBdsLZUT_kn7HlFjQF9lf-Dw&ust=1474451474413758"));
-        wordQuestions.add(WordQuestionFactory.create("Grapefrukt", "Frukt", WordDifficulty.HARD, "https://www.google.se/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0ahUKEwiszLr21Z3PAhUDDiwKHQhLBB4QjRwIBw&url=http%3A%2F%2Fdayviews.com%2Fstrawberrywhite%2F488194605%2F&psig=AFQjCNF9E4tBdsLZUT_kn7HlFjQF9lf-Dw&ust=1474451474413758"));
+        wordQuestions.add(WordQuestionFactory.create("Apa", "Djur", WordDifficulty.EASY, R.drawable.giraff));
+        wordQuestions.add(WordQuestionFactory.create("Giraff", "Djur", WordDifficulty.HARD, R.drawable.giraff));
+        wordQuestions.add(WordQuestionFactory.create("Orm", "Djur", WordDifficulty.EASY, R.drawable.giraff));
+        wordQuestions.add(WordQuestionFactory.create("Häst", "Djur", WordDifficulty.MEDIUM, R.drawable.giraff));
+        wordQuestions.add(WordQuestionFactory.create("Ko", "Djur", WordDifficulty.EASY, R.drawable.giraff));
+        wordQuestions.add(WordQuestionFactory.create("Banan", "Frukt", WordDifficulty.EASY, R.drawable.giraff));
+        wordQuestions.add(WordQuestionFactory.create("Äpple", "Frukt", WordDifficulty.MEDIUM, R.drawable.giraff));
+        wordQuestions.add(WordQuestionFactory.create("Päron", "Frukt", WordDifficulty.MEDIUM, R.drawable.giraff));
+        wordQuestions.add(WordQuestionFactory.create("Apelsin", "Frukt", WordDifficulty.MEDIUM, R.drawable.giraff));
+        wordQuestions.add(WordQuestionFactory.create("Grapefrukt", "Frukt", WordDifficulty.HARD, R.drawable.giraff));
     }
 
     @Override

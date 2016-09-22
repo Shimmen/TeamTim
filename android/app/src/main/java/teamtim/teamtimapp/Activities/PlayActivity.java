@@ -28,29 +28,37 @@ public class PlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
         imageView = (ImageView) findViewById(R.id.imageView);
-        setImage(null);
         p = new PlayPresenter(this);
         totalQ = 1;
         currentQ = 1;
 
+    }
+
+    private void setImage(int image){
+        //imageView.setImageResource(R.mipmap.ic_launcher);
+        imageView.setImageResource(image);
+    }
+
+    public void newQuestion(WordQuestion w){
+        setImage(w.getImage());
+        word = w.getWord();
+        setKeyboard();
+    }
+
+    public void setKeyboard(){
         //Will change a lot, purely for demonstration
-        test = shuffle(splitString("Android"));
+
         buttonGrid = (GridLayout) findViewById(R.id.grid);
-        for (int i = 0; i < 7; i++) {
+        if(buttonGrid != null) {
+
+            buttonGrid.removeAllViews();
+        }
+        test = shuffle(splitString(word));
+        for (int i = 0; i < word.length(); i++) {
             Button b = new Button(this);
             b.setText(Character.toString(test[i]));
             buttonGrid.addView(b, 130, 130);
         }
-    }
-
-    private void setImage(Bitmap image){
-        //imageView.setImageResource(R.mipmap.ic_launcher);
-        imageView.setImageBitmap(image);
-    }
-
-    public void newQuestion(WordQuestion w){
-        setImage(w.getImageURI());
-        word = w.getWord();
     }
 
 
