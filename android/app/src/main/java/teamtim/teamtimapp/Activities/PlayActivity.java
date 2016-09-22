@@ -1,16 +1,15 @@
-package teamtim.teamtimapp.Activities;
+package teamtim.teamtimapp.activities;
 
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 
-import teamtim.teamtimapp.Presenter.PlayPresenter;
+import teamtim.teamtimapp.presenter.PlayPresenter;
 import teamtim.teamtimapp.R;
 import teamtim.teamtimapp.database.WordQuestion;
 
