@@ -6,9 +6,6 @@ import android.graphics.BitmapFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Erik on 2016-09-20.
- */
 public final class WordQuestionFactory {
     private WordQuestionFactory(){
         //nothing...
