@@ -3,7 +3,7 @@
 /local.properties
 /.idea/workspace.xml
 /.idea/gradle.xml
-/.idea/misc.xml # Should maybe be in the project but it'll be okay without it...
+/.idea/misc.xml
 /.idea/libraries
 /build
 /captures
