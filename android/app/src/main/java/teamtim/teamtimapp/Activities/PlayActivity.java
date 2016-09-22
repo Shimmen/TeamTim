@@ -10,17 +10,19 @@ import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 
+import teamtim.teamtimapp.Presenter.PlayPresenter;
 import teamtim.teamtimapp.R;
+import teamtim.teamtimapp.database.WordQuestion;
 
 public class PlayActivity extends AppCompatActivity {
 
     private ImageView imageView;
-    private EditText answerText;
     private GridLayout buttonGrid;
-    private String check;
     private char[] test;
     private int currentQ;
     private int totalQ;
+    private PlayPresenter p;
+    private String word;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +30,7 @@ public class PlayActivity extends AppCompatActivity {
         setContentView(R.layout.activity_play);
         imageView = (ImageView) findViewById(R.id.imageView);
         setImage(null);
-
+        p = new PlayPresenter(this);
         totalQ = 1;
         currentQ = 1;
 
@@ -42,26 +44,22 @@ public class PlayActivity extends AppCompatActivity {
         }
     }
 
-    public void setImage(Bitmap image){
-        imageView.setImageResource(R.mipmap.ic_launcher);
-        //imageView.setImageBitmap(image);
+    private void setImage(Bitmap image){
+        //imageView.setImageResource(R.mipmap.ic_launcher);
+        imageView.setImageBitmap(image);
+    }
+
+    public void newQuestion(WordQuestion w){
+        setImage(w.getImageURI());
+        word = w.getWord();
     }
 
 
     public void checkAnswer(View v){
-        answerText = (EditText) findViewById(R.id.answerTextField);
-        check = answerText.getText().toString();
-        if (check.equals("Android")) {
-            Log.d("Answer:", "Correct");
-        }
-        else{
-            Log.d("Answer:", "Wrong");
-        }
+        EditText answerText = (EditText) findViewById(R.id.answerTextField);
+        String check = answerText.getText().toString();
 
-        if(currentQ == totalQ){
-            //finishGame();}
-        }
-        else {currentQ++;}
+        p.checkAnswer(check);
     }
 
     //Put into another class or something later
