@@ -14,11 +14,18 @@ public class SpeechSynthesizer implements ISpeechSynthesizer{
             public void onInit(int status) {
                 tts.setLanguage(Locale.GERMANY); //Sweden not available, german sound almomst like swedish
                 tts.setSpeechRate(0.55f);
-                speak("Vet ni att tyska låter nästan som svenska."); //remove after merge
+                speakOrShutUp("Vet ni att tyska låter nästan som svenska."); //remove after merge
             }
         }
     );}
 
+    public void speakOrShutUp(String word){
+        if(tts==null) return;
+
+        if(!tts.isSpeaking()) speak(word);
+        else shutUp();
+    }
+    
     @Override
     public void speak(String word) {
         String copy = word.replace('v','w');    //remove if Local is Sweden
@@ -29,6 +36,6 @@ public class SpeechSynthesizer implements ISpeechSynthesizer{
 
     @Override
     public void shutUp() {
-        if(tts.isSpeaking()) tts.stop();
+        tts.stop();
     }
 }
