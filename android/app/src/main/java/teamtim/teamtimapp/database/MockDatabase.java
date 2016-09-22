@@ -13,16 +13,16 @@ public class MockDatabase implements DatabaseInterface {
 
     public MockDatabase(){
         wordQuestions = new ArrayList<WordQuestion>();
-        wordQuestions.add(WordQuestionFactory.create("Apa", "Djur", WordDifficulty.EASY, R.drawable.giraff));
-        wordQuestions.add(WordQuestionFactory.create("Giraff", "Djur", WordDifficulty.HARD, R.drawable.giraff));
-        wordQuestions.add(WordQuestionFactory.create("Orm", "Djur", WordDifficulty.EASY, R.drawable.giraff));
-        wordQuestions.add(WordQuestionFactory.create("Häst", "Djur", WordDifficulty.MEDIUM, R.drawable.giraff));
-        wordQuestions.add(WordQuestionFactory.create("Ko", "Djur", WordDifficulty.EASY, R.drawable.giraff));
-        wordQuestions.add(WordQuestionFactory.create("Banan", "Frukt", WordDifficulty.EASY, R.drawable.giraff));
-        wordQuestions.add(WordQuestionFactory.create("Äpple", "Frukt", WordDifficulty.MEDIUM, R.drawable.giraff));
-        wordQuestions.add(WordQuestionFactory.create("Päron", "Frukt", WordDifficulty.MEDIUM, R.drawable.giraff));
-        wordQuestions.add(WordQuestionFactory.create("Apelsin", "Frukt", WordDifficulty.MEDIUM, R.drawable.giraff));
-        wordQuestions.add(WordQuestionFactory.create("Grapefrukt", "Frukt", WordDifficulty.HARD, R.drawable.giraff));
+        wordQuestions.add(WordQuestionFactory.create("Apa",        "Djur",  WordDifficulty.EASY,   R.drawable.apa));
+        wordQuestions.add(WordQuestionFactory.create("Giraff",     "Djur",  WordDifficulty.HARD,   R.drawable.giraff));
+        wordQuestions.add(WordQuestionFactory.create("Orm",        "Djur",  WordDifficulty.EASY,   R.drawable.orm));
+        wordQuestions.add(WordQuestionFactory.create("Häst",       "Djur",  WordDifficulty.MEDIUM, R.drawable.horse));
+        wordQuestions.add(WordQuestionFactory.create("Ko",         "Djur",  WordDifficulty.EASY,   R.drawable.ko));
+        wordQuestions.add(WordQuestionFactory.create("Banan",      "Frukt", WordDifficulty.EASY,   R.drawable.banan));
+        wordQuestions.add(WordQuestionFactory.create("Äpple",      "Frukt", WordDifficulty.MEDIUM, R.drawable.apple));
+        wordQuestions.add(WordQuestionFactory.create("Päron",      "Frukt", WordDifficulty.MEDIUM, R.drawable.pear));
+        wordQuestions.add(WordQuestionFactory.create("Apelsin",    "Frukt", WordDifficulty.MEDIUM, R.drawable.apelsin));
+        wordQuestions.add(WordQuestionFactory.create("Grapefrukt", "Frukt", WordDifficulty.HARD,   R.drawable.grapefrukt));
     }
 
     @Override
