@@ -12,19 +12,19 @@ public class SpeechSynthesizer implements ISpeechSynthesizer{
         tts=new TextToSpeech(context, new TextToSpeech.OnInitListener() {
         @Override
             public void onInit(int status) {
-                tts.setLanguage(Locale.GERMAN);
-                tts.setSpeechRate(0.5f);
-                //tts.speak("Svenska", TextToSpeech.QUEUE_FLUSH, null);
-                //System.out.println("OnInit");
+                tts.setLanguage(Locale.GERMANY); //Sweden not available, german sound almomst like swedish
+                tts.setSpeechRate(0.55f);
+                speak("Vet ni att tyska låter nästan som svenska."); //remove after merge
             }
         }
     );}
 
-
-
     @Override
     public void speak(String word) {
-        tts.speak(word, TextToSpeech.QUEUE_FLUSH, null);
+        String copy = word.replace('v','w');    //remove if Local is Sweden
+        copy = copy.replace('V','W');           //remove if Local is Sweden
+
+        tts.speak(copy, TextToSpeech.QUEUE_FLUSH, null);
     }
 
     @Override

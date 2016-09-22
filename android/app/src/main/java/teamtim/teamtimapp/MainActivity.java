@@ -12,8 +12,5 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         voice = new SpeechSynthesizer(getApplicationContext());
     }
-    protected void onStart() {
-        super.onStart();
-        voice.speak("Wälkommen. Tack för att du anwänder appen.");
-    }
+
 }
