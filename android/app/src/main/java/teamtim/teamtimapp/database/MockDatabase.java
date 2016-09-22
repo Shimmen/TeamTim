@@ -7,6 +7,7 @@ import java.util.Random;
 import teamtim.teamtimapp.R;
 
 public class MockDatabase implements DatabaseInterface {
+
     private List<WordQuestion> wordQuestions;
     private Random randomizer = new Random();
 
@@ -39,8 +40,9 @@ public class MockDatabase implements DatabaseInterface {
     public List<WordQuestion> getQuestions(String category, int maxAmount) {
         List<WordQuestion> questions = new ArrayList<>();
         for (WordQuestion question : wordQuestions){
-            if (question.getCategories().contains(category))
+            if (question.getCategories().contains(category.toLowerCase())) {
                 questions.add(question);
+            }
         }
         filter(questions, maxAmount);
         return questions;
@@ -50,8 +52,9 @@ public class MockDatabase implements DatabaseInterface {
     public List<WordQuestion> getQuestions(WordDifficulty difficulty, String category, int maxAmount) {
         List<WordQuestion> questions = new ArrayList<>();
         for (WordQuestion question : wordQuestions){
-            if (question.getDifficulty() == difficulty && question.getCategories().contains(category))
+            if (question.getDifficulty() == difficulty && question.getCategories().contains(category.toLowerCase())) {
                 questions.add(question);
+            }
         }
         filter(questions, maxAmount);
         return questions;
@@ -62,7 +65,7 @@ public class MockDatabase implements DatabaseInterface {
      * @param query the list with questions
      * @param maxAmount the preferred size of the list
      */
-    public void filter(List<WordQuestion> query, int maxAmount) {
+    private void filter(List<WordQuestion> query, int maxAmount) {
         if (maxAmount == -1) return;
         while (query.size() > maxAmount ){
             int index = randomizer.nextInt(query.size());

@@ -4,23 +4,36 @@ import android.graphics.Bitmap;
 import android.media.Image;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class WordQuestion {
+
     private final String word;
-    private final List<String> categories;
+    private final Set<String> categories;
     private final WordDifficulty difficulty;
     private final int imageId;
 
     public WordQuestion(String word, List<String> categories, WordDifficulty difficulty, int imageId){
-        this.word = word;
-        this.categories = categories;
+
+        assert word != null;
+        this.word = word.toLowerCase();
+
+        assert categories != null;
+        this.categories = new HashSet<String>();
+        for (String category: categories) {
+            this.categories.add(category.toLowerCase());
+        }
+
+        assert difficulty != null;
         this.difficulty = difficulty;
+
         this.imageId = imageId;
     }
 
-    public List<String> getCategories() {
-        return new ArrayList<>(categories);
+    public Set<String> getCategories() {
+        return new HashSet<>(categories);
     }
 
     public int getImage() {
@@ -33,5 +46,33 @@ public class WordQuestion {
 
     public WordDifficulty getDifficulty() {
         return difficulty;
+    }
+
+    @Override
+    public String toString() {
+        return "word=" + word + ", categories=" + categories;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        WordQuestion question = (WordQuestion) o;
+
+        if (imageId != question.imageId) return false;
+        if (!word.equals(question.word)) return false;
+        if (!categories.equals(question.categories)) return false;
+        return difficulty == question.difficulty;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = word.hashCode();
+        result = 31 * result + categories.hashCode();
+        result = 31 * result + difficulty.hashCode();
+        result = 31 * result + imageId;
+        return result;
     }
 }
