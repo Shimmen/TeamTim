@@ -24,7 +24,8 @@
         android:src="@drawable/giraff"
         android:maxHeight="250dp"
         android:cropToPadding="false"
-        android:adjustViewBounds="true" />
+        android:adjustViewBounds="true"
+        android:onClick="speak" />
 
     <EditText
         android:layout_width="wrap_content"
