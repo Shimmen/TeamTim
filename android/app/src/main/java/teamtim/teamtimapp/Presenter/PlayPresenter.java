@@ -1,10 +1,10 @@
-package teamtim.teamtimapp.Presenter;
+package teamtim.teamtimapp.presenter;
 
 import android.view.View;
 
 import java.util.List;
 
-import teamtim.teamtimapp.Activities.PlayActivity;
+import teamtim.teamtimapp.activities.PlayActivity;
 import teamtim.teamtimapp.database.DatabaseInterface;
 import teamtim.teamtimapp.database.MockDatabase;
 import teamtim.teamtimapp.database.WordDifficulty;
