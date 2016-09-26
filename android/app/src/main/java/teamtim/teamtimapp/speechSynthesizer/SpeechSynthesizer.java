@@ -14,7 +14,6 @@ public class SpeechSynthesizer implements ISpeechSynthesizer{
             public void onInit(int status) {
                 tts.setLanguage(Locale.GERMANY); //Sweden not available, german sound almomst like swedish
                 tts.setSpeechRate(0.55f);
-                speakOrShutUp("Vet ni att tyska låter nästan som svenska."); //remove after merge
             }
         }
     );}

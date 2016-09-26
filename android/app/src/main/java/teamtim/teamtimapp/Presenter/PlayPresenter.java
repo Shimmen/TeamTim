@@ -26,6 +26,8 @@ public class PlayPresenter {
         currentQ = 0;
 
         playActivity.newQuestion(questions.get(currentQ));
+
+        this.speaker = new SpeechSynthesizer(p.getApplicationContext());
     }
 
     public void checkAnswer(String answer) {
@@ -45,7 +47,6 @@ public class PlayPresenter {
     }
 
     public void speakWord(String word, View v) {
-        speaker = new SpeechSynthesizer(v.getContext()); //Fix this later??
         speaker.speak(word);
     }
     /*
