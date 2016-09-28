@@ -27,7 +27,8 @@
         android:id="@+id/EndGameButton"
         android:layout_below="@+id/PlayAgainButton"
         android:layout_centerHorizontal="true"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:onClick="goToMainMenu" />
 
     <TextView
         android:text="TextView"

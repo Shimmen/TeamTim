@@ -3,6 +3,7 @@ package teamtim.teamtimapp.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import teamtim.teamtimapp.R;
@@ -20,5 +21,10 @@ public class EndGameActivity extends AppCompatActivity {
         String correct = extras.getString("CORRECT_ANSWERS");
         String total = extras.getString("TOTAL_ANSWERS");
         stats.setText(correct + " av " + total + " rätt!");
+    }
+
+    public void goToMainMenu(View v){
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
     }
 }
