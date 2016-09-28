@@ -17,13 +17,14 @@ public class PlayPresenter {
     private PlayActivity playActivity;
     private DatabaseInterface db = new MockDatabase();
     private int currentQ;
-    private int score;
+    private int correctAnswers;
     private ISpeechSynthesizer speaker;
 
     public PlayPresenter(PlayActivity p){
         this.playActivity = p;
         questions = db.getQuestions(WordDifficulty.EASY, -1);
         currentQ = 0;
+        correctAnswers = 0;
 
         playActivity.newQuestion(questions.get(currentQ));
 
@@ -32,18 +33,10 @@ public class PlayPresenter {
 
     public void checkAnswer(String answer) {
         WordQuestion currentQuestion = questions.get(currentQ);
-
-        if (answer.equalsIgnoreCase(currentQuestion.getWord())){
-
-            // Get next question index. Cycle for now, so we don't access an index outside the array!
-            currentQ++;
-            currentQ %= questions.size();
-            playActivity.newQuestion(questions.get(currentQ));
-
-        } else {
-            // TODO: Handle incorrect word!
-        }
-
+        currentQ++;
+        if (answer.equalsIgnoreCase(currentQuestion.getWord())) correctAnswers++;
+        if (currentQ < questions.size()) playActivity.newQuestion(questions.get(currentQ));
+        else playActivity.endGame(correctAnswers);
     }
 
     public void speakWord(String word, View v) {
