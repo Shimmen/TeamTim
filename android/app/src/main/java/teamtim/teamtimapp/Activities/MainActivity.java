@@ -1,4 +1,4 @@
-package teamtim.teamtimapp.activities;
+package teamtim.teamtimapp.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
