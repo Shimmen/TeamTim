@@ -72,10 +72,14 @@ public class PlayActivity extends AppCompatActivity {
 
         p.checkAnswer(check);
     }
-    public void endGame(int correctAnswers){
+    public void endGame(int correctAnswers, int totalAnswers){
         Intent i = new Intent(PlayActivity.this, EndGameActivity.class);
+        Bundle extras = new Bundle();
         String answers = String.valueOf(correctAnswers);
-        i.putExtra("CORRECT_ANSWERS", answers);
+        String total = String.valueOf(totalAnswers);
+        extras.putString("CORRECT_ANSWERS", answers);
+        extras.putString("TOTAL_ANSWERS", total);
+        i.putExtras(extras);
         startActivity(i);
     }
 

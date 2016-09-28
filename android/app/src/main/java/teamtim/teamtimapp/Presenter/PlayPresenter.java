@@ -36,7 +36,7 @@ public class PlayPresenter {
         currentQ++;
         if (answer.equalsIgnoreCase(currentQuestion.getWord())) correctAnswers++;
         if (currentQ < questions.size()) playActivity.newQuestion(questions.get(currentQ));
-        else playActivity.endGame(correctAnswers);
+        else playActivity.endGame(correctAnswers, questions.size());
     }
 
     public void speakWord(String word, View v) {

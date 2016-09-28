@@ -16,8 +16,9 @@ public class EndGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_end_game);
         stats = (TextView) findViewById(R.id.nbrCorrectText);
 
-        Intent intent = getIntent();
-        String text = intent.getStringExtra("CORRECT_ANSWERS");
-        stats.setText(text);
+        Bundle extras = getIntent().getExtras();
+        String correct = extras.getString("CORRECT_ANSWERS");
+        String total = extras.getString("TOTAL_ANSWERS");
+        stats.setText(correct + " av " + total + " rätt!");
     }
 }
