@@ -15,10 +15,13 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
     }
 
-    public void singlePlayerStart(View v){
-        Intent intentMain = new Intent(MainActivity.this, PlayActivity.class);
-        MainActivity.this.startActivity(intentMain);
+    public void singleplayerStart(View v){
+        Intent i = new Intent(MainActivity.this, PlayActivity.class);
+        startActivity(i);
     }
 
-
+    public void multiplayerStart(View v){
+        Intent i = new Intent(this, MultiplayerActivity.class);
+        startActivity(i);
+    }
 }

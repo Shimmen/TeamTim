@@ -15,7 +15,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.PlayActivity"></activity>
+        <activity android:name=".activities.PlayActivity" />
+        <activity android:name="res.layout.search_friends" />
+        <activity android:name=".activities.MultiplayerActivity"></activity>
     </application>
 
 </manifest>
