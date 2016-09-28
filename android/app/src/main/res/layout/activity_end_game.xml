@@ -17,7 +17,8 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/PlayAgainButton"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:onClick="playAgain" />
 
     <Button
         android:text="Avsluta"

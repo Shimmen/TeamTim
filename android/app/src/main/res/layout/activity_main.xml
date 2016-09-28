@@ -12,9 +12,12 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Play"
+        android:text="Spela ensam"
         android:id="@+id/startGame_button"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:onClick="start" />
+        android:onClick="start"
+        style="@android:style/Widget.Button"
+        android:textSize="24sp"
+        android:textAllCaps="false" />
 </RelativeLayout>

@@ -27,4 +27,9 @@ public class EndGameActivity extends AppCompatActivity {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
     }
+
+    public void playAgain(View v){
+        Intent i = new Intent(this, PlayActivity.class);
+        startActivity(i);
+    }
 }
