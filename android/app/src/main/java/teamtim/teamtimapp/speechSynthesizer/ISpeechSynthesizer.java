@@ -1,10 +1,10 @@
 package teamtim.teamtimapp.speechSynthesizer;
 
+import teamtim.teamtimapp.database.WordQuestion;
+
 public interface ISpeechSynthesizer {
 
-    void speakOrShutUp(String word);
-
-    void speak(String word);
+    void speak(WordQuestion wordQuestion);
 
     void shutUp();
 
