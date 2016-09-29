@@ -1,7 +1,6 @@
 package teamtim.teamtimapp.presenter;
 
-import android.view.View;
-
+import android.content.Context;
 import java.util.List;
 
 import teamtim.teamtimapp.activities.PlayActivity;
@@ -10,7 +9,7 @@ import teamtim.teamtimapp.database.MockDatabase;
 import teamtim.teamtimapp.database.WordDifficulty;
 import teamtim.teamtimapp.database.WordQuestion;
 import teamtim.teamtimapp.speechSynthesizer.ISpeechSynthesizer;
-import teamtim.teamtimapp.speechSynthesizer.SpeechSynthesizer;
+import teamtim.teamtimapp.speechSynthesizer.SoundPlayer;
 
 public class PlayPresenter {
     private List<WordQuestion> questions;
@@ -27,7 +26,7 @@ public class PlayPresenter {
 
         playActivity.newQuestion(questions.get(currentQ));
 
-        this.speaker = new SpeechSynthesizer(p.getApplicationContext());
+        this.speaker = new SoundPlayer();
     }
 
     public void checkAnswer(String answer) {
@@ -46,8 +45,8 @@ public class PlayPresenter {
 
     }
 
-    public void speakWord(String word, View v) {
-        speaker.speak(word);
+    public void speakWord(Context c) {
+        speaker.speak(c, questions.get(currentQ));
     }
     /*
     public WordQuestion getNextQuestion(){

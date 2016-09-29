@@ -93,6 +93,6 @@ public class PlayActivity extends AppCompatActivity {
     }
 
     public void speak(View v) {
-        p.speakWord(word, v);
+        p.speakWord(getApplicationContext());
     }
 }
