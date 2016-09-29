@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.p2p.WifiP2pManager;
 
+import java.util.List;
+import java.util.function.Function;
+
 public class NetworkManager extends BroadcastReceiver {
 
     //
@@ -35,6 +38,8 @@ public class NetworkManager extends BroadcastReceiver {
     private WifiP2pManager manager;
     private WifiP2pManager.Channel channel;
     private IntentFilter intentFilter;
+
+    private WifiP2pManager.PeerListListener currentPeerListListener;
 
     private NetworkManager(Context appContext) {
         this.appContext = appContext;
@@ -69,12 +74,47 @@ public class NetworkManager extends BroadcastReceiver {
         if (action.equals(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION)) {
             int state = intent.getIntExtra(WifiP2pManager.EXTRA_WIFI_STATE, -1);
             if (state == WifiP2pManager.WIFI_P2P_STATE_ENABLED) {
-                // Wifi P2P is enabled
-                new AlertDialog.Builder(context).setTitle("WifiP2p enabled!").create().show();
+                // Wifi P2P is enabled, do nothing
             } else {
                 // Wi-Fi P2P is not enabled
                 new AlertDialog.Builder(context).setTitle("WifiP2p disabled!").create().show();
             }
         }
+
+        if (action.equals(WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION)) {
+            if (currentPeerListListener != null) {
+                manager.requestPeers(channel, currentPeerListListener);
+            } else {
+                System.out.println("No available peer list listener!");
+            }
+        }
+
+    }
+
+    public void beginDiscoveringPeers(final WifiP2pManager.PeerListListener peerListListener) {
+        currentPeerListListener = peerListListener;
+        manager.discoverPeers(channel, new WifiP2pManager.ActionListener() {
+            @Override
+            public void onSuccess() {
+                currentPeerListListener = peerListListener;
+            }
+
+            @Override
+            public void onFailure(int reason) {
+                if (reason == WifiP2pManager.P2P_UNSUPPORTED) {
+                    System.err.println("Unsupported");
+                } else if (reason == WifiP2pManager.ERROR) {
+                    System.err.println("Error");
+                } else if (reason == WifiP2pManager.BUSY) {
+                    System.err.println("Busy");
+                }
+
+                currentPeerListListener = null;
+            }
+        });
+    }
+
+    public void stopDiscoveringPeers() {
+        currentPeerListListener = null;
     }
 }
