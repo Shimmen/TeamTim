@@ -14,6 +14,16 @@ public class MockDatabase implements DatabaseInterface {
     private Random randomizer = new Random();
 
     public MockDatabase(){
+        List<String> grapeFruitCategoryTest = new ArrayList<String>();
+        grapeFruitCategoryTest.add("Frukt");
+        grapeFruitCategoryTest.add("Röd frukt");
+        grapeFruitCategoryTest.add("Potentiellt mordvapen");
+        grapeFruitCategoryTest.add("Frukt som inte är banan");
+        grapeFruitCategoryTest.add("Saker som är röda på insidan men orangea utanpå");
+        grapeFruitCategoryTest.add("Runda saker");
+        grapeFruitCategoryTest.add("Objekt med en diameter på cirka en dm");
+        grapeFruitCategoryTest.add("Undercover apelsin");
+        grapeFruitCategoryTest.add("Saker som har flera kategorier");
         wordQuestions = new ArrayList<WordQuestion>();
         wordQuestions.add(WordQuestionFactory.create("Apa",        "Djur",  WordDifficulty.EASY,   R.drawable.apa));
         wordQuestions.add(WordQuestionFactory.create("Giraff",     "Djur",  WordDifficulty.HARD,   R.drawable.giraff));
@@ -24,7 +34,8 @@ public class MockDatabase implements DatabaseInterface {
         wordQuestions.add(WordQuestionFactory.create("Äpple",      "Frukt", WordDifficulty.MEDIUM, R.drawable.apple));
         wordQuestions.add(WordQuestionFactory.create("Päron",      "Frukt", WordDifficulty.MEDIUM, R.drawable.pear));
         wordQuestions.add(WordQuestionFactory.create("Apelsin",    "Frukt", WordDifficulty.MEDIUM, R.drawable.apelsin));
-        wordQuestions.add(WordQuestionFactory.create("Grapefrukt", "Frukt", WordDifficulty.HARD,   R.drawable.grapefrukt));
+        wordQuestions.add(WordQuestionFactory.create("Grapefrukt", grapeFruitCategoryTest, WordDifficulty.HARD,   R.drawable.grapefrukt));
+
     }
 
     public static DatabaseInterface getInstance() {
