@@ -1,13 +1,13 @@
 package teamtim.teamtimapp.activities;
 
+import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pManager;
-import android.os.Parcel;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import teamtim.teamtimapp.R;
-import teamtim.teamtimapp.network.NetworkManager;
+import teamtim.teamtimapp.network.DefaultNetworkManager;
 
 public class MultiplayerActivity extends AppCompatActivity {
 
@@ -17,10 +17,13 @@ public class MultiplayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_friends);
 
         System.out.println("Begin looking for peers!");
-        NetworkManager.getDefault().beginDiscoveringPeers(new WifiP2pManager.PeerListListener() {
+        DefaultNetworkManager.getDefault().beginDiscoveringPeers(new WifiP2pManager.PeerListListener() {
             @Override
             public void onPeersAvailable(WifiP2pDeviceList peers) {
-                System.out.println("Peers: " + peers.getDeviceList());
+                System.out.println("Available devices:");
+                for (WifiP2pDevice device : peers.getDeviceList()) {
+                    System.out.println(device);
+                }
             }
         });
     }
@@ -28,6 +31,6 @@ public class MultiplayerActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        NetworkManager.getDefault().stopDiscoveringPeers();
+        DefaultNetworkManager.getDefault().stopDiscoveringPeers();
     }
 }

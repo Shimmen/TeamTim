@@ -6,14 +6,14 @@ import android.os.Bundle;
 import android.view.View;
 
 import teamtim.teamtimapp.R;
-import teamtim.teamtimapp.network.NetworkManager;
+import teamtim.teamtimapp.network.DefaultNetworkManager;
 
 public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        NetworkManager.initialize(getApplicationContext());
+        DefaultNetworkManager.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
     }
 
