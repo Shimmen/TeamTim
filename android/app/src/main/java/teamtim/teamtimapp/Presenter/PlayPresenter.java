@@ -39,6 +39,26 @@ public class PlayPresenter {
         else playActivity.endGame(correctAnswers, questions.size());
     }
 
+    //Put into another class or something later
+    //And write better methods
+    public char[] shuffle(char[] wordLetters) {
+        for (int i = 0; i < wordLetters.length; i ++) {
+            int newPos = (int)((Math.random() * wordLetters.length)-1);
+            char tempChar = wordLetters[newPos];
+            wordLetters[newPos] = wordLetters[i];
+            wordLetters[i] = tempChar;
+        }
+        return wordLetters;
+    }
+
+    public char[] splitString(String word) {
+        char[] splitString = new char[word.length()];
+        for (int i = 0; i < word.length(); i++) {
+            splitString[i] = word.charAt(i);
+        }
+        return splitString;
+    }
+
     public void speakWord(String word, View v) {
         speaker.speak(word);
     }

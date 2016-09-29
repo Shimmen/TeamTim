@@ -1,76 +1,83 @@
 package teamtim.teamtimapp.activities;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
-
-import teamtim.teamtimapp.presenter.PlayPresenter;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import teamtim.teamtimapp.R;
 import teamtim.teamtimapp.database.WordQuestion;
+import teamtim.teamtimapp.presenter.PlayPresenter;
 
 public class PlayActivity extends AppCompatActivity {
 
     private ImageView imageView;
     private GridLayout buttonGrid;
-    EditText answerText;
-    private char[] test;
+    private LinearLayout letterInput;
+    private char[] lettersInWord;
+    private TextView[] currentLetters;
     private int currentQ;
-    private int totalQ;
     private PlayPresenter p;
     private String word;
+    private char letterToAdd;
+    private int currentLetterToAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
         imageView = (ImageView) findViewById(R.id.imageView);
-        buttonGrid = (GridLayout) findViewById(R.id.grid);
-        answerText = (EditText) findViewById(R.id.answerTextField);
-
+        buttonGrid = (GridLayout) findViewById(R.id.buttonGrid);
+        letterInput = (LinearLayout) findViewById(R.id.linearLayout);
         p = new PlayPresenter(this);
-        totalQ = 1;
+        setKeyboard();
         currentQ = 1;
-
     }
 
     private void setImage(int image){
-        //imageView.setImageResource(R.mipmap.ic_launcher);
         imageView.setImageResource(image);
     }
 
     public void newQuestion(WordQuestion w){
+        currentLetters = new TextView[w.getWord().length()];
+        currentLetterToAdd = 0;
         setImage(w.getImage());
         word = w.getWord();
-        setKeyboard();
+        //Change this somehow, since setKeyboard is called before the presenter has been completely
+        //created the app crashes. Either change some implementation or move shuffle and split
+        //back into Activity
+        currentQ += 1;
+        if (currentQ > 1) {
+            setKeyboard();
+        }
     }
 
     public void setKeyboard(){
         //Will change a lot, purely for demonstration
-
-        if(buttonGrid != null) {
+        if(buttonGrid != null && letterInput != null) {
             buttonGrid.removeAllViews();
-            answerText.getText().clear();
+            letterInput.removeAllViews();
         }
-        test = shuffle(splitString(word));
+        //Kanske borde göra en till metod i playPresenter som gör båda shuffle och splitstring samtidigt?
+        lettersInWord = p.shuffle(p.splitString(word));
         for (int i = 0; i < word.length(); i++) {
-            Button b = new Button(this);
-            b.setText(Character.toString(test[i]));
-            buttonGrid.addView(b, 130, 130);
+            createButtons(i);
+            createTextFields(i);
         }
     }
 
-
     public void checkAnswer(View v){
-
-        String check = answerText.getText().toString();
-
-        p.checkAnswer(check);
+        StringBuffer buf = new StringBuffer();
+        for (int i = 0; i < currentLetters.length ; ++i) {
+            buf.append(currentLetters[i].getText());
+        }
+        String toCheck = buf.toString();
+        p.checkAnswer(toCheck);
     }
     public void endGame(int correctAnswers, int totalAnswers){
         Intent i = new Intent(PlayActivity.this, EndGameActivity.class);
@@ -83,24 +90,30 @@ public class PlayActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    //Put into another class or something later
-    //And write better methods
-    public char[] shuffle(char[] wordLetters) {
-        for (int i = 0; i < wordLetters.length; i ++) {
-            int newPos = (int)((Math.random() * wordLetters.length)-1);
-            char tempChar = wordLetters[newPos];
-            wordLetters[newPos] = wordLetters[i];
-            wordLetters[i] = tempChar;
-        }
-        return wordLetters;
+    public void createButtons(int i) {
+        final int iCopy = i;
+        Button b = new Button(this);
+        final Button bCopy = b;
+        b.setText(Character.toString(lettersInWord[i]));
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                currentLetters[currentLetterToAdd].setText(Character.toString(lettersInWord[iCopy]));
+                bCopy.setEnabled(false);
+                currentLetterToAdd += 1;
+            }
+        });
+        buttonGrid.addView(b, 130, 130);
     }
 
-    public char[] splitString(String word) {
-        char[] splitString = new char[word.length()];
-        for (int i = 0; i < word.length(); i++) {
-            splitString[i] = word.charAt(i);
-        }
-        return splitString;
+    public void createTextFields(int i) {
+        TextView tv = new TextView(this);
+        currentLetters[i] = tv;
+        tv.setEnabled(false);
+        tv.setPaintFlags(tv.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
+        tv.setTextColor(0xFF000000);
+        tv.setGravity(0x50 | 0x11);
+        letterInput.addView(tv, 130, 130);
     }
 
     public void speak(View v) {

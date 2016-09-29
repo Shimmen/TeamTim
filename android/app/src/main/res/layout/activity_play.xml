@@ -27,32 +27,43 @@
         android:adjustViewBounds="true"
         android:onClick="speak" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/answerTextField"
-        android:layout_below="@+id/imageView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="33dp"
-        android:singleLine="true"
-        android:textSize="36dp" />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Svara"
         android:id="@+id/answerButton"
-        android:layout_marginTop="29dp"
-        android:layout_below="@+id/answerTextField"
-        android:layout_centerHorizontal="true"
         android:onClick="checkAnswer"
-        android:nestedScrollingEnabled="false" />
+        android:nestedScrollingEnabled="false"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
     <GridLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_alignTop="@+id/answerTextField"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/answerButton"
-        android:id="@+id/grid"></GridLayout>
+        android:id="@+id/buttonGrid"
+        android:layout_alignTop="@+id/space">
+    </GridLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/linearLayout"
+        android:layout_above="@+id/buttonGrid"
+        android:baselineAligned="false"
+        android:gravity="bottom|center">
+    </LinearLayout>
+
+    <Space
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="55dp"
+        android:id="@+id/space"
+        android:layout_above="@+id/answerButton"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
