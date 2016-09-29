@@ -7,9 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.p2p.WifiP2pManager;
 
-import java.util.List;
-import java.util.function.Function;
-
 public class NetworkManager extends BroadcastReceiver {
 
     //
@@ -74,10 +71,9 @@ public class NetworkManager extends BroadcastReceiver {
         if (action.equals(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION)) {
             int state = intent.getIntExtra(WifiP2pManager.EXTRA_WIFI_STATE, -1);
             if (state == WifiP2pManager.WIFI_P2P_STATE_ENABLED) {
-                // Wifi P2P is enabled, do nothing
+                // Wi-Fi P2P is enabled, do nothing
             } else {
-                // Wi-Fi P2P is not enabled
-                new AlertDialog.Builder(context).setTitle("WifiP2p disabled!").create().show();
+                // TODO: Wi-Fi P2P is not enabled, show some prompt alerting the user that it must be enabled, etc.
             }
         }
 
@@ -102,11 +98,11 @@ public class NetworkManager extends BroadcastReceiver {
             @Override
             public void onFailure(int reason) {
                 if (reason == WifiP2pManager.P2P_UNSUPPORTED) {
-                    System.err.println("Unsupported");
+                    System.err.println("P2P unsupported!");
                 } else if (reason == WifiP2pManager.ERROR) {
-                    System.err.println("Error");
+                    System.err.println("P2P error!");
                 } else if (reason == WifiP2pManager.BUSY) {
-                    System.err.println("Busy");
+                    System.err.println("P2P busy!");
                 }
 
                 currentPeerListListener = null;
