@@ -1,10 +1,10 @@
-package teamtim.teamtimapp.presenter;
+package teamtim.teamtimapp.Presenter;
 
 import android.view.View;
 
 import java.util.List;
 
-import teamtim.teamtimapp.activities.PlayActivity;
+import teamtim.teamtimapp.Activities.PlayActivity;
 import teamtim.teamtimapp.database.DatabaseInterface;
 import teamtim.teamtimapp.database.MockDatabase;
 import teamtim.teamtimapp.database.WordDifficulty;
@@ -44,6 +44,26 @@ public class PlayPresenter {
             // TODO: Handle incorrect word!
         }
 
+    }
+
+    //Put into another class or something later
+    //And write better methods
+    public char[] shuffle(char[] wordLetters) {
+        for (int i = 0; i < wordLetters.length; i ++) {
+            int newPos = (int)((Math.random() * wordLetters.length)-1);
+            char tempChar = wordLetters[newPos];
+            wordLetters[newPos] = wordLetters[i];
+            wordLetters[i] = tempChar;
+        }
+        return wordLetters;
+    }
+
+    public char[] splitString(String word) {
+        char[] splitString = new char[word.length()];
+        for (int i = 0; i < word.length(); i++) {
+            splitString[i] = word.charAt(i);
+        }
+        return splitString;
     }
 
     public void speakWord(String word, View v) {
