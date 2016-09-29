@@ -1,5 +1,7 @@
 package teamtim.teamtimapp.speechSynthesizer;
 
+import android.content.Context;
+import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import java.io.IOException;
 import teamtim.teamtimapp.database.WordQuestion;
@@ -12,21 +14,30 @@ public class SoundPlayer implements ISpeechSynthesizer{
     }
 
     @Override
-    public void speak(WordQuestion wordQuestion) {
-        String path = "/main/res/soundFiles/";
+    public void speak(Context c, WordQuestion wordQuestion) {
+        String path = "soundFiles/";
         path += wordQuestion.getWord() + ".wav";
+        shutUp();
         try{
-            mediaPlayer.setDataSource(path);
-            mediaPlayer.prepare();
-            mediaPlayer.start();
-        }catch(IOException e){}
+            AssetFileDescriptor descriptor = c.getAssets().openFd(path);
+            if(!mediaPlayer.isPlaying()){
+                mediaPlayer.setDataSource(descriptor.getFileDescriptor(), descriptor.getStartOffset(), descriptor.getLength());
+                mediaPlayer.prepare();
+                mediaPlayer.seekTo(0);
+                mediaPlayer.start();
+            }
+            descriptor.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void shutUp() {
-        mediaPlayer.stop();
-        mediaPlayer.release();
-
+        if(mediaPlayer.isPlaying()){
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+        }
     }
 
     @Override
