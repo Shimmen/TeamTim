@@ -3,11 +3,13 @@ package teamtim.teamtimapp.database;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import teamtim.teamtimapp.R;
 
 public class MockDatabase implements DatabaseInterface {
 
+    private static DatabaseInterface instance = null;
     private List<WordQuestion> wordQuestions;
     private Random randomizer = new Random();
 
@@ -23,6 +25,13 @@ public class MockDatabase implements DatabaseInterface {
         wordQuestions.add(WordQuestionFactory.create("Päron",      "Frukt", WordDifficulty.MEDIUM, R.drawable.pear));
         wordQuestions.add(WordQuestionFactory.create("Apelsin",    "Frukt", WordDifficulty.MEDIUM, R.drawable.apelsin));
         wordQuestions.add(WordQuestionFactory.create("Grapefrukt", "Frukt", WordDifficulty.HARD,   R.drawable.grapefrukt));
+    }
+
+    public static DatabaseInterface getInstance() {
+        if (instance == null){
+            instance = new MockDatabase();
+        }
+        return instance;
     }
 
     @Override
@@ -58,6 +67,18 @@ public class MockDatabase implements DatabaseInterface {
         }
         filter(questions, maxAmount);
         return questions;
+    }
+
+    @Override
+    public List<String> getCategories() {
+        List<String> categories = new ArrayList<>();
+        for (WordQuestion question : wordQuestions) {
+            for (String category : question.getCategories()) {
+                if (!categories.contains(category))
+                    categories.add(category);
+            }
+        }
+        return categories;
     }
 
     /**
