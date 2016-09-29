@@ -36,8 +36,9 @@ public class SoundPlayer implements ISpeechSynthesizer{
     public void shutUp() {
         if(mediaPlayer.isPlaying()){
             mediaPlayer.stop();
-            mediaPlayer.reset();
+
         }
+        mediaPlayer.reset();
     }
 
     @Override
