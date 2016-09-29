@@ -24,8 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.PlayActivity" />
-        <activity android:name="res.layout.search_friends" />
-        <activity android:name=".activities.MultiplayerActivity"></activity>
+        <activity android:name=".activities.MultiplayerActivity"/>
     </application>
 
 </manifest>
