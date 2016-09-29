@@ -1,5 +1,6 @@
 package teamtim.teamtimapp.activities;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,7 +33,7 @@ public class PlayActivity extends AppCompatActivity {
         buttonGrid = (GridLayout) findViewById(R.id.grid);
         answerText = (EditText) findViewById(R.id.answerTextField);
 
-        p = new PlayPresenter(this);
+        p = new PlayPresenter(this, this.getIntent().getExtras().getString("SELECTED_CATEGORY"));
         totalQ = 1;
         currentQ = 1;
 
