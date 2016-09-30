@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import teamtim.teamtimapp.R;
+import teamtim.teamtimapp.network.DefaultNetworkManager;
 
 public class MainMenuActivity extends AppCompatActivity {
     private ImageButton burgerButton;
@@ -18,6 +19,7 @@ public class MainMenuActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DefaultNetworkManager.initialize(getApplicationContext());
         setContentView(R.layout.activity_main_menu);
 
         burgerButton = (ImageButton) findViewById(R.id.burgerButton);
@@ -39,7 +41,7 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     public void playTogether(View v){
-        Intent intentMain = new Intent(MainMenuActivity.this, CategoryActivity.class);
+        Intent intentMain = new Intent(MainMenuActivity.this, MultiplayerActivity.class);
         MainMenuActivity.this.startActivity(intentMain);
     }
 
