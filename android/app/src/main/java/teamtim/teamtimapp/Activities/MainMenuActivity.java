@@ -34,12 +34,12 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     public void playGame(View v){
-        Intent intentMain = new Intent(MainMenuActivity.this, PlayActivity.class);
+        Intent intentMain = new Intent(MainMenuActivity.this, CategoryActivity.class);
         MainMenuActivity.this.startActivity(intentMain);
     }
 
     public void playTogether(View v){
-        Intent intentMain = new Intent(MainMenuActivity.this, PlayActivity.class);
+        Intent intentMain = new Intent(MainMenuActivity.this, CategoryActivity.class);
         MainMenuActivity.this.startActivity(intentMain);
     }
 

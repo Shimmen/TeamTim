@@ -24,12 +24,12 @@ public class EndGameActivity extends AppCompatActivity {
     }
 
     public void goToMainMenu(View v){
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, MainMenuActivity.class);
         startActivity(i);
     }
 
     public void playAgain(View v){
-        Intent i = new Intent(this, PlayActivity.class);
+        Intent i = new Intent(this, CategoryActivity.class);
         startActivity(i);
     }
 }
