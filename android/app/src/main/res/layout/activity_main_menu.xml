@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="teamtim.teamtimapp.activities.MainMenuActivity">
+    tools:context="teamtim.teamtimapp.activities.MainMenuActivity"
+    android:background="#ffffff">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -42,7 +43,10 @@
         android:maxHeight="48dp"
         android:maxWidth="48dp"
         android:minHeight="48dp"
-        android:minWidth="48dp" />
+        android:minWidth="48dp"
+        android:onClick="openMenu"
+        android:clickable="true"
+        android:background="#ffffff" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -53,7 +57,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_above="@+id/playTogetherLayout"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:onClick="playGame">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -84,7 +90,9 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:id="@+id/playTogetherLayout"
-        android:background="#737aff">
+        android:background="#737aff"
+        android:onClick="playTogether"
+        android:clickable="true">
 
         <ImageView
             android:layout_width="wrap_content"

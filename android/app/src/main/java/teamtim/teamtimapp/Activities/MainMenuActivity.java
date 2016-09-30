@@ -1,7 +1,9 @@
 package teamtim.teamtimapp.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -29,5 +31,19 @@ public class MainMenuActivity extends AppCompatActivity {
         burgerButton.setImageResource(R.drawable.burger_image);
         playAloneIcon.setImageResource(R.drawable.play_alone_image);
         playTogetherIcon.setImageResource(R.drawable.play_together_image);
+    }
+
+    public void playGame(View v){
+        Intent intentMain = new Intent(MainMenuActivity.this, PlayActivity.class);
+        MainMenuActivity.this.startActivity(intentMain);
+    }
+
+    public void playTogether(View v){
+        Intent intentMain = new Intent(MainMenuActivity.this, PlayActivity.class);
+        MainMenuActivity.this.startActivity(intentMain);
+    }
+
+    public void openMenu(View v){
+        //Do stuff
     }
 }
