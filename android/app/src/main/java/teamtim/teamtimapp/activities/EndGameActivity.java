@@ -24,7 +24,7 @@ public class EndGameActivity extends AppCompatActivity {
     }
 
     public void goToMainMenu(View v){
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, MainMenuActivity.class);
         startActivity(i);
     }
 

@@ -15,6 +15,9 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         DefaultNetworkManager.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
+        Intent intentMain = new Intent(MainActivity.this, CategoryActivity.class);
+        MainActivity.this.startActivity(intentMain);
+
     }
 
     public void singleplayerStart(View v){
