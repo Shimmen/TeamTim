@@ -77,7 +77,7 @@ public class PlayActivity extends AppCompatActivity {
             buf.append(currentLetters[i].getText());
         }
         String toCheck = buf.toString();
-        p.checkAnswer(toCheck);
+        p.checkAnswer(toCheck, getApplicationContext());
     }
     public void endGame(int correctAnswers, int totalAnswers){
         Intent i = new Intent(PlayActivity.this, EndGameActivity.class);
