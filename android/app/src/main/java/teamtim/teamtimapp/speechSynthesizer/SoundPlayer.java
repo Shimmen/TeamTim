@@ -17,6 +17,9 @@ public class SoundPlayer implements ISpeechSynthesizer{
     public void speak(Context c, WordQuestion wordQuestion) {
         String path = "soundFiles/";
         path += wordQuestion.getWord() + ".wav";
+        path = path.replace('å','a');
+        path = path.replace('ä','a');
+        path = path.replace('ö','o');
         shutUp();
         try{
             AssetFileDescriptor descriptor = c.getAssets().openFd(path);
