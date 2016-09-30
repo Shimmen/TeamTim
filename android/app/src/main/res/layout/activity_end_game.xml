@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_end_game"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="teamtim.teamtimapp.activities.EndGameActivity">
+
+    <Button
+        android:text="Spela igen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/PlayAgainButton"
+        android:textSize="24sp"
+        android:onClick="playAgain" />
+
+    <Button
+        android:text="Avsluta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:id="@+id/EndGameButton"
+        android:layout_below="@+id/PlayAgainButton"
+        android:layout_centerHorizontal="true"
+        android:textSize="24sp"
+        android:onClick="goToMainMenu" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/nbrCorrectText"
+        android:textSize="24sp"
+        android:layout_above="@+id/PlayAgainButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/finishText"
+        android:text="Spel färdigt"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_centerInParent="false"
+        android:textStyle="bold"
+        android:textSize="36sp"
+        android:layout_above="@+id/nbrCorrectText"
+        android:layout_centerHorizontal="true"
+        android:elegantTextHeight="false"
+        android:textColor="@android:color/holo_orange_dark" />
+</RelativeLayout>

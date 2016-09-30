@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".Activities.PlayActivity">
+    tools:context=".activities.PlayActivity">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -27,23 +27,14 @@
         android:adjustViewBounds="true"
         android:onClick="speak" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Svara"
-        android:id="@+id/answerButton"
-        android:onClick="checkAnswer"
-        android:nestedScrollingEnabled="false"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
     <GridLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/answerButton"
         android:id="@+id/buttonGrid"
-        android:layout_alignTop="@+id/space"></GridLayout>
+        android:layout_alignTop="@+id/space">
+    </GridLayout>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -55,7 +46,6 @@
         android:layout_above="@+id/buttonGrid"
         android:baselineAligned="false"
         android:gravity="bottom|center">
-
     </LinearLayout>
 
     <Space
@@ -64,6 +54,19 @@
         android:layout_marginBottom="55dp"
         android:id="@+id/space"
         android:layout_above="@+id/answerButton"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Svara"
+        android:id="@+id/answerButton"
+        android:onClick="checkAnswer"
+        android:nestedScrollingEnabled="false"
+        android:textSize="24sp"
+        android:textAllCaps="false"
+        android:layout_marginBottom="30dp"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

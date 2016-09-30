@@ -1,20 +1,19 @@
-package teamtim.teamtimapp.Activities;
+package teamtim.teamtimapp.activities;
 
 import android.content.Intent;
 import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import teamtim.teamtimapp.Presenter.PlayPresenter;
 import teamtim.teamtimapp.R;
 import teamtim.teamtimapp.database.WordQuestion;
+import teamtim.teamtimapp.presenter.PlayPresenter;
 
 public class PlayActivity extends AppCompatActivity {
 
@@ -24,10 +23,8 @@ public class PlayActivity extends AppCompatActivity {
     private char[] lettersInWord;
     private TextView[] currentLetters;
     private int currentQ;
-    private int totalQ;
     private PlayPresenter p;
     private String word;
-    private char letterToAdd;
     private int currentLetterToAdd;
 
     @Override
@@ -35,11 +32,10 @@ public class PlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
         imageView = (ImageView) findViewById(R.id.imageView);
+        p = new PlayPresenter(this, this.getIntent().getExtras().getString("SELECTED_CATEGORY"));
         buttonGrid = (GridLayout) findViewById(R.id.buttonGrid);
         letterInput = (LinearLayout) findViewById(R.id.linearLayout);
-        p = new PlayPresenter(this);
         setKeyboard();
-        totalQ = 1;
         currentQ = 1;
     }
 
@@ -81,7 +77,17 @@ public class PlayActivity extends AppCompatActivity {
             buf.append(currentLetters[i].getText());
         }
         String toCheck = buf.toString();
-        p.checkAnswer(toCheck);
+        p.checkAnswer(toCheck, getApplicationContext());
+    }
+    public void endGame(int correctAnswers, int totalAnswers){
+        Intent i = new Intent(PlayActivity.this, EndGameActivity.class);
+        Bundle extras = new Bundle();
+        String answers = String.valueOf(correctAnswers);
+        String total = String.valueOf(totalAnswers);
+        extras.putString("CORRECT_ANSWERS", answers);
+        extras.putString("TOTAL_ANSWERS", total);
+        i.putExtras(extras);
+        startActivity(i);
     }
 
     public void createButtons(int i) {
@@ -111,6 +117,6 @@ public class PlayActivity extends AppCompatActivity {
     }
 
     public void speak(View v) {
-        p.speakWord(word, v);
+        p.speakWord(getApplicationContext());
     }
 }
