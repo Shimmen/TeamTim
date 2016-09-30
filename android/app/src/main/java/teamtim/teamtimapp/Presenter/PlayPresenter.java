@@ -32,10 +32,15 @@ public class PlayPresenter {
         this.speaker = new SoundPlayer();
     }
 
-    public void checkAnswer(String answer) {
+    public void checkAnswer(String answer, Context c) {
         WordQuestion currentQuestion = questions.get(currentQ);
         currentQ++;
-        if (answer.equalsIgnoreCase(currentQuestion.getWord())) correctAnswers++;
+        if (answer.equalsIgnoreCase(currentQuestion.getWord())) {
+            correctAnswers++;
+            speaker.speak(c, true);
+        } else {
+            speaker.speak(c, false);
+        }
         if (currentQ < questions.size()) playActivity.newQuestion(questions.get(currentQ));
         else playActivity.endGame(correctAnswers, questions.size());
     }

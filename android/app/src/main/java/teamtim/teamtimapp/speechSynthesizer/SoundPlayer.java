@@ -35,6 +35,28 @@ public class SoundPlayer implements ISpeechSynthesizer{
         }
     }
 
+    public void speak(Context c, boolean b){
+        shutUp();
+        try{
+            AssetFileDescriptor descriptor;
+            if(b){
+                descriptor = c.getAssets().openFd("soundFiles/correct.wav");
+            } else {
+                descriptor = c.getAssets().openFd("soundFiles/incorrect.wav");
+            }
+            if(!mediaPlayer.isPlaying()){
+
+                mediaPlayer.setDataSource(descriptor.getFileDescriptor(), descriptor.getStartOffset(), descriptor.getLength());
+                mediaPlayer.prepare();
+                mediaPlayer.seekTo(0);
+                mediaPlayer.start();
+            }
+            descriptor.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void shutUp() {
         if(mediaPlayer.isPlaying()){
