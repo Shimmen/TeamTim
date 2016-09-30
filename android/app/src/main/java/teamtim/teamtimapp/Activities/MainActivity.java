@@ -18,11 +18,11 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void singleplayerStart(View v){
-        Intent i = new Intent(MainActivity.this, PlayActivity.class);
+        Intent i = new Intent(MainActivity.this, CategoryActivity.class);
         startActivity(i);
     }
 
-    public void multiplayerStart(View v){
+    public void multiplayerStart(View v) {
         Intent i = new Intent(this, MultiplayerActivity.class);
         startActivity(i);
     }
