@@ -6,7 +6,6 @@ import java.util.List;
 import teamtim.teamtimapp.activities.PlayActivity;
 import teamtim.teamtimapp.database.DatabaseInterface;
 import teamtim.teamtimapp.database.MockDatabase;
-import teamtim.teamtimapp.database.WordDifficulty;
 import teamtim.teamtimapp.database.WordQuestion;
 import teamtim.teamtimapp.speechSynthesizer.ISpeechSynthesizer;
 import teamtim.teamtimapp.speechSynthesizer.SoundPlayer;

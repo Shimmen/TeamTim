@@ -29,7 +29,7 @@ public class EndGameActivity extends AppCompatActivity {
     }
 
     public void playAgain(View v){
-        Intent i = new Intent(this, PlayActivity.class);
+        Intent i = new Intent(this, CategoryActivity.class);
         startActivity(i);
     }
 }
