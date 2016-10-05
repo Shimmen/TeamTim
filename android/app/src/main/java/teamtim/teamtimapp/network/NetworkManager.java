@@ -2,6 +2,7 @@ package teamtim.teamtimapp.network;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
 
 public interface NetworkManager {
@@ -14,4 +15,5 @@ public interface NetworkManager {
     void beginDiscoveringPeers(WifiP2pManager.PeerListListener peerListListener);
     void stopDiscoveringPeers();
 
+    public void connectToDevice(WifiP2pDevice device, WifiP2pManager.ConnectionInfoListener connectionInfoListener);
 }
