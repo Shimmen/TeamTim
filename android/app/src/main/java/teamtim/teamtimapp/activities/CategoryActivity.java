@@ -15,8 +15,10 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.Observable;
 
 import teamtim.teamtimapp.R;
+import teamtim.teamtimapp.managers.SinglePlayerClient;
 import teamtim.teamtimapp.presenter.CategoryPresenter;
 import teamtim.teamtimapp.presenter.PlayPresenter;
 
@@ -67,9 +69,10 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        Intent intentMain = new Intent(CategoryActivity.this, PlayActivity.class);
-        intentMain.putExtra("SELECTED_CATEGORY", ((Button)v).getText().toString());
-        CategoryActivity.this.startActivity(intentMain);
+        SinglePlayerClient spc = new SinglePlayerClient(((Button)v).getText().toString());
+        Intent intent = new Intent(this, PlayActivity.class);
+        intent.putExtra("LISTENER", spc);
+        startActivity(intent);
     }
 
     @Override

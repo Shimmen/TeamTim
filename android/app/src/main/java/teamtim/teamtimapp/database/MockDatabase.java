@@ -1,5 +1,6 @@
 package teamtim.teamtimapp.database;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -7,13 +8,13 @@ import java.util.Set;
 
 import teamtim.teamtimapp.R;
 
-public class MockDatabase implements DatabaseInterface {
+public class MockDatabase implements DatabaseInterface, Serializable {
 
     private static DatabaseInterface instance = null;
     private List<WordQuestion> wordQuestions;
     private Random randomizer = new Random();
 
-    public MockDatabase(){
+    private MockDatabase(){
         List<String> grapeFruitCategoryTest = new ArrayList<String>();
         grapeFruitCategoryTest.add("Frukt");
         grapeFruitCategoryTest.add("Röd frukt");

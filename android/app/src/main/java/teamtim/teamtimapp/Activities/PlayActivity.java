@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.NumberKeyListener;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,30 +14,52 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import teamtim.teamtimapp.R;
 import teamtim.teamtimapp.database.WordQuestion;
+import teamtim.teamtimapp.managers.OnResultCallback;
+import teamtim.teamtimapp.managers.SinglePlayerClient;
 import teamtim.teamtimapp.presenter.PlayPresenter;
+import teamtim.teamtimapp.speechSynthesizer.ISpeechSynthesizer;
+import teamtim.teamtimapp.speechSynthesizer.SoundPlayer;
 
 public class PlayActivity extends AppCompatActivity {
+
+    private static PlayActivity instance = null;
+
+    private PlayPresenter presenter;
+
+    private OnResultCallback resultCallback;
 
     private ImageView imageView;
     private GridLayout buttonGrid;
     private LinearLayout letterInput;
-    private char[] lettersInWord;
     private TextView[] currentLetters;
-    private int currentQ;
-    private PlayPresenter p;
-    private String word;
+
+    private ISpeechSynthesizer soundPlayer = new SoundPlayer();
+
+    private char[] lettersInWord;
     private int currentLetterToAdd;
+
+    private WordQuestion question;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_play);
         imageView = (ImageView) findViewById(R.id.imageView);
-        p = new PlayPresenter(this, this.getIntent().getExtras().getString("SELECTED_CATEGORY"));
         buttonGrid = (GridLayout) findViewById(R.id.buttonGrid);
         letterInput = (LinearLayout) findViewById(R.id.linearLayout);
-        setKeyboard();
-        currentQ = 1;
+
+        presenter = new PlayPresenter();
+
+        instance = this;
+        SinglePlayerClient spc = ((SinglePlayerClient)getIntent().getSerializableExtra("LISTENER"));
+        setResultCallback(spc);
+        spc.start();
+    }
+
+    public static PlayActivity getInstance() throws NullPointerException {
+        if (instance == null) throw new NullPointerException("Game not initialized");
+        return instance;
     }
 
     private void setImage(int image){
@@ -44,17 +67,15 @@ public class PlayActivity extends AppCompatActivity {
     }
 
     public void newQuestion(WordQuestion w){
+        question = w;
         currentLetters = new TextView[w.getWord().length()];
         currentLetterToAdd = 0;
         setImage(w.getImage());
-        word = w.getWord();
+        //Set keyboard for new question
+        setKeyboard();
         //Change this somehow, since setKeyboard is called before the presenter has been completely
         //created the app crashes. Either change some implementation or move shuffle and split
         //back into Activity
-        currentQ += 1;
-        if (currentQ > 1) {
-            setKeyboard();
-        }
     }
 
     public void setKeyboard(){
@@ -64,8 +85,8 @@ public class PlayActivity extends AppCompatActivity {
             letterInput.removeAllViews();
         }
         //Kanske borde göra en till metod i playPresenter som gör båda shuffle och splitstring samtidigt?
-        lettersInWord = p.shuffle(p.splitString(word));
-        for (int i = 0; i < word.length(); i++) {
+        lettersInWord = presenter.shuffle(presenter.splitString(question.getWord()));
+        for (int i = 0; i < question.getWord().length(); i++) {
             createButtons(i);
             createTextFields(i);
         }
@@ -77,8 +98,15 @@ public class PlayActivity extends AppCompatActivity {
             buf.append(currentLetters[i].getText());
         }
         String toCheck = buf.toString();
-        p.checkAnswer(toCheck, getApplicationContext());
+        System.out.println(question.getWord() + ", "+toCheck);
+        soundPlayer.speak(this, question.getWord().equals(toCheck));
+        resultCallback.onResult(question.getWord().equals(toCheck));
     }
+
+    public void setResultCallback(OnResultCallback resultCallback){
+        this.resultCallback = resultCallback;
+    }
+
     public void endGame(int correctAnswers, int totalAnswers){
         Intent i = new Intent(PlayActivity.this, EndGameActivity.class);
         Bundle extras = new Bundle();
@@ -90,7 +118,7 @@ public class PlayActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    public void createButtons(int i) {
+    private void createButtons(int i) {
         final int iCopy = i;
         Button b = new Button(this);
         final Button bCopy = b;
@@ -106,7 +134,7 @@ public class PlayActivity extends AppCompatActivity {
         buttonGrid.addView(b, 130, 130);
     }
 
-    public void createTextFields(int i) {
+    private void createTextFields(int i) {
         TextView tv = new TextView(this);
         currentLetters[i] = tv;
         tv.setEnabled(false);
@@ -116,7 +144,8 @@ public class PlayActivity extends AppCompatActivity {
         letterInput.addView(tv, 130, 130);
     }
 
-    public void speak(View v) {
-        p.speakWord(getApplicationContext());
+    public void speak(View v){
+        soundPlayer.speak(this, question);
     }
+
 }
