@@ -3,12 +3,13 @@ package teamtim.teamtimapp.database;
 import android.graphics.Bitmap;
 import android.media.Image;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class WordQuestion {
+public class WordQuestion implements Serializable {
 
     private final String word;
     private final Set<String> categories;

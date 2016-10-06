@@ -1,5 +1,6 @@
 package teamtim.teamtimapp.database;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -13,7 +14,7 @@ public class MockDatabase implements DatabaseInterface {
     private List<WordQuestion> wordQuestions;
     private Random randomizer = new Random();
 
-    public MockDatabase(){
+    private MockDatabase(){
         List<String> grapeFruitCategoryTest = new ArrayList<String>();
         grapeFruitCategoryTest.add("Frukt");
         grapeFruitCategoryTest.add("Röd frukt");
@@ -24,6 +25,9 @@ public class MockDatabase implements DatabaseInterface {
         grapeFruitCategoryTest.add("Objekt med en diameter på cirka en dm");
         grapeFruitCategoryTest.add("Undercover apelsin");
         grapeFruitCategoryTest.add("Saker som har flera kategorier");
+        grapeFruitCategoryTest.add("Fotbollssubstitut");
+        grapeFruitCategoryTest.add("Frukter som inte växer på Grönland");
+        grapeFruitCategoryTest.add("Frukter som inte är bär");
         wordQuestions = new ArrayList<WordQuestion>();
         wordQuestions.add(WordQuestionFactory.create("Apa",        "Djur",  WordDifficulty.EASY,   R.drawable.apa));
         wordQuestions.add(WordQuestionFactory.create("Giraff",     "Djur",  WordDifficulty.HARD,   R.drawable.giraff));
@@ -78,6 +82,11 @@ public class MockDatabase implements DatabaseInterface {
         }
         filter(questions, maxAmount);
         return questions;
+    }
+
+    @Override
+    public WordQuestion getQuestion(int id) {
+        return wordQuestions.get(id);
     }
 
     @Override

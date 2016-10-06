@@ -11,37 +11,8 @@ import teamtim.teamtimapp.speechSynthesizer.ISpeechSynthesizer;
 import teamtim.teamtimapp.speechSynthesizer.SoundPlayer;
 
 public class PlayPresenter {
-    private PlayActivity playActivity;
 
-    private DatabaseInterface db = MockDatabase.getInstance();
-
-    private List<WordQuestion> questions;
-    private int currentQ;
-    private int correctAnswers;
-    private ISpeechSynthesizer speaker;
-
-    public PlayPresenter(PlayActivity p, String category){
-        this.playActivity = p;
-        questions = db.getQuestions(category, -1);
-        currentQ = 0;
-        correctAnswers = 0;
-
-        playActivity.newQuestion(questions.get(currentQ));
-
-        this.speaker = new SoundPlayer();
-    }
-
-    public void checkAnswer(String answer, Context c) {
-        WordQuestion currentQuestion = questions.get(currentQ);
-        currentQ++;
-        if (answer.equalsIgnoreCase(currentQuestion.getWord())) {
-            correctAnswers++;
-            speaker.speak(c, true);
-        } else {
-            speaker.speak(c, false);
-        }
-        if (currentQ < questions.size()) playActivity.newQuestion(questions.get(currentQ));
-        else playActivity.endGame(correctAnswers, questions.size());
+    public PlayPresenter(){
     }
 
     //Put into another class or something later
@@ -63,13 +34,4 @@ public class PlayPresenter {
         }
         return splitString;
     }
-
-    public void speakWord(Context c) {
-        speaker.speak(c, questions.get(currentQ));
-    }
-    /*
-    public WordQuestion getNextQuestion(){
-
-    }
-    */
 }
