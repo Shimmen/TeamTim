@@ -1,16 +1,23 @@
 package teamtim.teamtimapp.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.NumberKeyListener;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import teamtim.teamtimapp.R;
 import teamtim.teamtimapp.database.WordQuestion;
@@ -77,6 +84,29 @@ public class PlayActivity extends AppCompatActivity {
         //Change this somehow, since setKeyboard is called before the presenter has been completely
         //created the app crashes. Either change some implementation or move shuffle and split
         //back into Activity
+    }
+
+    public void onKeyPressed(int keyCode, KeyEvent event){
+
+    }
+
+    @Override
+    public void onBackPressed(){
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Avsluta spel")
+                .setMessage("Vill du avsluta pågående spel?")
+                .setPositiveButton("Ja", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent main = new Intent(PlayActivity.this, MainMenuActivity.class);
+                        startActivity(main);
+                    }
+
+                })
+                .setNegativeButton("Nej", null)
+                .show();
     }
 
     public void setKeyboard(){
