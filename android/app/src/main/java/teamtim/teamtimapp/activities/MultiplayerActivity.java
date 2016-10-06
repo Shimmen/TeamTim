@@ -124,7 +124,7 @@ public class MultiplayerActivity extends AppCompatActivity {
         }
 */
 
-        Toast.makeText(MultiplayerActivity.this, "Du är nu ansluten som" + ((isServerDevice) ? "som client/host!" : "som client!"),
+        Toast.makeText(MultiplayerActivity.this, "Du är nu ansluten som " + ((isServerDevice) ? "client/host!" : "client!"),
                 Toast.LENGTH_LONG).show();
     }
 
