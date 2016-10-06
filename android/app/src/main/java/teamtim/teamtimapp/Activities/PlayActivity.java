@@ -15,6 +15,7 @@ import android.widget.TextView;
 import teamtim.teamtimapp.R;
 import teamtim.teamtimapp.database.WordQuestion;
 import teamtim.teamtimapp.managers.OnResultCallback;
+import teamtim.teamtimapp.managers.ResultKey;
 import teamtim.teamtimapp.managers.SinglePlayerClient;
 import teamtim.teamtimapp.presenter.PlayPresenter;
 import teamtim.teamtimapp.speechSynthesizer.ISpeechSynthesizer;
@@ -52,9 +53,9 @@ public class PlayActivity extends AppCompatActivity {
         presenter = new PlayPresenter();
 
         instance = this;
-        SinglePlayerClient spc = ((SinglePlayerClient)getIntent().getSerializableExtra("LISTENER"));
+        OnResultCallback spc = ((OnResultCallback) getIntent().getSerializableExtra("LISTENER"));
         setResultCallback(spc);
-        spc.start();
+        resultCallback.onResult(ResultKey.READY, 0);
     }
 
     public static PlayActivity getInstance() throws NullPointerException {
@@ -100,7 +101,7 @@ public class PlayActivity extends AppCompatActivity {
         String toCheck = buf.toString();
         System.out.println(question.getWord() + ", "+toCheck);
         soundPlayer.speak(this, question.getWord().equals(toCheck));
-        resultCallback.onResult(question.getWord().equals(toCheck));
+        resultCallback.onResult(ResultKey.FINNISH_ROUND, question.getWord().equals(toCheck) ? 1 : 0);
     }
 
     public void setResultCallback(OnResultCallback resultCallback){

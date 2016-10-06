@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Observable;
 
 import teamtim.teamtimapp.R;
+import teamtim.teamtimapp.managers.MultiPlayerClient;
+import teamtim.teamtimapp.managers.OnResultCallback;
 import teamtim.teamtimapp.managers.SinglePlayerClient;
 import teamtim.teamtimapp.presenter.CategoryPresenter;
 import teamtim.teamtimapp.presenter.PlayPresenter;
@@ -26,11 +28,15 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
 
     private CategoryPresenter presenter;
     private LinearLayout categoryLayout;
+    private String mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
+
+        mode = getIntent().getStringExtra("MODE");
+
         presenter = new CategoryPresenter();
         categoryLayout = (LinearLayout)findViewById(R.id.category_layout);
         setCategories("");
@@ -69,10 +75,15 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        SinglePlayerClient spc = new SinglePlayerClient(((Button)v).getText().toString());
-        Intent intent = new Intent(this, PlayActivity.class);
-        intent.putExtra("LISTENER", spc);
-        startActivity(intent);
+        if (mode.equals("Single")) {
+            OnResultCallback spc = new SinglePlayerClient(((Button) v).getText().toString());
+            Intent intent = new Intent(this, PlayActivity.class);
+            intent.putExtra("LISTENER", spc);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(this, MultiplayerActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override

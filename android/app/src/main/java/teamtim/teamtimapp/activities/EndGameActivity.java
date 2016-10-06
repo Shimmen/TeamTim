@@ -30,6 +30,7 @@ public class EndGameActivity extends AppCompatActivity {
 
     public void playAgain(View v){
         Intent i = new Intent(this, CategoryActivity.class);
+        i.putExtra("MODE", "Single");
         startActivity(i);
     }
 }

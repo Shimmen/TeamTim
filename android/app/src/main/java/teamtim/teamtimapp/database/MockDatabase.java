@@ -8,7 +8,7 @@ import java.util.Set;
 
 import teamtim.teamtimapp.R;
 
-public class MockDatabase implements DatabaseInterface, Serializable {
+public class MockDatabase implements DatabaseInterface {
 
     private static DatabaseInterface instance = null;
     private List<WordQuestion> wordQuestions;
@@ -25,6 +25,9 @@ public class MockDatabase implements DatabaseInterface, Serializable {
         grapeFruitCategoryTest.add("Objekt med en diameter på cirka en dm");
         grapeFruitCategoryTest.add("Undercover apelsin");
         grapeFruitCategoryTest.add("Saker som har flera kategorier");
+        grapeFruitCategoryTest.add("Fotbollssubstitut");
+        grapeFruitCategoryTest.add("Frukter som inte växer på Grönland");
+        grapeFruitCategoryTest.add("Frukter som inte är bär");
         wordQuestions = new ArrayList<WordQuestion>();
         wordQuestions.add(WordQuestionFactory.create("Apa",        "Djur",  WordDifficulty.EASY,   R.drawable.apa));
         wordQuestions.add(WordQuestionFactory.create("Giraff",     "Djur",  WordDifficulty.HARD,   R.drawable.giraff));
@@ -79,6 +82,11 @@ public class MockDatabase implements DatabaseInterface, Serializable {
         }
         filter(questions, maxAmount);
         return questions;
+    }
+
+    @Override
+    public WordQuestion getQuestion(int id) {
+        return wordQuestions.get(id);
     }
 
     @Override

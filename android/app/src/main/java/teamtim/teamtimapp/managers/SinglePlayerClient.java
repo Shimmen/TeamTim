@@ -1,30 +1,12 @@
 package teamtim.teamtimapp.managers;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.preference.PreferenceManager;
-
-import java.io.Serializable;
 import java.util.List;
 
-import teamtim.teamtimapp.activities.MainMenuActivity;
-import teamtim.teamtimapp.activities.MultiplayerActivity;
 import teamtim.teamtimapp.activities.PlayActivity;
-import teamtim.teamtimapp.database.DatabaseInterface;
 import teamtim.teamtimapp.database.MockDatabase;
 import teamtim.teamtimapp.database.WordQuestion;
 
-/*TODO:
-    Include endgame in this "controller"
-    ...or redo everything if serializable is bad
- */
-
-
-public class SinglePlayerClient implements OnResultCallback, Serializable {
-
-    private GameState state; //lol
-    private DatabaseInterface db = MockDatabase.getInstance();
-
+public class SinglePlayerClient implements OnResultCallback {
     private PlayActivity game;
 
     private List<WordQuestion> questions;
@@ -32,17 +14,28 @@ public class SinglePlayerClient implements OnResultCallback, Serializable {
     private int rightAnswers = 0;
 
     public SinglePlayerClient(String category) {
-        questions = db.getQuestions(category, -1);
+        questions = MockDatabase.getInstance().getQuestions(category, -1);
     }
 
-    public void start(){
+    @Override
+    public void onResult(ResultKey key, int value) {
+        switch (key){
+            case READY:
+                start();
+                break;
+            case FINNISH_ROUND:
+                finnishRound(value);
+                break;
+        }
+    }
+
+    private void start(){
         game = PlayActivity.getInstance();
         game.newQuestion(questions.get(currentQ));
     }
 
-    @Override
-    public void onResult(boolean rightAnswer) {
-        if (rightAnswer) rightAnswers++;
+    private void finnishRound(int value){
+        rightAnswers+=value;
 
         currentQ++;
         if (currentQ >= questions.size()) {

@@ -1,5 +1,9 @@
 package teamtim.teamtimapp.managers;
 
-public interface OnResultCallback {
-    void onResult(boolean rightAnswer);
+import android.support.annotation.Nullable;
+
+import java.io.Serializable;
+
+public interface OnResultCallback extends Serializable{
+    void onResult(ResultKey key, int value);
 }
