@@ -45,8 +45,7 @@ public class MultiplayerActivity extends AppCompatActivity {
             @Override
             public void onPeersAvailable(WifiP2pDeviceList peers) {
                 if (peers == null) {
-                    Toast.makeText(MultiplayerActivity.this, "", Toast.LENGTH_LONG).show();
-                    System.out.println("Ett fel uppstod, vänligen försök igen!");
+                    Toast.makeText(MultiplayerActivity.this, "Ett fel uppstod, vänligen försök igen!", Toast.LENGTH_LONG).show();
                 } else {
                     for (WifiP2pDevice device : peers.getDeviceList()) {
                         createAndAddDeviceButton(device);
@@ -106,6 +105,7 @@ public class MultiplayerActivity extends AppCompatActivity {
         // (The value used in the default constructor)
         final int SERVER_QUEUE_LENGTH = 50;
 
+/*
         try {
 
             if (isServerDevice) {
@@ -122,6 +122,10 @@ public class MultiplayerActivity extends AppCompatActivity {
             // TODO: Handle this a bit more gracefully!
             e.printStackTrace();
         }
+*/
+
+        Toast.makeText(MultiplayerActivity.this, "Du är nu ansluten som" + ((isServerDevice) ? "som client/host!" : "som client!"),
+                Toast.LENGTH_LONG).show();
     }
 
 }
