@@ -1,5 +1,6 @@
 package teamtim.teamtimapp.activities;
 
+import android.content.Intent;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pInfo;
@@ -21,18 +22,26 @@ import java.util.Collection;
 import java.util.List;
 
 import teamtim.teamtimapp.R;
+import teamtim.teamtimapp.database.MockDatabase;
+import teamtim.teamtimapp.managers.MultiPlayerClient;
+import teamtim.teamtimapp.managers.OnResultCallback;
 import teamtim.teamtimapp.network.DefaultNetworkManager;
+import teamtim.teamtimapp.network.GameServer;
 import teamtim.teamtimapp.network.NetworkManager;
 
 public class MultiplayerActivity extends AppCompatActivity {
 
     private LinearLayout userList;
     private NetworkManager networkManager;
+    private String selectedCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_friends);
+
+        selectedCategory = getIntent().getStringExtra("CATEGORY");
+
         userList = (LinearLayout) findViewById(R.id.user_list);
 
         networkManager = DefaultNetworkManager.getDefault();
@@ -99,30 +108,13 @@ public class MultiplayerActivity extends AppCompatActivity {
      */
     private void setUpMultiplayerGame(InetAddress serverAddress, boolean isServerDevice) {
 
-        // TODO: Make sure the port is available (generally speaking)!
-        final int SERVER_PORT = 1342;
-
-        // (The value used in the default constructor)
-        final int SERVER_QUEUE_LENGTH = 50;
-
-/*
-        try {
-
-            if (isServerDevice) {
-                // TODO: Create on a server socket thread (in some server object)!
-                // TODO: Accept exactly 2 clients (serverSocket.accept())
-                ServerSocket serverSocket = new ServerSocket(SERVER_PORT, SERVER_QUEUE_LENGTH, serverAddress);
-            }
-
-            // Always create a client socket, even for the "client" that is also a server
-            // TODO: Create on a client socket thread (in some client object)!
-            Socket clientSocket = new Socket(serverAddress, SERVER_PORT);
-
-        } catch (IOException e) {
-            // TODO: Handle this a bit more gracefully!
-            e.printStackTrace();
+        if (isServerDevice) {
+            new GameServer(serverAddress, MockDatabase.getInstance().getQuestions(selectedCategory, -1)).start();
         }
-*/
+        OnResultCallback rc = new MultiPlayerClient(serverAddress);
+        Intent intent = new Intent(this, PlayActivity.class);
+        intent.putExtra("LISTENER", rc);
+        startActivity(intent);
 
         Toast.makeText(MultiplayerActivity.this, "Du är nu ansluten som " + ((isServerDevice) ? "client/host!" : "client!"),
                 Toast.LENGTH_LONG).show();

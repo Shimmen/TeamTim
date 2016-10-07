@@ -131,7 +131,7 @@ public class PlayActivity extends AppCompatActivity {
         String toCheck = buf.toString();
         System.out.println(question.getWord() + ", "+toCheck);
         soundPlayer.speak(this, question.getWord().equals(toCheck));
-        resultCallback.onResult(ResultKey.FINNISH_ROUND, question.getWord().equals(toCheck) ? 1 : 0);
+        resultCallback.onResult(ResultKey.SUBMIT, question.getWord().equals(toCheck) ? 1 : 0);
     }
 
     public void setResultCallback(OnResultCallback resultCallback){

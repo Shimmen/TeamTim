@@ -23,7 +23,7 @@ public class SinglePlayerClient implements OnResultCallback {
             case READY:
                 start();
                 break;
-            case FINNISH_ROUND:
+            case SUBMIT:
                 finnishRound(value);
                 break;
         }
