@@ -67,6 +67,7 @@ public class GameServer extends Thread {
 
                         // TODO (use buffered reader to read data from sockets)!
                         int value1 = client1.getInputStream().read();
+                        System.out.println("Server got packet from client 1!");
                         int value2 = client2.getInputStream().read();
                         System.out.println("Server got two packets! First byte: " + value1 + ":" + value2);
                     }
