@@ -44,6 +44,8 @@ public class MultiPlayerClient extends OnResultListener implements ClientThread.
         Map<String, String> data = new HashMap<>();
         switch (key){
             case READY:
+                System.out.println("Client is ready!");
+                game = PlayActivity.getInstance();
                 data.put("METHOD", "READY");
                 break;
             case SUBMIT:
