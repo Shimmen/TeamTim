@@ -52,11 +52,11 @@ public class GameServer extends Thread {
 
             // Connect to the two clients. Will block until satisfied
             Socket client1 = serverSocket.accept();
-            //Socket client2 = serverSocket.accept();
+            Socket client2 = serverSocket.accept();
 
             // They should be connected by now, right?
             if (BuildConfig.DEBUG && !client1.isConnected()) throw new AssertionError();
-            //if (BuildConfig.DEBUG && !client2.isConnected()) throw new AssertionError();
+            if (BuildConfig.DEBUG && !client2.isConnected()) throw new AssertionError();
 
             runLoop:
             while (currentState != State.END_OF_GAME) {
@@ -66,8 +66,9 @@ public class GameServer extends Thread {
                         System.out.println("Server: waiting for client data!");
 
                         // TODO (use buffered reader to read data from sockets)!
-                        int value = client1.getInputStream().read();
-                        System.out.println("Server got a packet! First byte: " + value);
+                        int value1 = client1.getInputStream().read();
+                        int value2 = client2.getInputStream().read();
+                        System.out.println("Server got two packets! First byte: " + value1 + ":" + value2);
                     }
                     break;
 
