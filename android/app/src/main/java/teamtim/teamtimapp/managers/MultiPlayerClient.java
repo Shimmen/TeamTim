@@ -39,6 +39,8 @@ public class MultiPlayerClient extends OnResultListener implements ClientThread.
 
     @Override
     public void onResult(ResultKey key, int value) {
+        System.out.println("MultiPlayerClient: got some result!");
+
         Map<String, String> data = new HashMap<>();
         switch (key){
             case READY:

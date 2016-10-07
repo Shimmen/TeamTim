@@ -20,6 +20,8 @@ public class SinglePlayerClient extends OnResultListener {
 
     @Override
     public void onResult(ResultKey key, int value) {
+        System.out.println("SinglePlayerClient: got some result!");
+
         switch (key){
             case READY:
                 start();

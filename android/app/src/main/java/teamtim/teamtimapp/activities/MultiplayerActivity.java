@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import teamtim.teamtimapp.BuildConfig;
 import teamtim.teamtimapp.R;
 import teamtim.teamtimapp.database.MockDatabase;
 import teamtim.teamtimapp.managers.MultiPlayerClient;
@@ -107,6 +108,8 @@ public class MultiplayerActivity extends AppCompatActivity {
      * @param isServerDevice Indicates if this call if of a
      */
     private void setUpMultiplayerGame(InetAddress serverAddress, boolean isServerDevice) {
+
+        if (BuildConfig.DEBUG && !isServerDevice) throw new AssertionError("This device should be a server!");
 
         if (isServerDevice) {
             new GameServer(serverAddress, MockDatabase.getInstance().getQuestions(selectedCategory, -1)).start();

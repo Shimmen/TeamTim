@@ -63,13 +63,16 @@ public class GameServer extends Thread {
                 switch (currentState) {
 
                     case WAIT_FOR_CLIENT_DATA: {
+                        System.out.println("Server: waiting for client data!");
+
                         // TODO (use buffered reader to read data from sockets)!
                         int value = client1.getInputStream().read();
-                        System.out.println("Server got a packet! DATA: " + value);
+                        System.out.println("Server got a packet! First byte: " + value);
                     }
                     break;
 
                     case SEND_NEXT_QUESTION: {
+                        System.out.println("Server: sending next question!");
 
                         if (BuildConfig.DEBUG && currentQuestionIndex >= wordQuestions.size()) throw new AssertionError();
 
@@ -81,11 +84,13 @@ public class GameServer extends Thread {
                     break;
 
                     case WAIT_FOR_QUESTION_RESULTS: {
+                        System.out.println("Server: waiting for current question results!");
                         // TODO!
                     }
                     break;
 
                     case SEND_GAME_RESULTS: {
+                        System.out.println("Server: sending total game results!");
                         // TODO!
 
                         currentState = State.END_OF_GAME;
@@ -98,6 +103,8 @@ public class GameServer extends Thread {
                     }
                 }
             }
+
+            System.out.println("Server: end of game, shutting down!");
 
         } catch (IOException e) {
             // TODO: Handle somehow!

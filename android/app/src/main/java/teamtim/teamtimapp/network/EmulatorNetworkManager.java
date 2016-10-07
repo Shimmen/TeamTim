@@ -82,4 +82,9 @@ public class EmulatorNetworkManager implements NetworkManager {
         }
     }
 
+    @Override
+    public void setOnConnectedListener(WifiP2pManager.ConnectionInfoListener connectionInfoListener) {
+        // Do nothing
+    }
+
 }

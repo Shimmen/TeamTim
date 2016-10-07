@@ -28,6 +28,12 @@ public class DefaultNetworkManager extends BroadcastReceiver implements NetworkM
         }
     }
 
+    public static void shutdown() {
+        instance.stopDiscoveringPeers();
+        instance.disableReceiving();
+        instance = null;
+    }
+
     public static NetworkManager getDefault() {
         if (DefaultNetworkManager.instance == null) {
             throw new IllegalStateException("NetworkManager must be initialized (initialize()) before the default instance can be retrieved!");
@@ -156,6 +162,11 @@ public class DefaultNetworkManager extends BroadcastReceiver implements NetworkM
                 connectionInfoListener.onConnectionInfoAvailable(null);
             }
         });
+    }
+
+    @Override
+    public void setOnConnectedListener(WifiP2pManager.ConnectionInfoListener connectionInfoListener) {
+        this.currentConnectionInfoListener = connectionInfoListener;
     }
 
     private void onFailureHandler(int reason) {

@@ -19,7 +19,6 @@ public class MainMenuActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DefaultNetworkManager.initialize(getApplicationContext());
         setContentView(R.layout.activity_main_menu);
 
         burgerButton = (ImageButton) findViewById(R.id.burgerButton);
