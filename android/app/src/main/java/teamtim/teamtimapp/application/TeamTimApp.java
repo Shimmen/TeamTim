@@ -36,6 +36,7 @@ public class TeamTimApp extends Application implements WifiP2pManager.Connection
             // TODO: Start the play game activity and let the MultiPlayerClient manage it.
             MultiPlayerClient mpc = new MultiPlayerClient(info.groupOwnerAddress);
             Intent intent = new Intent(TeamTimApp.this, PlayActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
     }
