@@ -76,9 +76,8 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         if (mode.equals("Single")) {
-            OnResultCallback spc = new SinglePlayerClient(((Button) v).getText().toString());
+            new SinglePlayerClient(((Button) v).getText().toString());
             Intent intent = new Intent(this, PlayActivity.class);
-            intent.putExtra("LISTENER", spc);
             startActivity(intent);
         } else {
             Intent intent = new Intent(this, MultiplayerActivity.class);

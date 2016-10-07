@@ -8,12 +8,13 @@ import teamtim.teamtimapp.activities.PlayActivity;
 import teamtim.teamtimapp.database.MockDatabase;
 import teamtim.teamtimapp.network.ClientThread;
 
-public class MultiPlayerClient implements OnResultCallback, ClientThread.OnDataListener {
+public class MultiPlayerClient extends OnResultListener implements ClientThread.OnDataListener {
     GameState state;
     PlayActivity game;
     ClientThread clientThread;
 
     public MultiPlayerClient(InetAddress ip){
+        super.setListener(this);
         clientThread = new ClientThread(ip, this);
         clientThread.start();
     }

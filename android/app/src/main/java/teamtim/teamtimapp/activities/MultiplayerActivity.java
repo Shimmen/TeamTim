@@ -111,9 +111,8 @@ public class MultiplayerActivity extends AppCompatActivity {
         if (isServerDevice) {
             new GameServer(serverAddress, MockDatabase.getInstance().getQuestions(selectedCategory, -1)).start();
         }
-        OnResultCallback rc = new MultiPlayerClient(serverAddress);
+        new MultiPlayerClient(serverAddress);
         Intent intent = new Intent(this, PlayActivity.class);
-        intent.putExtra("LISTENER", rc);
         startActivity(intent);
 
         Toast.makeText(MultiplayerActivity.this, "Du är nu ansluten som " + ((isServerDevice) ? "client/host!" : "client!"),

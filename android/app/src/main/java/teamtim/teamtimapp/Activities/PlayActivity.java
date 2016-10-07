@@ -22,6 +22,7 @@ import android.widget.TextView;
 import teamtim.teamtimapp.R;
 import teamtim.teamtimapp.database.WordQuestion;
 import teamtim.teamtimapp.managers.OnResultCallback;
+import teamtim.teamtimapp.managers.OnResultListener;
 import teamtim.teamtimapp.managers.ResultKey;
 import teamtim.teamtimapp.managers.SinglePlayerClient;
 import teamtim.teamtimapp.presenter.PlayPresenter;
@@ -60,8 +61,7 @@ public class PlayActivity extends AppCompatActivity {
         presenter = new PlayPresenter();
 
         instance = this;
-        OnResultCallback spc = ((OnResultCallback) getIntent().getSerializableExtra("LISTENER"));
-        setResultCallback(spc);
+        setResultCallback(OnResultListener.getListener());
         resultCallback.onResult(ResultKey.READY, 0);
     }
 

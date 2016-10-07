@@ -6,7 +6,7 @@ import teamtim.teamtimapp.activities.PlayActivity;
 import teamtim.teamtimapp.database.MockDatabase;
 import teamtim.teamtimapp.database.WordQuestion;
 
-public class SinglePlayerClient implements OnResultCallback {
+public class SinglePlayerClient extends OnResultListener {
     private PlayActivity game;
 
     private List<WordQuestion> questions;
@@ -14,6 +14,7 @@ public class SinglePlayerClient implements OnResultCallback {
     private int rightAnswers = 0;
 
     public SinglePlayerClient(String category) {
+        super.setListener(this);
         questions = MockDatabase.getInstance().getQuestions(category, -1);
     }
 
