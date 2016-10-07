@@ -33,7 +33,6 @@ public class ClientThread extends Thread {
     // Data
 
     private final InetAddress serverAddress;
-    private final int serverPort;
 
     private final Object socketLock = new Object();
     private volatile boolean socketShouldClose = false;
@@ -42,9 +41,8 @@ public class ClientThread extends Thread {
     private OnDataListener onDataListener;
     private Queue<Map<String, String>> sendQueue = new ConcurrentLinkedQueue<>();
 
-    public ClientThread(InetAddress serverAddress, int serverPort, OnDataListener onDataListener) {
+    public ClientThread(InetAddress serverAddress, OnDataListener onDataListener) {
         this.serverAddress= serverAddress;
-        this.serverPort = serverPort;
         this.onDataListener = onDataListener;
 
         // The first thing a client does is send the 'connection packet'
@@ -90,7 +88,7 @@ public class ClientThread extends Thread {
     public void run() {
         try {
 
-            Socket socket = new Socket(serverAddress, serverPort);
+            Socket socket = new Socket(serverAddress, GameServer.PORT);
 
             // Buffer for incoming data (note: never receive more than 1024*10 bytes of data at once!)
             byte[] buffer = new byte[1024 * 10];
@@ -112,7 +110,7 @@ public class ClientThread extends Thread {
                         if (BuildConfig.DEBUG && bytesRead >= buffer.length) throw new AssertionError();
 
                         // Convert raw data to a nice map
-                        Map<String, String> data = fromRawData(buffer, bytesRead);
+                        Map<String, String> data = NetworkSerialization.fromRawData(buffer, bytesRead);
 
                         onDataListener.onData(data);
 
@@ -139,7 +137,7 @@ public class ClientThread extends Thread {
 
                             for (Map<String, String> data : sendQueue) {
                                 // Convert data to byte array and write unbuffered
-                                byte[] rawData = asByteArray(data);
+                                byte[] rawData = NetworkSerialization.asByteArray(data);
                                 socketOut.write(rawData);
                             }
 
@@ -163,34 +161,6 @@ public class ClientThread extends Thread {
             // TODO: Handle these a bit more gracefully!
             e.printStackTrace();
         }
-    }
-
-    private Map<String, String> fromRawData(byte[] buffer, int numBytes) {
-        Map<String, String> data = new HashMap<>();
-
-        // TODO: The source says it's unsupported?! But I can't find the StringFactory class..?
-        String stringData = new String(buffer, 0, numBytes, Charset.forName("UTF-8"));
-
-        // TODO: Make it a bit more safe maybe? Probably.
-        String[] keyValuePairs = stringData.split(";");
-        for (String pair: keyValuePairs) {
-            String[] s = pair.split("=");
-            data.put(s[0], s[1]);
-        }
-
-        return data;
-    }
-
-    private byte[] asByteArray(Map<String, String> data) {
-        StringBuilder builder = new StringBuilder();
-
-        for (Map.Entry<String, String> entry : data.entrySet()) {
-            String stringEntry = entry.getKey() + "=" + entry.getValue() + ";";
-            builder.append(stringEntry);
-        }
-
-        String stringData = builder.toString();
-        return stringData.getBytes(Charset.forName("UTF-8"));
     }
 
 }

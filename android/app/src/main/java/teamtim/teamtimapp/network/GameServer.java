@@ -39,7 +39,6 @@ public class GameServer extends Thread {
     private int currentQuestionIndex = 0;
 
 
-
     public GameServer(InetAddress hostAddress, List<WordQuestion> wordQuestions) {
         this.hostAddress = hostAddress;
         this.wordQuestions = wordQuestions;
