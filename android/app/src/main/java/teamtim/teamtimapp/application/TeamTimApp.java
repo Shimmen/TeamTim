@@ -18,7 +18,7 @@ public class TeamTimApp extends Application implements WifiP2pManager.Connection
         System.out.println("Application created!");
 
         DefaultNetworkManager.initialize(getApplicationContext());
-        DefaultNetworkManager.getDefault().setOnConnectedListener(this);
+        //DefaultNetworkManager.getDefault().setOnConnectedListener(this);
     }
 
     @Override
@@ -31,6 +31,7 @@ public class TeamTimApp extends Application implements WifiP2pManager.Connection
 
     @Override
     public void onConnectionInfoAvailable(WifiP2pInfo info) {
+/*
         if (info.groupFormed) {
             System.out.println("TeamTimApp: setting up multiplayer game!");
 
@@ -40,5 +41,6 @@ public class TeamTimApp extends Application implements WifiP2pManager.Connection
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
+*/
     }
 }

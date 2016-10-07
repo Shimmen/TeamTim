@@ -109,11 +109,12 @@ public class MultiplayerActivity extends AppCompatActivity {
      */
     private void setUpMultiplayerGame(InetAddress serverAddress, boolean isServerDevice) {
 
-        if (BuildConfig.DEBUG && !isServerDevice) throw new AssertionError("This device should be a server!");
+        //if (BuildConfig.DEBUG && !isServerDevice) throw new AssertionError("This device should be a server!");
 
         if (isServerDevice) {
             new GameServer(serverAddress, MockDatabase.getInstance().getQuestions(selectedCategory, -1)).start();
         }
+
         new MultiPlayerClient(serverAddress);
         Intent intent = new Intent(this, PlayActivity.class);
         startActivity(intent);
