@@ -26,7 +26,7 @@ public class GameServer extends Thread {
 
     // Static
 
-    public static final int PORT = 1342;
+    public static final int PORT = 61992;
     public static final int BACKLOG_SIZE = 50; // (The value used in the default constructor)
 
     // State
