@@ -1,7 +1,10 @@
 package teamtim.teamtimapp.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -107,19 +110,35 @@ public class PlayActivity extends AppCompatActivity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // - Enlarge first tile by X% to give feedback
-                if(!tileSelected && !(bCopy.getText().equals(" "))){
-                    tileSelected = true;
-                    selectedTile = bCopy;
-                } else{
-                    CharSequence newChar = selectedTile.getText();
-                    selectedTile.setText(bCopy.getText());
-                    bCopy.setText(newChar);
-                    tileSelected = false;
+                if((bCopy.getText().equals(" "))){
+                    //Do nothing
+                }else if((!tileSelected && !bCopy.getText().equals(" "))){
+                    selectTile(bCopy);
+                }else{
+                    switchTilePosition(bCopy);
                 }
             }
         });
         buttonGrid.addView(b, 100, 100);
+    }
+
+    private void selectTile(Button tile){
+        tileSelected = true;
+
+        selectedTile = tile;
+        selectedTile.getBackground().setColorFilter(Color.parseColor("#737aff"), PorterDuff.Mode.MULTIPLY);
+        selectedTile.setTextColor(Color.WHITE);
+    }
+
+    private void switchTilePosition(Button tile){
+        CharSequence newChar = selectedTile.getText();
+        selectedTile.setText(tile.getText());
+        tile.setText(newChar);
+
+        selectedTile.getBackground().clearColorFilter();
+        selectedTile.setTextColor(Color.BLACK);
+
+        tileSelected = false;
     }
 
     public void speak(View v) {
