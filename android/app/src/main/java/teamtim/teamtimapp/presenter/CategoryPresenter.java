@@ -1,4 +1,4 @@
-package teamtim.teamtimapp.presenter;
+package teamtim.teamtimapp.Presenter;
 
 import java.util.List;
 

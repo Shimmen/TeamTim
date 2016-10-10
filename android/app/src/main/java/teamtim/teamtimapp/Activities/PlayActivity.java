@@ -1,22 +1,22 @@
-package teamtim.teamtimapp.activities;
+package teamtim.teamtimapp.Activities;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.DragEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import teamtim.teamtimapp.R;
 import teamtim.teamtimapp.database.WordQuestion;
-import teamtim.teamtimapp.presenter.PlayPresenter;
+import teamtim.teamtimapp.Presenter.PlayPresenter;
 
 public class PlayActivity extends AppCompatActivity {
 
@@ -33,6 +33,10 @@ public class PlayActivity extends AppCompatActivity {
     private Button[] tiles;
     private boolean tileSelected;
     private Button selectedTile;
+    private boolean approachToMinimum;
+    private boolean approachToMax;
+    private int lastLoc;
+    private int buttonsMoved;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +47,10 @@ public class PlayActivity extends AppCompatActivity {
         p = new PlayPresenter(this, this.getIntent().getExtras().getString("SELECTED_CATEGORY"));
         buttonGrid = (GridLayout) findViewById(R.id.buttonGrid);
         letterInput = (LinearLayout) findViewById(R.id.linearLayout);
-
         setKeyboard();
         currentQ = 1;
         tileSelected = false;
+        buttonsMoved = 0;
     }
 
     private void setImage(int image){
@@ -103,7 +107,7 @@ public class PlayActivity extends AppCompatActivity {
 
     public void createButtons(int i) {
         final int iCopy = i;
-        Button b = new Button(this);
+        final Button b = new Button(this);
         final Button bCopy = b;
         tiles[i] = bCopy;
         b.setText(Character.toString(lettersInWord[i]));
@@ -119,7 +123,22 @@ public class PlayActivity extends AppCompatActivity {
                 }
             }
         });
-        buttonGrid.addView(b, 100, 100);
+        b.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                ClipData data = ClipData.newPlainText(Integer.toString(iCopy), bCopy.getText());
+                data.addItem(new ClipData.Item(bCopy.getText()));
+                View.DragShadowBuilder shadow = new View.DragShadowBuilder(view);
+                view.startDrag(data,
+                            shadow,
+                            iCopy,
+                            0
+                );
+                return true;
+            }
+        });
+        b.setOnDragListener(new DragEventListener());
+        buttonGrid.addView(b, 100, 110);
     }
 
     private void selectTile(Button tile){
@@ -143,5 +162,53 @@ public class PlayActivity extends AppCompatActivity {
 
     public void speak(View v) {
         p.speakWord(getApplicationContext());
+    }
+
+    protected class DragEventListener implements View.OnDragListener {
+        public boolean onDrag(View v, DragEvent event) {
+            int buttonIndex = (Integer) event.getLocalState();
+            final int action = event.getAction();
+            switch (action) {
+                case DragEvent.ACTION_DRAG_STARTED:
+                    return true;
+                case DragEvent.ACTION_DRAG_ENTERED:
+                    return true;
+                case DragEvent.ACTION_DRAG_LOCATION:
+                    if (event.getX() < 20) {
+                        approachToMinimum = true;
+                        approachToMax = false;
+                        if (lastLoc > 80){
+                            String copy = tiles[buttonIndex+buttonsMoved].getText().toString();
+                            tiles[buttonIndex + buttonsMoved ].setText(tiles[buttonIndex+ buttonsMoved+1].getText());
+                            tiles[buttonIndex+ buttonsMoved+1].setText(copy);
+                            buttonsMoved += 1;
+                        }
+                    }   else if (event.getX() > 80) {
+                        approachToMinimum = false;
+                        approachToMax = true;
+                        if (lastLoc < 20) {
+                            String copy = tiles[buttonIndex-1+buttonsMoved].getText().toString();
+                            tiles[buttonIndex+buttonsMoved-1].setText(tiles[buttonIndex+ buttonsMoved].getText());
+                            tiles[buttonIndex+buttonsMoved].setText(copy);
+                            buttonsMoved -= 1;
+                        }
+                    }
+                    lastLoc = Math.round(event.getX());
+                    return true;
+                case DragEvent.ACTION_DRAG_EXITED:
+                    return true;
+                case DragEvent.ACTION_DROP:
+                    return true;
+                case DragEvent.ACTION_DRAG_ENDED:
+                    buttonsMoved = 0;
+                    approachToMax = false;
+                    approachToMinimum = false;
+                    return true;
+                default:
+                    Log.e("DragDrop Error","Unknown action type received by OnDragListener.");
+                    break;
+            }
+            return false;
+        }
     }
 }

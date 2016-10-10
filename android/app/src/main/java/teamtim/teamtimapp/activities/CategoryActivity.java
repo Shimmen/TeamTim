@@ -1,4 +1,4 @@
-package teamtim.teamtimapp.activities;
+package teamtim.teamtimapp.Activities;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -17,8 +17,8 @@ import android.widget.Toast;
 import java.util.List;
 
 import teamtim.teamtimapp.R;
-import teamtim.teamtimapp.presenter.CategoryPresenter;
-import teamtim.teamtimapp.presenter.PlayPresenter;
+import teamtim.teamtimapp.Presenter.CategoryPresenter;
+import teamtim.teamtimapp.Presenter.PlayPresenter;
 
 public class CategoryActivity extends AppCompatActivity implements View.OnClickListener, SearchView.OnQueryTextListener{
 

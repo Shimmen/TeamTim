@@ -1,4 +1,4 @@
-package teamtim.teamtimapp.activities;
+package teamtim.teamtimapp.Activities;
 
 import android.content.DialogInterface;
 import android.net.wifi.p2p.WifiP2pDevice;
