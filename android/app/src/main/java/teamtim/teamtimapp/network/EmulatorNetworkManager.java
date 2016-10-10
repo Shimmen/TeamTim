@@ -1,15 +1,10 @@
 package teamtim.teamtimapp.network;
 
-import android.content.Context;
-import android.content.Intent;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -17,22 +12,12 @@ import java.util.ArrayList;
 public class EmulatorNetworkManager implements NetworkManager {
 
     @Override
-    public void enableReceiving() {
-        // Do nothing
+    public void beginDiscoveringPeers() {
+
     }
 
     @Override
-    public void disableReceiving() {
-        // Do nothing
-    }
-
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        // Do nothing for now
-    }
-
-    @Override
-    public void beginDiscoveringPeers(WifiP2pManager.PeerListListener peerListListener) {
+    public void setPeerListListener(WifiP2pManager.PeerListListener peerListListener) {
         try {
 
             // Create fake device list
@@ -58,12 +43,6 @@ public class EmulatorNetworkManager implements NetworkManager {
         return device;
     }
 
-
-    @Override
-    public void stopDiscoveringPeers() {
-        // Do nothing
-    }
-
     @Override
     public void connectToDevice(WifiP2pDevice device, WifiP2pManager.ConnectionInfoListener connectionInfoListener) {
         try {
@@ -87,4 +66,10 @@ public class EmulatorNetworkManager implements NetworkManager {
         // Do nothing
     }
 
+    @Override
+    public void cancelCurrentConnections(Then then) {
+        if (then != null) {
+            then.then();
+        }
+    }
 }

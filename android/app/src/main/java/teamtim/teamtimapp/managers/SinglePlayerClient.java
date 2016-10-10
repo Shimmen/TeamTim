@@ -14,7 +14,7 @@ public class SinglePlayerClient extends OnResultListener {
     private int rightAnswers = 0;
 
     public SinglePlayerClient(String category) {
-        super.setListener(this);
+        super.setGlobalListener(this);
         questions = MockDatabase.getInstance().getQuestions(category, -1);
     }
 

@@ -9,6 +9,7 @@ import android.net.wifi.WpsInfo;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
+import android.widget.Toast;
 
 import teamtim.teamtimapp.util.ThisApp;
 
@@ -20,17 +21,17 @@ public class DefaultNetworkManager extends BroadcastReceiver implements NetworkM
 
     private static NetworkManager instance = null;
 
-    public static void initialize(Context appContext) {
+    public static NetworkManager initialize(Context appContext) {
         if (ThisApp.isRunningOnRealDevice()) {
             DefaultNetworkManager.instance = new DefaultNetworkManager(appContext);
         } else {
             DefaultNetworkManager.instance = new EmulatorNetworkManager();
         }
+
+        return instance;
     }
 
     public static void shutdown() {
-        instance.stopDiscoveringPeers();
-        instance.disableReceiving();
         instance = null;
     }
 
@@ -49,32 +50,23 @@ public class DefaultNetworkManager extends BroadcastReceiver implements NetworkM
     private Context appContext;
     private WifiP2pManager manager;
     private WifiP2pManager.Channel channel;
-    private IntentFilter intentFilter;
 
     private WifiP2pManager.PeerListListener currentPeerListListener;
     private WifiP2pManager.ConnectionInfoListener currentConnectionInfoListener;
 
     private DefaultNetworkManager(Context appContext) {
         this.appContext = appContext;
-
         manager = (WifiP2pManager) appContext.getSystemService(Context.WIFI_P2P_SERVICE);
         channel = manager.initialize(appContext, appContext.getMainLooper(), null);
 
-        intentFilter = new IntentFilter();
+        IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION);
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION);
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION);
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION);
-    }
 
-    @Override
-    public void enableReceiving() {
+        // Enable receiving of events to this broadcast receiver. This should be enabled as long as there is WifiP2P traffic.
         appContext.registerReceiver(this, intentFilter);
-    }
-
-    @Override
-    public void disableReceiving() {
-        appContext.unregisterReceiver(this);
     }
 
     @Override
@@ -93,7 +85,7 @@ public class DefaultNetworkManager extends BroadcastReceiver implements NetworkM
             if (currentPeerListListener != null) {
                 manager.requestPeers(channel, currentPeerListListener);
             } else {
-                System.out.println("No available peer list listener! (This is not an error, just memo!)");
+                System.err.println("No available peer list listener! There should always be one listener!");
             }
         }
 
@@ -117,49 +109,60 @@ public class DefaultNetworkManager extends BroadcastReceiver implements NetworkM
     }
 
     @Override
-    public void beginDiscoveringPeers(final WifiP2pManager.PeerListListener peerListListener) {
+    public void beginDiscoveringPeers() {
         manager.discoverPeers(channel, new WifiP2pManager.ActionListener() {
             @Override
             public void onSuccess() {
-                currentPeerListListener = peerListListener;
+                // Do nothing
             }
 
             @Override
             public void onFailure(int reason) {
-                onFailureHandler(reason);
-                currentPeerListListener = null;
-
-                // To signify to the callee that there was an error and that no peers will be available
-                peerListListener.onPeersAvailable(null);
+                onFailureHandler("Peer discovery", reason);
             }
         });
     }
 
     @Override
-    public void stopDiscoveringPeers() {
-        currentPeerListListener = null;
+    public void setPeerListListener(WifiP2pManager.PeerListListener peerListListener) {
+        this.currentPeerListListener = peerListListener;
     }
 
     @Override
     public void connectToDevice(WifiP2pDevice device, final WifiP2pManager.ConnectionInfoListener connectionInfoListener) {
         WifiP2pConfig config = new WifiP2pConfig();
         config.deviceAddress = device.deviceAddress;
-        config.groupOwnerIntent = 15; //WifiP2pConfig.MAX_GROUP_OWNER_INTENT;
+        config.groupOwnerIntent = 15; // WifiP2pConfig.MAX_GROUP_OWNER_INTENT;
         config.wps.setup = WpsInfo.PBC; // Use simple push button configuration to connect
 
         manager.connect(channel, config, new WifiP2pManager.ActionListener() {
             @Override
             public void onSuccess() {
-                currentConnectionInfoListener = connectionInfoListener;
+                // The connection request was successfully initiated. Set the connection info listener to this one.
+                setOnConnectedListener(connectionInfoListener);
             }
 
             @Override
             public void onFailure(int reason) {
-                onFailureHandler(reason);
-                currentPeerListListener = null;
+                // The connection request couldn't be initiated. Don't change the current on connected listener (so that the application is still doing that)
+                onFailureHandler("Connecting to device", reason);
+            }
+        });
+    }
 
-                // To signify to the callee that there was an error and that no connection info will be available
-                connectionInfoListener.onConnectionInfoAvailable(null);
+    @Override
+    public void cancelCurrentConnections(final Then then) {
+        manager.cancelConnect(channel, new WifiP2pManager.ActionListener() {
+            @Override
+            public void onSuccess() {
+                if (then != null) {
+                    then.then();
+                }
+            }
+
+            @Override
+            public void onFailure(int reason) {
+                onFailureHandler("Cancel connect", reason);
             }
         });
     }
@@ -169,13 +172,17 @@ public class DefaultNetworkManager extends BroadcastReceiver implements NetworkM
         this.currentConnectionInfoListener = connectionInfoListener;
     }
 
-    private void onFailureHandler(int reason) {
+    private void onFailureHandler(String context, int reason) {
+        // TODO: These aren't really user presentable error messages!
+        String message = "Error (" + context + "): ";
         if (reason == WifiP2pManager.P2P_UNSUPPORTED){
-            System.out.println("P2P not supported on this device!");
+            message += "P2P not supported on this device!";
         } else if (reason == WifiP2pManager.BUSY){
-            System.out.println("P2P is currently busy!");
+            message += "P2P is currently busy!";
         } else if (reason == WifiP2pManager.ERROR){
-            System.out.println("Unknown P2P error!");
+            message += "P2P error!";
         }
+
+        Toast.makeText(appContext, message, Toast.LENGTH_LONG).show();
     }
 }

@@ -7,30 +7,27 @@ import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import teamtim.teamtimapp.BuildConfig;
 import teamtim.teamtimapp.R;
+import teamtim.teamtimapp.application.TeamTimApp;
 import teamtim.teamtimapp.database.MockDatabase;
+import teamtim.teamtimapp.database.WordQuestion;
 import teamtim.teamtimapp.managers.MultiPlayerClient;
-import teamtim.teamtimapp.managers.OnResultCallback;
 import teamtim.teamtimapp.network.DefaultNetworkManager;
 import teamtim.teamtimapp.network.GameServer;
 import teamtim.teamtimapp.network.NetworkManager;
 
-public class MultiplayerActivity extends AppCompatActivity {
+public class MultiplayerActivity extends AppCompatActivity implements WifiP2pManager.ConnectionInfoListener {
 
     private LinearLayout userList;
     private NetworkManager networkManager;
@@ -39,27 +36,25 @@ public class MultiplayerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_search_friends);
-
-        selectedCategory = getIntent().getStringExtra("CATEGORY");
-
         userList = (LinearLayout) findViewById(R.id.user_list);
 
+        selectedCategory = getIntent().getStringExtra("CATEGORY");
         networkManager = DefaultNetworkManager.getDefault();
 
-        // Enable receiving of P2P events. This should be enabled for as long P2P traffic is going on.
-        networkManager.enableReceiving();
+        // Show the 'preliminary' devices into the users list
+        List<WifiP2pDevice> preliminaryDevices = ((TeamTimApp) getApplication()).getAvailablePeers();
+        for (WifiP2pDevice device: preliminaryDevices) {
+            createAndAddDeviceButton(device);
+        }
 
-        System.out.println("Begin looking for peers!");
-        networkManager.beginDiscoveringPeers(new WifiP2pManager.PeerListListener() {
+        // Make this activity the current listener for new peers (the application will take over again when this activity is destroyed)
+        networkManager.setPeerListListener(new WifiP2pManager.PeerListListener() {
             @Override
             public void onPeersAvailable(WifiP2pDeviceList peers) {
-                if (peers == null) {
-                    Toast.makeText(MultiplayerActivity.this, "Ett fel uppstod, vänligen försök igen!", Toast.LENGTH_LONG).show();
-                } else {
-                    for (WifiP2pDevice device : peers.getDeviceList()) {
-                        createAndAddDeviceButton(device);
-                    }
+                for (WifiP2pDevice device : peers.getDeviceList()) {
+                    createAndAddDeviceButton(device);
                 }
             }
         });
@@ -68,7 +63,13 @@ public class MultiplayerActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        networkManager.stopDiscoveringPeers();
+
+        networkManager.cancelCurrentConnections(null);
+
+        // When this activity is destroyed, let the application handle the new peers and connections once again.
+        TeamTimApp app = ((TeamTimApp) getApplication());
+        app.becomeActivePeerListListener();
+        app.becomeActiveOnConnectedListener();
     }
 
     private void createAndAddDeviceButton(final WifiP2pDevice device){
@@ -78,49 +79,60 @@ public class MultiplayerActivity extends AppCompatActivity {
         butt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                networkManager.stopDiscoveringPeers();
-                networkManager.connectToDevice(device, new WifiP2pManager.ConnectionInfoListener() {
-                    @Override
-                    public void onConnectionInfoAvailable(WifiP2pInfo info) {
-                        if (info == null) {
-                            Toast.makeText(MultiplayerActivity.this, "Kunde inte ansluta till enheten!", Toast.LENGTH_SHORT).show();
-                        } else {
-                            if (info.groupFormed) {
-                                setUpMultiplayerGame(info.groupOwnerAddress, info.isGroupOwner);
-                            } else {
-                                // TODO: Why would it not be able to form a group? Anyway, handle this somehow...
-                            }
-                        }
-                    }
-                });
-
+                tryToConnectToDevice(device);
             }
         });
 
         userList.addView(butt, 0);
     }
 
-    /**
-     * Sets up a multi-player game.
-     *
-     * @param serverAddress The InetAddress of the server
-     * @param isServerDevice Indicates if this call if of a
-     */
-    private void setUpMultiplayerGame(InetAddress serverAddress, boolean isServerDevice) {
+    private void tryToConnectToDevice(final WifiP2pDevice device) {
+        final MultiplayerActivity multiplayerActivity = this;
+        networkManager.cancelCurrentConnections(new NetworkManager.Then() {
+            @Override
+            public void then() {
+                // NOTE: The multiplayer activity will only listen for connection info IF the connection attempt succeeded!
+                networkManager.connectToDevice(device, multiplayerActivity);
+            }
+        });
+    }
 
-        //if (BuildConfig.DEBUG && !isServerDevice) throw new AssertionError("This device should be a server!");
+    @Override
+    public void onConnectionInfoAvailable(final WifiP2pInfo info) {
+        if (info.groupFormed) {
 
-        if (isServerDevice) {
-            new GameServer(serverAddress, MockDatabase.getInstance().getQuestions(selectedCategory, -1)).start();
+            if (BuildConfig.DEBUG && !info.isGroupOwner) throw new AssertionError("The device that issued the connection must become the group owner!");
+
+            Toast.makeText(MultiplayerActivity.this, "Du är nu ansluten! Spelet börjar snart.", Toast.LENGTH_LONG).show();
+
+            // Set up server
+            setUpMultiplayerServer(info.groupOwnerAddress);
+
+            // Wait some short time then create the local client (to make sure the server is set up and running)
+            final int waitTime = 300;
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    setUpMultiplayerClient(info.groupOwnerAddress);
+                }
+            }, waitTime);
+
+
+        } else {
+            System.err.println("MultiplayerActivity: connection info is available but a group hasn't formed!");
         }
+    }
 
+    private void setUpMultiplayerServer(InetAddress serverAddress) {
+        List<WordQuestion> questions = MockDatabase.getInstance().getQuestions(selectedCategory, -1);
+        new GameServer(serverAddress, questions).start();
+    }
+
+    private void setUpMultiplayerClient(InetAddress serverAddress) {
         new MultiPlayerClient(serverAddress);
+
         Intent intent = new Intent(this, PlayActivity.class);
         startActivity(intent);
-
-        Toast.makeText(MultiplayerActivity.this, "Du är nu ansluten som " + ((isServerDevice) ? "client/host!" : "client!"),
-                Toast.LENGTH_LONG).show();
     }
 
 }
