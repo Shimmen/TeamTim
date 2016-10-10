@@ -3,28 +3,21 @@ package teamtim.teamtimapp.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.method.NumberKeyListener;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import teamtim.teamtimapp.R;
 import teamtim.teamtimapp.database.WordQuestion;
 import teamtim.teamtimapp.managers.OnResultCallback;
 import teamtim.teamtimapp.managers.OnResultListener;
 import teamtim.teamtimapp.managers.ResultKey;
-import teamtim.teamtimapp.managers.SinglePlayerClient;
 import teamtim.teamtimapp.presenter.PlayPresenter;
 import teamtim.teamtimapp.speechSynthesizer.ISpeechSynthesizer;
 import teamtim.teamtimapp.speechSynthesizer.SoundPlayer;
@@ -61,7 +54,7 @@ public class PlayActivity extends AppCompatActivity {
         presenter = new PlayPresenter();
 
         instance = this;
-        setResultCallback(OnResultListener.getListener());
+        setResultCallback(OnResultListener.getGlobalListener());
         resultCallback.onResult(ResultKey.READY, 0);
     }
 

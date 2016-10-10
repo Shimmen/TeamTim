@@ -72,9 +72,9 @@ public class TeamTimApp extends Application implements WifiP2pManager.Connection
 
         // Switch to the play activity
         // TODO: The first question hasn't arrived yet! Wait until the MultiPlayerClient switches view!
-        Intent intent = new Intent(TeamTimApp.this, PlayActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        //Intent intent = new Intent(TeamTimApp.this, PlayActivity.class);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //startActivity(intent);
     }
 
     public void becomeActivePeerListListener() {

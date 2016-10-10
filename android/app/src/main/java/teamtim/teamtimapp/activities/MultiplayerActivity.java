@@ -131,8 +131,8 @@ public class MultiplayerActivity extends AppCompatActivity implements WifiP2pMan
     private void setUpMultiplayerClient(InetAddress serverAddress) {
         new MultiPlayerClient(serverAddress);
 
-        Intent intent = new Intent(this, PlayActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(this, PlayActivity.class);
+        //startActivity(intent);
     }
 
 }

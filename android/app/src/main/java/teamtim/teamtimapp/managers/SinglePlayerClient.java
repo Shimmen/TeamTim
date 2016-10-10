@@ -7,6 +7,7 @@ import teamtim.teamtimapp.database.MockDatabase;
 import teamtim.teamtimapp.database.WordQuestion;
 
 public class SinglePlayerClient extends OnResultListener {
+
     private PlayActivity game;
 
     private List<WordQuestion> questions;
@@ -14,7 +15,7 @@ public class SinglePlayerClient extends OnResultListener {
     private int rightAnswers = 0;
 
     public SinglePlayerClient(String category) {
-        super.setGlobalListener(this);
+        OnResultListener.setGlobalListener(this);
         questions = MockDatabase.getInstance().getQuestions(category, -1);
     }
 
