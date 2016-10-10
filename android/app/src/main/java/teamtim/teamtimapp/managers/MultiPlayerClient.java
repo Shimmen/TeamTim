@@ -2,66 +2,94 @@ package teamtim.teamtimapp.managers;
 
 import java.net.InetAddress;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
+import teamtim.teamtimapp.NetworkUtil;
 import teamtim.teamtimapp.activities.PlayActivity;
-import teamtim.teamtimapp.database.MockDatabase;
+import teamtim.teamtimapp.database.WordQuestion;
 import teamtim.teamtimapp.network.ClientThread;
 
-public class MultiPlayerClient extends OnResultListener implements ClientThread.OnDataListener {
+public class MultiPlayerClient extends QuestionResultListener implements ClientThread.OnDataListener {
 
-    PlayActivity game;
-    ClientThread clientThread;
+    private ClientThread clientThread;
+    private PlayActivity currentPlayActivity;
 
-    public MultiPlayerClient(InetAddress ip) {
-        OnResultListener.setGlobalListener(this);
-        clientThread = new ClientThread(ip, this);
+    public MultiPlayerClient(String clientName, InetAddress serverAddress, List<WordQuestion> questions) {
+
+        // Make this the global globalListener for all question result events
+        QuestionResultListener.setGlobalListener(this);
+
+        // Start the client thread
+        clientThread = new ClientThread(clientName, serverAddress);
         clientThread.start();
-    }
 
-    private void send(Map<String, String> data){
-        clientThread.addDataToSendQueue(data);
+        Map<String, String> readyData = new HashMap<>();
+        readyData.put("METHOD", "READY");
+
+        if (questions != null) {
+            // Add questions to ready packet
+            readyData.put("QUESTIONS", NetworkUtil.encodeQuestions(questions));
+        }
+
+        System.out.println(clientThread.getName() + ": enqueueing ready packet to send queue! " + readyData);
+        clientThread.addDataToSendQueue(readyData);
     }
 
     @Override
     public void onData(Map<String, String> data) {
-        switch (data.get("METHOD")){
-            case "NEW_QUESTION":
-                updateScore(Integer.parseInt(data.get("p1Score")), Integer.parseInt(data.get("p2Score")));
-                newQuestion(Integer.parseInt(data.get("questionId")));
-                break;
-            case "END_GAME":
-                //TODO: End game in a multiplayer manner
-                game.endGame(Integer.parseInt(data.get("p1Score")), Integer.parseInt(data.get("p2Score")));
-                break;
+        String clientName = clientThread.getName();
+
+        try {
+            switch (data.get("METHOD")) {
+
+
+                case "NEW_QUESTION":
+                    WordQuestion currentQuestion = NetworkUtil.decodeQuestion(data.get("QUESTION"));
+                    System.out.println(clientName + ": received new question: " + data + ", i.e., " + currentQuestion.getWord());
+
+                    System.out.println(clientName + ": answering question...");
+                    Thread.sleep(1000);
+                    int currentQuestionResult = 10 + new Random().nextInt(10);
+
+                    System.out.println(clientName + ": sending question results (" + currentQuestionResult + ")!");
+                    Map<String, String> resultData = new HashMap<>();
+                    resultData.put("QUESTION_RESULT", String.valueOf(currentQuestionResult));
+                    clientThread.addDataToSendQueue(resultData);
+                    break;
+
+                case "GAME_RESULTS":
+                    System.out.println(clientName + ": received game results: " + data);
+                    // TODO: Use data!
+                    updateScore(0, 0);
+                    break;
+
+                default:
+                    System.err.println(clientName + ": got some unknown packet?!" + data);
+
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
-    public void onResult(ResultKey key, int value) {
-        System.out.println("MultiPlayerClient: got some result!");
+    public void onPlayActivityCreated(PlayActivity currentPlayActivity) {
+        this.currentPlayActivity = currentPlayActivity;
+    }
 
-        Map<String, String> data = new HashMap<>();
-        switch (key){
-            case READY:
-                System.out.println("Client is ready!");
-                game = PlayActivity.getInstance();
-                data.put("METHOD", "READY");
-                break;
-            case SUBMIT:
-                data.put("METHOD", "SUBMIT");
-                data.put("SCORE", ""+value);
-                break;
-        }
-        send(data);
+    @Override
+    public void onQuestionResult(int result) {
+        System.out.println("MultiPlayerClient: got some question results!");
+
+        Map<String, String> resultData = new HashMap<>();
+        resultData.put("QUESTION_RESULT", String.valueOf(result));
+        clientThread.addDataToSendQueue(resultData);
     }
 
     public void updateScore(int player1, int player2){
         //Something
-    }
-
-    private void newQuestion(int id){
-        game.newQuestion(MockDatabase.getInstance().getQuestion(id));
     }
 
 }

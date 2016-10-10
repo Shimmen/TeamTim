@@ -44,21 +44,26 @@ public class EmulatorNetworkManager implements NetworkManager {
     }
 
     @Override
-    public void connectToDevice(WifiP2pDevice device, WifiP2pManager.ConnectionInfoListener connectionInfoListener) {
-        try {
+    public void connectToDevice(WifiP2pDevice device, final WifiP2pManager.ConnectionInfoListener connectionInfoListener) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
 
-            WifiP2pInfo info = new WifiP2pInfo();
-            info.groupFormed = true;
+                    WifiP2pInfo info = new WifiP2pInfo();
+                    info.groupFormed = true;
 
-            // Just any data would work, right?
-            info.groupOwnerAddress = InetAddress.getByAddress(new byte[] {(byte)0xBA, (byte)0xDA, (byte)0xA5, (byte)0x50});
-            info.isGroupOwner = true;
+                    // Must run on non-main thread!
+                    info.groupOwnerAddress = InetAddress.getLocalHost();
+                    info.isGroupOwner = true;
 
-            connectionInfoListener.onConnectionInfoAvailable(info);
+                    connectionInfoListener.onConnectionInfoAvailable(info);
 
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     @Override

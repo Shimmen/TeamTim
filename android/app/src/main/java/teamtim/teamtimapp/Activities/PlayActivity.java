@@ -1,11 +1,12 @@
 package teamtim.teamtimapp.activities;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -13,27 +14,24 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import teamtim.teamtimapp.R;
 import teamtim.teamtimapp.database.WordQuestion;
-import teamtim.teamtimapp.managers.OnResultCallback;
-import teamtim.teamtimapp.managers.OnResultListener;
-import teamtim.teamtimapp.managers.ResultKey;
+import teamtim.teamtimapp.managers.QuestionResultListener;
 import teamtim.teamtimapp.presenter.PlayPresenter;
 import teamtim.teamtimapp.speechSynthesizer.ISpeechSynthesizer;
 import teamtim.teamtimapp.speechSynthesizer.SoundPlayer;
 
 public class PlayActivity extends AppCompatActivity {
 
-    private static PlayActivity instance = null;
-
+    private QuestionResultListener currentResultListener;
     private PlayPresenter presenter;
-
-    private OnResultCallback resultCallback;
 
     private ImageView imageView;
     private GridLayout buttonGrid;
     private LinearLayout letterInput;
     private TextView[] currentLetters;
+    private ProgressDialog initialProgressDialog;
 
     private ISpeechSynthesizer soundPlayer = new SoundPlayer();
 
@@ -51,16 +49,12 @@ public class PlayActivity extends AppCompatActivity {
         buttonGrid = (GridLayout) findViewById(R.id.buttonGrid);
         letterInput = (LinearLayout) findViewById(R.id.linearLayout);
 
+        initialProgressDialog = ProgressDialog.show(this, "Laddar", "Väntar på första frågan...", true, false, null);
+
         presenter = new PlayPresenter();
 
-        instance = this;
-        setResultCallback(OnResultListener.getGlobalListener());
-        resultCallback.onResult(ResultKey.READY, 0);
-    }
-
-    public static PlayActivity getInstance() throws NullPointerException {
-        if (instance == null) throw new NullPointerException("Game not initialized");
-        return instance;
+        currentResultListener = QuestionResultListener.getGlobalListener();
+        currentResultListener.onPlayActivityCreated(this);
     }
 
     private void setImage(int image){
@@ -77,6 +71,8 @@ public class PlayActivity extends AppCompatActivity {
         //Change this somehow, since setKeyboard is called before the presenter has been completely
         //created the app crashes. Either change some implementation or move shuffle and split
         //back into Activity
+
+        initialProgressDialog.hide();
     }
 
     public void onKeyPressed(int keyCode, KeyEvent event){
@@ -124,11 +120,9 @@ public class PlayActivity extends AppCompatActivity {
         String toCheck = buf.toString();
         System.out.println(question.getWord() + ", "+toCheck);
         soundPlayer.speak(this, question.getWord().equals(toCheck));
-        resultCallback.onResult(ResultKey.SUBMIT, question.getWord().equals(toCheck) ? 1 : 0);
-    }
 
-    public void setResultCallback(OnResultCallback resultCallback){
-        this.resultCallback = resultCallback;
+        int pointsAcquired = question.getWord().equals(toCheck) ? 1 : 0;
+        currentResultListener.onQuestionResult(pointsAcquired);
     }
 
     public void endGame(int correctAnswers, int totalAnswers){

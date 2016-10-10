@@ -1,6 +1,7 @@
 package teamtim.teamtimapp.application;
 
 import android.app.Application;
+import android.content.Intent;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pInfo;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import teamtim.teamtimapp.BuildConfig;
+import teamtim.teamtimapp.activities.PlayActivity;
 import teamtim.teamtimapp.managers.MultiPlayerClient;
 import teamtim.teamtimapp.network.DefaultNetworkManager;
 import teamtim.teamtimapp.network.NetworkManager;
@@ -48,10 +49,8 @@ public class TeamTimApp extends Application implements WifiP2pManager.Connection
     public void onConnectionInfoAvailable(final WifiP2pInfo info) {
         if (info.groupFormed) {
 
-            if (BuildConfig.DEBUG && info.isGroupOwner) throw new AssertionError("The device that DIDN'T issue the connection must NOT become the group owner!");
-
-            // Wait some time (longer than the local client waits!) then create the distant client, i.e. this client
-            final int waitTime = 600;
+            // Wait some short time then create the local client (to make sure the server is set up and running)
+            final int waitTime = 300;
             new Timer().schedule(new TimerTask() {
                 @Override
                 public void run() {
@@ -60,13 +59,13 @@ public class TeamTimApp extends Application implements WifiP2pManager.Connection
             }, waitTime);
 
         } else {
-            System.err.println("TeamTimApp: connection info is available but a group hasn't formed!");
+            System.out.println("TeamTimApp: connection info is available but a group hasn't yet formed!");
         }
     }
 
     private void createMultiplayerClient(InetAddress serverAddress) {
         // Create the multiplayer client. No need to keep a reference to it since it's stored statically
-        new MultiPlayerClient(serverAddress);
+        new MultiPlayerClient("ExternalClient", serverAddress, null);
 
         Looper.prepare();
         new Handler(getApplicationContext().getMainLooper()).post(new Runnable() {
@@ -76,11 +75,10 @@ public class TeamTimApp extends Application implements WifiP2pManager.Connection
             }
         });
 
-        // Switch to the play activity
-        // TODO: The first question hasn't arrived yet! Wait until the MultiPlayerClient switches view!
-        //Intent intent = new Intent(TeamTimApp.this, PlayActivity.class);
-        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        //startActivity(intent);
+        // Start the play activity. When it's loaded, it will reach out to the multiplayer client
+        Intent intent = new Intent(TeamTimApp.this, PlayActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     public void becomeActivePeerListListener() {

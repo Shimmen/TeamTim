@@ -1,22 +1,22 @@
 package teamtim.teamtimapp.activities;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import java.net.InetAddress;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import teamtim.teamtimapp.BuildConfig;
 import teamtim.teamtimapp.R;
 import teamtim.teamtimapp.application.TeamTimApp;
 import teamtim.teamtimapp.database.MockDatabase;
@@ -94,18 +94,17 @@ public class MultiplayerActivity extends AppCompatActivity implements WifiP2pMan
     private void tryToConnectToDevice(final WifiP2pDevice device) {
         // NOTE: The multiplayer activity will only listen for connection info IF the connection attempt succeeded!
         networkManager.connectToDevice(device, this);
+        ProgressDialog.show(this, "Ansluter", "Försöker att ansluta till enheten...", true, false, null);
     }
 
     @Override
     public void onConnectionInfoAvailable(final WifiP2pInfo info) {
         if (info.groupFormed) {
 
-            if (BuildConfig.DEBUG && !info.isGroupOwner) throw new AssertionError("The device that issued the connection must become the group owner!");
-
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(MultiplayerActivity.this, "Du är nu ansluten! Spelet börjar snart.", Toast.LENGTH_LONG).show();
+                    ProgressDialog.show(MultiplayerActivity.this, "Du är ansluten!", "Spelet börjar snart...", true, false, null);
                 }
             });
 
@@ -123,20 +122,28 @@ public class MultiplayerActivity extends AppCompatActivity implements WifiP2pMan
 
 
         } else {
-            System.err.println("MultiplayerActivity: connection info is available but a group hasn't formed!");
+            System.out.println("MultiplayerActivity: connection info is available but a group hasn't yet formed!");
         }
     }
 
     private void setUpMultiplayerServer(InetAddress serverAddress) {
-        List<WordQuestion> questions = MockDatabase.getInstance().getQuestions(selectedCategory, -1);
-        new GameServer(serverAddress, questions).start();
+        new GameServer(serverAddress).start();
     }
 
     private void setUpMultiplayerClient(InetAddress serverAddress) {
-        new MultiPlayerClient(serverAddress);
+        final MultiplayerActivity multiplayerActivity = this;
 
-        //Intent intent = new Intent(this, PlayActivity.class);
-        //startActivity(intent);
+        List<WordQuestion> questions = MockDatabase.getInstance().getQuestions(selectedCategory, -1);
+        new MultiPlayerClient("InitiatingClient", serverAddress, questions);
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // Start the play activity. When it's loaded, it will reach out to the multiplayer client
+                Intent intent = new Intent(multiplayerActivity, PlayActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 }
