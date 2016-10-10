@@ -17,6 +17,7 @@ public interface NetworkManager {
 
     void connectToDevice(WifiP2pDevice device, WifiP2pManager.ConnectionInfoListener connectionInfoListener);
     void setOnConnectedListener(WifiP2pManager.ConnectionInfoListener connectionInfoListener);
-    void cancelCurrentConnections(Then then);
+    void cancelAllAttemptingConnections(Then then);
+    void removeAllConnectedConnections(Then then);
 
 }

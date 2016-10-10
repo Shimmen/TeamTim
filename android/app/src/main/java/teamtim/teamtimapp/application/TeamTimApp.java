@@ -1,11 +1,12 @@
 package teamtim.teamtimapp.application;
 
 import android.app.Application;
-import android.content.Intent;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Toast;
 
 import java.net.InetAddress;
@@ -15,7 +16,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import teamtim.teamtimapp.BuildConfig;
-import teamtim.teamtimapp.activities.PlayActivity;
 import teamtim.teamtimapp.managers.MultiPlayerClient;
 import teamtim.teamtimapp.network.DefaultNetworkManager;
 import teamtim.teamtimapp.network.NetworkManager;
@@ -68,7 +68,13 @@ public class TeamTimApp extends Application implements WifiP2pManager.Connection
         // Create the multiplayer client. No need to keep a reference to it since it's stored statically
         new MultiPlayerClient(serverAddress);
 
-        Toast.makeText(TeamTimApp.this, "Du är nu ansluten! Spelet börjar snart.", Toast.LENGTH_LONG).show();
+        Looper.prepare();
+        new Handler(getApplicationContext().getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(TeamTimApp.this, "Du är nu ansluten! Spelet börjar snart.", Toast.LENGTH_LONG).show();
+            }
+        });
 
         // Switch to the play activity
         // TODO: The first question hasn't arrived yet! Wait until the MultiPlayerClient switches view!
@@ -99,7 +105,7 @@ public class TeamTimApp extends Application implements WifiP2pManager.Connection
         super.onTerminate();
         System.out.println("Application terminated!");
 
-        DefaultNetworkManager.shutdown();
+        DefaultNetworkManager.shutdownSystem();
     }
 
 }

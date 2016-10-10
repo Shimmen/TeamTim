@@ -31,7 +31,14 @@ public class DefaultNetworkManager extends BroadcastReceiver implements NetworkM
         return instance;
     }
 
-    public static void shutdown() {
+    public static void shutdownSystem() {
+        instance.removeAllConnectedConnections(new Then() {
+            @Override
+            public void then() {
+                instance.cancelAllAttemptingConnections(null);
+            }
+        });
+
         instance = null;
     }
 
@@ -151,7 +158,7 @@ public class DefaultNetworkManager extends BroadcastReceiver implements NetworkM
     }
 
     @Override
-    public void cancelCurrentConnections(final Then then) {
+    public void cancelAllAttemptingConnections(final Then then) {
         manager.cancelConnect(channel, new WifiP2pManager.ActionListener() {
             @Override
             public void onSuccess() {
@@ -170,6 +177,23 @@ public class DefaultNetworkManager extends BroadcastReceiver implements NetworkM
     @Override
     public void setOnConnectedListener(WifiP2pManager.ConnectionInfoListener connectionInfoListener) {
         this.currentConnectionInfoListener = connectionInfoListener;
+    }
+
+    @Override
+    public void removeAllConnectedConnections(final Then then) {
+        manager.removeGroup(channel, new WifiP2pManager.ActionListener() {
+            @Override
+            public void onSuccess() {
+                if (then != null) {
+                    then.then();
+                }
+            }
+
+            @Override
+            public void onFailure(int reason) {
+                onFailureHandler("Remove group", reason);
+            }
+        });
     }
 
     private void onFailureHandler(String context, int reason) {

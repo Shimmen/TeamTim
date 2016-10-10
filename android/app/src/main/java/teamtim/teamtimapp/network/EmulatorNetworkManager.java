@@ -67,9 +67,17 @@ public class EmulatorNetworkManager implements NetworkManager {
     }
 
     @Override
-    public void cancelCurrentConnections(Then then) {
+    public void cancelAllAttemptingConnections(Then then) {
         if (then != null) {
             then.then();
         }
     }
+
+    @Override
+    public void removeAllConnectedConnections(Then then) {
+        if (then != null) {
+            then.then();
+        }
+    }
+
 }

@@ -1,6 +1,5 @@
 package teamtim.teamtimapp.activities;
 
-import android.content.Intent;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pInfo;
@@ -53,6 +52,7 @@ public class MultiplayerActivity extends AppCompatActivity implements WifiP2pMan
         networkManager.setPeerListListener(new WifiP2pManager.PeerListListener() {
             @Override
             public void onPeersAvailable(WifiP2pDeviceList peers) {
+                userList.removeAllViews();
                 for (WifiP2pDevice device : peers.getDeviceList()) {
                     createAndAddDeviceButton(device);
                 }
@@ -64,7 +64,12 @@ public class MultiplayerActivity extends AppCompatActivity implements WifiP2pMan
     protected void onDestroy() {
         super.onDestroy();
 
-        networkManager.cancelCurrentConnections(null);
+        networkManager.removeAllConnectedConnections(new NetworkManager.Then() {
+            @Override
+            public void then() {
+                networkManager.cancelAllAttemptingConnections(null);
+            }
+        });
 
         // When this activity is destroyed, let the application handle the new peers and connections once again.
         TeamTimApp app = ((TeamTimApp) getApplication());
@@ -87,14 +92,8 @@ public class MultiplayerActivity extends AppCompatActivity implements WifiP2pMan
     }
 
     private void tryToConnectToDevice(final WifiP2pDevice device) {
-        final MultiplayerActivity multiplayerActivity = this;
-        networkManager.cancelCurrentConnections(new NetworkManager.Then() {
-            @Override
-            public void then() {
-                // NOTE: The multiplayer activity will only listen for connection info IF the connection attempt succeeded!
-                networkManager.connectToDevice(device, multiplayerActivity);
-            }
-        });
+        // NOTE: The multiplayer activity will only listen for connection info IF the connection attempt succeeded!
+        networkManager.connectToDevice(device, this);
     }
 
     @Override
@@ -103,7 +102,12 @@ public class MultiplayerActivity extends AppCompatActivity implements WifiP2pMan
 
             if (BuildConfig.DEBUG && !info.isGroupOwner) throw new AssertionError("The device that issued the connection must become the group owner!");
 
-            Toast.makeText(MultiplayerActivity.this, "Du är nu ansluten! Spelet börjar snart.", Toast.LENGTH_LONG).show();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(MultiplayerActivity.this, "Du är nu ansluten! Spelet börjar snart.", Toast.LENGTH_LONG).show();
+                }
+            });
 
             // Set up server
             setUpMultiplayerServer(info.groupOwnerAddress);
