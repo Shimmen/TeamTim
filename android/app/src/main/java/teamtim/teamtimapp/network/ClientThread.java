@@ -137,15 +137,15 @@ public class ClientThread extends Thread {
                             // Send any data in the send queue
                             while (!sendQueue.isEmpty()) {
                                 Map<String, String> data = sendQueue.poll();
+                                System.out.println(getName() + ": sending data: " + data);
                                 NetworkUtil.sendData(data, socket);
                             }
 
+                            // Set to the incoming data stage.
+                            // NOTE: This only works because the app always alternates between sending and receiving.
+                            // It will never send twice or more in a row or receive twice or more in a row.
+                            currentState = State.WAIT_FOR_INCOMING_DATA;
                         }
-
-                        // Set to the incoming data stage.
-                        // NOTE: This only works because the app always alternates between sending and receiving.
-                        // It will never send twice or more in a row or receive twice or more in a row.
-                        currentState = State.WAIT_FOR_INCOMING_DATA;
 
                     } break;
 
