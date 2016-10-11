@@ -133,7 +133,6 @@ public class PlayActivity extends AppCompatActivity {
                     }
                     return true;
                 case MotionEvent.ACTION_DOWN:
-                    Log.d("Evf", Float.toString(parent.getX()));
                     startOfGrid = Math.round(parent.getX());
                     lastMod = (int)Math.floor((e.getRawX() - startOfGrid) / v.getWidth());
                     return true;
@@ -143,7 +142,7 @@ public class PlayActivity extends AppCompatActivity {
                     v.refreshDrawableState();
                     return true;
                 default:
-                    Log.e("DragDrop Error","Unknown action type received by OnDragListener.");
+                    Log.e("DragDrop Error","Unknown action type received by TouchEventListener.");
                     break;
             }
             return false;
