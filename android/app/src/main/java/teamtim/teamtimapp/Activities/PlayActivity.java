@@ -3,6 +3,7 @@ package teamtim.teamtimapp.activities;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -14,6 +15,8 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.Timer;
 
 import teamtim.teamtimapp.R;
 import teamtim.teamtimapp.database.WordQuestion;
@@ -32,11 +35,14 @@ public class PlayActivity extends AppCompatActivity {
     private LinearLayout letterInput;
     private TextView[] currentLetters;
     private ProgressDialog initialProgressDialog;
+    private Button answerBtn;
 
     private ISpeechSynthesizer soundPlayer = new SoundPlayer();
 
     private char[] lettersInWord;
     private int currentLetterToAdd;
+
+    private Timer timer;
 
     private WordQuestion question;
 
@@ -48,6 +54,7 @@ public class PlayActivity extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.imageView);
         buttonGrid = (GridLayout) findViewById(R.id.buttonGrid);
         letterInput = (LinearLayout) findViewById(R.id.linearLayout);
+        answerBtn = (Button) findViewById(R.id.answerButton);
 
         initialProgressDialog = ProgressDialog.show(this, "Laddar", "Väntar på första frågan...", true, false, null);
 
@@ -76,12 +83,12 @@ public class PlayActivity extends AppCompatActivity {
                 //back into Activity
 
                 initialProgressDialog.hide();
+                answerBtn.setClickable(true);
+                answerBtn.setTextColor(Color.BLACK);
+
+
             }
         });
-    }
-
-    public void onKeyPressed(int keyCode, KeyEvent event){
-
     }
 
     @Override
@@ -125,6 +132,9 @@ public class PlayActivity extends AppCompatActivity {
         String toCheck = buf.toString();
         System.out.println(question.getWord() + ", "+toCheck);
         soundPlayer.speak(this, question.getWord().equals(toCheck));
+
+        answerBtn.setClickable(false);
+        answerBtn.setTextColor(Color.GRAY);
 
         int pointsAcquired = question.getWord().equals(toCheck) ? 1 : 0;
         currentResultListener.onQuestionResult(pointsAcquired);
