@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -33,10 +34,6 @@ public class PlayActivity extends AppCompatActivity {
     private Button[] tiles;
     private boolean tileSelected;
     private Button selectedTile;
-    private boolean approachToMinimum;
-    private boolean approachToMax;
-    private int lastLoc;
-    private int buttonsMoved;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +47,6 @@ public class PlayActivity extends AppCompatActivity {
         setKeyboard();
         currentQ = 1;
         tileSelected = false;
-        buttonsMoved = 0;
     }
 
     private void setImage(int image){
@@ -106,103 +102,45 @@ public class PlayActivity extends AppCompatActivity {
     }
 
     public void createButtons(int i) {
-        final int iCopy = i;
         final Button b = new Button(this);
         final Button bCopy = b;
         tiles[i] = bCopy;
         b.setText(Character.toString(lettersInWord[i]));
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if((bCopy.getText().equals(" "))){
-                    //Do nothing
-                }else if((!tileSelected && !bCopy.getText().equals(" "))){
-                    selectTile(bCopy);
-                }else{
-                    switchTilePosition(bCopy);
-                }
-            }
-        });
-        b.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                ClipData data = ClipData.newPlainText(Integer.toString(iCopy), bCopy.getText());
-                data.addItem(new ClipData.Item(bCopy.getText()));
-                View.DragShadowBuilder shadow = new View.DragShadowBuilder(view);
-                view.startDrag(data,
-                            shadow,
-                            iCopy,
-                            0
-                );
-                return true;
-            }
-        });
-        b.setOnDragListener(new DragEventListener());
+        b.setOnTouchListener(new TouchEventListener());
         buttonGrid.addView(b, 100, 110);
-    }
-
-    private void selectTile(Button tile){
-        tileSelected = true;
-
-        selectedTile = tile;
-        selectedTile.getBackground().setColorFilter(Color.parseColor("#737aff"), PorterDuff.Mode.MULTIPLY);
-        selectedTile.setTextColor(Color.WHITE);
-    }
-
-    private void switchTilePosition(Button tile){
-        CharSequence newChar = selectedTile.getText();
-        selectedTile.setText(tile.getText());
-        tile.setText(newChar);
-
-        selectedTile.getBackground().clearColorFilter();
-        selectedTile.setTextColor(Color.BLACK);
-
-        tileSelected = false;
     }
 
     public void speak(View v) {
         p.speakWord(getApplicationContext());
     }
 
-    protected class DragEventListener implements View.OnDragListener {
-        public boolean onDrag(View v, DragEvent event) {
-            int buttonIndex = (Integer) event.getLocalState();
-            final int action = event.getAction();
+    protected class TouchEventListener implements View.OnTouchListener {
+        int lastMod;
+        int startOfGrid;
+        public boolean onTouch(View v, MotionEvent e) {
+            final int action = e.getActionMasked();
+            View parent = (View) v.getParent();
             switch (action) {
-                case DragEvent.ACTION_DRAG_STARTED:
-                    return true;
-                case DragEvent.ACTION_DRAG_ENTERED:
-                    return true;
-                case DragEvent.ACTION_DRAG_LOCATION:
-                    if (event.getX() < 20) {
-                        approachToMinimum = true;
-                        approachToMax = false;
-                        if (lastLoc > 80){
-                            String copy = tiles[buttonIndex+buttonsMoved].getText().toString();
-                            tiles[buttonIndex + buttonsMoved ].setText(tiles[buttonIndex+ buttonsMoved+1].getText());
-                            tiles[buttonIndex+ buttonsMoved+1].setText(copy);
-                            buttonsMoved += 1;
+                case MotionEvent.ACTION_MOVE:
+                    if (e.getRawX() > startOfGrid && e.getRawX() < tiles.length*v.getWidth()+startOfGrid) {
+                        if ((e.getRawX() - startOfGrid) / v.getWidth() != lastMod) {
+                            int changedButton = (int) Math.floor((e.getRawX() - startOfGrid) / v.getWidth());
+                            String copy = tiles[lastMod].getText().toString();
+                            tiles[lastMod].setText(tiles[changedButton].getText());
+                            tiles[changedButton].setText(copy);
                         }
-                    }   else if (event.getX() > 80) {
-                        approachToMinimum = false;
-                        approachToMax = true;
-                        if (lastLoc < 20) {
-                            String copy = tiles[buttonIndex-1+buttonsMoved].getText().toString();
-                            tiles[buttonIndex+buttonsMoved-1].setText(tiles[buttonIndex+ buttonsMoved].getText());
-                            tiles[buttonIndex+buttonsMoved].setText(copy);
-                            buttonsMoved -= 1;
-                        }
+                        lastMod = (int) Math.floor((e.getRawX() - startOfGrid) / v.getWidth());
                     }
-                    lastLoc = Math.round(event.getX());
                     return true;
-                case DragEvent.ACTION_DRAG_EXITED:
+                case MotionEvent.ACTION_DOWN:
+                    Log.d("Evf", Float.toString(parent.getX()));
+                    startOfGrid = Math.round(parent.getX());
+                    lastMod = (int)Math.floor((e.getRawX() - startOfGrid) / v.getWidth());
                     return true;
-                case DragEvent.ACTION_DROP:
+                case MotionEvent.ACTION_BUTTON_PRESS:
                     return true;
-                case DragEvent.ACTION_DRAG_ENDED:
-                    buttonsMoved = 0;
-                    approachToMax = false;
-                    approachToMinimum = false;
+                case MotionEvent.ACTION_UP:
+                    v.refreshDrawableState();
                     return true;
                 default:
                     Log.e("DragDrop Error","Unknown action type received by OnDragListener.");
