@@ -23,6 +23,7 @@ public class MultiPlayerClient extends QuestionResultListener implements ClientT
 
         // Start the client thread
         clientThread = new ClientThread(clientName, serverAddress);
+        clientThread.setOnDataListener(this);
         clientThread.start();
 
         Map<String, String> readyData = new HashMap<>();
