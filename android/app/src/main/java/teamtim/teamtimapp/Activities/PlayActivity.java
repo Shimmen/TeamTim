@@ -61,18 +61,23 @@ public class PlayActivity extends AppCompatActivity {
         imageView.setImageResource(image);
     }
 
-    public void newQuestion(WordQuestion w){
-        question = w;
-        currentLetters = new TextView[w.getWord().length()];
-        currentLetterToAdd = 0;
-        setImage(w.getImage());
-        //Set keyboard for new question
-        setKeyboard();
-        //Change this somehow, since setKeyboard is called before the presenter has been completely
-        //created the app crashes. Either change some implementation or move shuffle and split
-        //back into Activity
+    public void newQuestion(final WordQuestion w){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                question = w;
+                currentLetters = new TextView[w.getWord().length()];
+                currentLetterToAdd = 0;
+                setImage(w.getImage());
+                //Set keyboard for new question
+                setKeyboard();
+                //Change this somehow, since setKeyboard is called before the presenter has been completely
+                //created the app crashes. Either change some implementation or move shuffle and split
+                //back into Activity
 
-        initialProgressDialog.hide();
+                initialProgressDialog.hide();
+            }
+        });
     }
 
     public void onKeyPressed(int keyCode, KeyEvent event){
