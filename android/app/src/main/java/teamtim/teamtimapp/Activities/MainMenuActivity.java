@@ -19,7 +19,6 @@ public class MainMenuActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DefaultNetworkManager.initialize(getApplicationContext());
         setContentView(R.layout.activity_main_menu);
 
         burgerButton = (ImageButton) findViewById(R.id.burgerButton);
@@ -36,13 +35,18 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     public void playGame(View v){
-        Intent intentMain = new Intent(MainMenuActivity.this, CategoryActivity.class);
-        MainMenuActivity.this.startActivity(intentMain);
+        toCategory("Single");
     }
 
     public void playTogether(View v){
-        Intent intentMain = new Intent(MainMenuActivity.this, MultiplayerActivity.class);
+        toCategory("Multi");
+    }
+
+    public void toCategory(String mode){
+        Intent intentMain = new Intent(MainMenuActivity.this, CategoryActivity.class);
+        intentMain.putExtra("MODE", mode);
         MainMenuActivity.this.startActivity(intentMain);
+
     }
 
     public void openMenu(View v){

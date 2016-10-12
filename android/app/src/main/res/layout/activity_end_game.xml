@@ -20,17 +20,6 @@
         android:textSize="24sp"
         android:onClick="playAgain" />
 
-    <Button
-        android:text="Avsluta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:id="@+id/EndGameButton"
-        android:layout_below="@+id/PlayAgainButton"
-        android:layout_centerHorizontal="true"
-        android:textSize="24sp"
-        android:onClick="goToMainMenu" />
-
     <TextView
         android:text="TextView"
         android:layout_width="wrap_content"
@@ -54,4 +43,27 @@
         android:layout_centerHorizontal="true"
         android:elegantTextHeight="false"
         android:textColor="@android:color/holo_orange_dark" />
+
+    <Button
+        android:text="Avsluta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="90dp"
+        android:id="@+id/EndGameButton"
+        android:textSize="24sp"
+        android:onClick="goToMainMenu"
+        android:layout_below="@+id/PlayAgainButton"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="visa resultat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:id="@+id/showResultButton"
+        android:layout_below="@+id/PlayAgainButton"
+        android:layout_centerHorizontal="true"
+        android:onClick="showResult"
+        android:textSize="24sp" />
+
 </RelativeLayout>

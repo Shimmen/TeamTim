@@ -3,32 +3,34 @@ package teamtim.teamtimapp.activities;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import java.util.List;
 
 import teamtim.teamtimapp.R;
+import teamtim.teamtimapp.managers.SinglePlayerClient;
 import teamtim.teamtimapp.presenter.CategoryPresenter;
-import teamtim.teamtimapp.presenter.PlayPresenter;
 
 public class CategoryActivity extends AppCompatActivity implements View.OnClickListener, SearchView.OnQueryTextListener{
 
     private CategoryPresenter presenter;
     private LinearLayout categoryLayout;
+    private String mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
+
+        mode = getIntent().getStringExtra("MODE");
+
         presenter = new CategoryPresenter();
         categoryLayout = (LinearLayout)findViewById(R.id.category_layout);
         setCategories("");
@@ -57,7 +59,7 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
             categoryLayout.removeAllViews();
         }
         for (String category : list) {
-            if (category.indexOf(query.toLowerCase()) < 0) continue;
+            if (!category.contains(query.toLowerCase())) continue;
             Button categoryButton = new Button(this);
             categoryButton.setText(category);
             categoryButton.setOnClickListener(this);
@@ -67,9 +69,20 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        Intent intentMain = new Intent(CategoryActivity.this, PlayActivity.class);
-        intentMain.putExtra("SELECTED_CATEGORY", ((Button)v).getText().toString());
-        CategoryActivity.this.startActivity(intentMain);
+        String category = ((Button) v).getText().toString();
+        if (mode.equals("Single")) {
+
+            new SinglePlayerClient(category);
+            Intent intent = new Intent(this, PlayActivity.class);
+            startActivity(intent);
+
+        } else {
+
+            Intent intent = new Intent(this, MultiplayerActivity.class);
+            intent.putExtra("CATEGORY", ((Button) v).getText().toString());
+            startActivity(intent);
+
+        }
     }
 
     @Override

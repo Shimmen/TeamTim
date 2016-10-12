@@ -9,7 +9,8 @@ import teamtim.teamtimapp.database.MockDatabase;
 import teamtim.teamtimapp.database.WordDifficulty;
 import teamtim.teamtimapp.database.WordQuestion;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * To work on unit tests, switch the Test Artifact in the Build Variants view.
@@ -22,7 +23,7 @@ public class ExampleUnitTest {
 
     @Test
     public void testDatabaseInterface() throws Exception {
-        DatabaseInterface dbase = new MockDatabase();
+        DatabaseInterface dbase = MockDatabase.getInstance();
         List<WordQuestion> questions = dbase.getQuestions("Frukt", -1);
         assertTrue(questions.size() == 5);
         questions = dbase.getQuestions("Djur", 3);
