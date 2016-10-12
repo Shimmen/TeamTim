@@ -156,6 +156,7 @@ public class PlayActivity extends AppCompatActivity {
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        timer.cancel();
                         Intent main = new Intent(PlayActivity.this, MainMenuActivity.class);
                         startActivity(main);
                     }
