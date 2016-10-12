@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -17,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Timer;
+import java.util.TimerTask;
 
 import teamtim.teamtimapp.R;
 import teamtim.teamtimapp.database.WordQuestion;
@@ -36,13 +38,18 @@ public class PlayActivity extends AppCompatActivity {
     private TextView[] currentLetters;
     private ProgressDialog initialProgressDialog;
     private Button answerBtn;
+    private TextView timerText;
 
     private ISpeechSynthesizer soundPlayer = new SoundPlayer();
 
     private char[] lettersInWord;
     private int currentLetterToAdd;
+    private int totalTime;
+    private final static int TOTALTIME = 15000;
+    private final static int TICKER = 1000;
 
-    private Timer timer;
+    private CountDownTimer timer;
+
 
     private WordQuestion question;
 
@@ -55,6 +62,7 @@ public class PlayActivity extends AppCompatActivity {
         buttonGrid = (GridLayout) findViewById(R.id.buttonGrid);
         letterInput = (LinearLayout) findViewById(R.id.linearLayout);
         answerBtn = (Button) findViewById(R.id.answerButton);
+        timerText = (TextView) findViewById(R.id.timerText);
 
         initialProgressDialog = ProgressDialog.show(this, "Laddar", "Väntar på första frågan...", true, false, null);
 
@@ -62,6 +70,8 @@ public class PlayActivity extends AppCompatActivity {
 
         currentResultListener = QuestionResultListener.getGlobalListener();
         currentResultListener.onPlayActivityCreated(this);
+
+
     }
 
     private void setImage(int image){
@@ -75,6 +85,7 @@ public class PlayActivity extends AppCompatActivity {
                 question = w;
                 currentLetters = new TextView[w.getWord().length()];
                 currentLetterToAdd = 0;
+                totalTime = 15;
                 setImage(w.getImage());
                 //Set keyboard for new question
                 setKeyboard();
@@ -85,6 +96,27 @@ public class PlayActivity extends AppCompatActivity {
                 initialProgressDialog.hide();
                 answerBtn.setClickable(true);
                 answerBtn.setTextColor(Color.BLACK);
+                timerText.setTextColor(Color.BLACK);
+
+                timer = new CountDownTimer(TOTALTIME, TICKER) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        totalTime--;
+                        timerText.setText(totalTime + "");
+                        if(totalTime <= 5) {
+                            timerText.setTextColor(Color.RED);
+                        }
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        totalTime = 15;
+                        checkAnswer(timerText);
+                        //currentResultListener.onQuestionResult(0);
+                        //this.cancel();
+                    }
+                }.start();
+
 
 
             }
@@ -125,6 +157,8 @@ public class PlayActivity extends AppCompatActivity {
     }
 
     public void checkAnswer(View v){
+        timer.cancel();
+
         StringBuffer buf = new StringBuffer();
         for (int i = 0; i < currentLetters.length ; ++i) {
             buf.append(currentLetters[i].getText());
