@@ -51,7 +51,6 @@ public class MultiPlayerClient extends QuestionResultListener implements ClientT
                 // Load next question
                 currentPlayActivity.newQuestion(currentQuestion);
                 break;
-
             case "GAME_RESULTS":
                 System.out.println(clientName + ": received game results: " + data);
                 // TODO: Use data!

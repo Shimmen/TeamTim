@@ -15,6 +15,8 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import java.util.List;
+
 
 import teamtim.teamtimapp.R;
 import teamtim.teamtimapp.database.WordQuestion;
@@ -174,13 +176,22 @@ public class PlayActivity extends AppCompatActivity {
         currentResultListener.onQuestionResult(pointsAcquired);
     }
 
-    public void endGame(int correctAnswers, int totalAnswers){
+    public void endGame(int correctAnswers, int totalAnswers, List<WordQuestion> questions){
         Intent i = new Intent(PlayActivity.this, EndGameActivity.class);
         Bundle extras = new Bundle();
+
         String answers = String.valueOf(correctAnswers);
         String total = String.valueOf(totalAnswers);
+        String[] questionArray = new String[questions.size()];
+
+        for(int j = 0; j < questions.size(); j++){
+            questionArray[j] = questions.get(j).getWord();
+        }
+
+        extras.putStringArray("QUESTIONS", questionArray);
         extras.putString("CORRECT_ANSWERS", answers);
         extras.putString("TOTAL_ANSWERS", total);
+
         i.putExtras(extras);
         startActivity(i);
     }

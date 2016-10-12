@@ -30,14 +30,12 @@ public class SinglePlayerClient extends QuestionResultListener {
     @Override
     public void onQuestionResult(int result) {
         System.out.println("SinglePlayerClient: got some result! (" + result + " points)");
-
         score += result;
-
         currentQ++;
         if (currentQ < questions.size()) {
             currentPlayActivity.newQuestion(questions.get(currentQ));
         } else {
-            currentPlayActivity.endGame(score, questions.size());
+            currentPlayActivity.endGame(score, questions.size(), questions);
         }
 
         currentPlayActivity.setPlayerOneScore(score);
