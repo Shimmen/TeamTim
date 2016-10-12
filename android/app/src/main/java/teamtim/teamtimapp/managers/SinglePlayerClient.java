@@ -42,7 +42,7 @@ public class SinglePlayerClient extends OnResultListener {
 
         currentQ++;
         if (currentQ >= questions.size()) {
-            game.endGame(rightAnswers, questions.size());
+            game.endGame(rightAnswers, questions.size(), questions);
             return;
         }
         game.newQuestion(questions.get(currentQ));

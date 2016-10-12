@@ -32,7 +32,7 @@ public class MultiPlayerClient extends OnResultListener implements ClientThread.
                 break;
             case "END_GAME":
                 //TODO: End game in a multiplayer manner
-                game.endGame(Integer.parseInt(data.get("p1Score")), Integer.parseInt(data.get("p2Score")));
+                //game.endGame(Integer.parseInt(data.get("p1Score")), Integer.parseInt(data.get("p2Score")));
                 break;
         }
     }
