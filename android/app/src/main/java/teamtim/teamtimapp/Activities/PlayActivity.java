@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
@@ -291,17 +292,22 @@ public class PlayActivity extends AppCompatActivity {
                             String copy = tiles[lastMod].getText().toString();
                             tiles[lastMod].setText(tiles[changedButton].getText());
                             tiles[changedButton].setText(copy);
+                            tiles[lastMod].getBackground().clearColorFilter();
+                            tiles[changedButton].getBackground().setColorFilter(Color.parseColor("#737aff"), PorterDuff.Mode.MULTIPLY);
                         }
                         lastMod = (int) Math.floor((e.getRawX() - startOfGrid) / v.getWidth());
                     }
                     return true;
                 case MotionEvent.ACTION_DOWN:
+                    v.performHapticFeedback(0);
                     startOfGrid = Math.round(parent.getX());
                     lastMod = (int)Math.floor((e.getRawX() - startOfGrid) / v.getWidth());
+                    tiles[lastMod].getBackground().setColorFilter(Color.parseColor("#737aff"), PorterDuff.Mode.MULTIPLY);
                     return true;
                 case MotionEvent.ACTION_BUTTON_PRESS:
                     return true;
                 case MotionEvent.ACTION_UP:
+                    tiles[lastMod].getBackground().clearColorFilter();
                     v.refreshDrawableState();
                     return true;
                 default:
