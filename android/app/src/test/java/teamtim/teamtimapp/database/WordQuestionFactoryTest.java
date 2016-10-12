@@ -12,7 +12,7 @@ public class WordQuestionFactoryTest {
 
     @Test
     public void testNeverNull() throws Exception {
-        WordQuestion question = WordQuestionFactory.create("Test", "category", WordDifficulty.EASY, -1);
+        WordQuestion question = WordQuestionFactory.create("Test", Prefix.EN, "category", WordDifficulty.EASY, -1);
         assertNotNull(question);
     }
 }
