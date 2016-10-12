@@ -23,19 +23,18 @@ public class MockDatabase implements DatabaseInterface {
         grapeFruitCategoryTest.add("Objekt med en diameter på cirka en dm");
         grapeFruitCategoryTest.add("Undercover apelsin");
         grapeFruitCategoryTest.add("Saker som har flera kategorier");
-        grapeFruitCategoryTest.add("Fotbollssubstitut");
-        grapeFruitCategoryTest.add("Frukter som inte växer på Grönland");
-        grapeFruitCategoryTest.add("Frukter som inte är bär");
-        add(WordQuestionFactory.create("Apa",        "Djur",  WordDifficulty.EASY,   R.drawable.apa));
-        add(WordQuestionFactory.create("Giraff",     "Djur",  WordDifficulty.HARD,   R.drawable.giraff));
-        add(WordQuestionFactory.create("Orm",        "Djur",  WordDifficulty.EASY,   R.drawable.orm));
-        add(WordQuestionFactory.create("Häst",       "Djur",  WordDifficulty.MEDIUM, R.drawable.horse));
-        add(WordQuestionFactory.create("Ko",         "Djur",  WordDifficulty.EASY,   R.drawable.ko));
-        add(WordQuestionFactory.create("Banan",      "Frukt", WordDifficulty.EASY,   R.drawable.banan));
-        add(WordQuestionFactory.create("Äpple",      "Frukt", WordDifficulty.MEDIUM, R.drawable.apple));
-        add(WordQuestionFactory.create("Päron",      "Frukt", WordDifficulty.MEDIUM, R.drawable.pear));
-        add(WordQuestionFactory.create("Apelsin",    "Frukt", WordDifficulty.MEDIUM, R.drawable.apelsin));
-        add(WordQuestionFactory.create("Grapefrukt", grapeFruitCategoryTest, WordDifficulty.HARD,   R.drawable.grapefrukt));
+
+        wordQuestions = new ArrayList<WordQuestion>();
+        add(WordQuestionFactory.create("Apa",        Prefix.EN, "Djur",  WordDifficulty.EASY,   R.drawable.apa));
+        add(WordQuestionFactory.create("Giraff",     Prefix.EN, "Djur",  WordDifficulty.HARD,   R.drawable.giraff));
+        add(WordQuestionFactory.create("Orm",        Prefix.EN, "Djur",  WordDifficulty.EASY,   R.drawable.orm));
+        add(WordQuestionFactory.create("Häst",       Prefix.EN, "Djur",  WordDifficulty.MEDIUM, R.drawable.horse));
+        add(WordQuestionFactory.create("Ko",         Prefix.EN, "Djur",  WordDifficulty.EASY,   R.drawable.ko));
+        add(WordQuestionFactory.create("Banan",      Prefix.EN, "Frukt", WordDifficulty.EASY,   R.drawable.banan));
+        add(WordQuestionFactory.create("Äpple",      Prefix.ETT, "Frukt", WordDifficulty.MEDIUM, R.drawable.apple));
+        add(WordQuestionFactory.create("Päron",      Prefix.ETT, "Frukt", WordDifficulty.MEDIUM, R.drawable.pear));
+        add(WordQuestionFactory.create("Apelsin",    Prefix.EN, "Frukt", WordDifficulty.MEDIUM, R.drawable.apelsin));
+        add(WordQuestionFactory.create("Grapefrukt", Prefix.EN, grapeFruitCategoryTest, WordDifficulty.HARD,   R.drawable.grapefrukt));
 
     }
 

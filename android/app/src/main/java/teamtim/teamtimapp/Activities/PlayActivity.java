@@ -1,5 +1,6 @@
 package teamtim.teamtimapp.activities;
 
+
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,6 +10,11 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+
+
+import android.util.Log;
+import android.view.MotionEvent;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -33,6 +39,8 @@ public class PlayActivity extends AppCompatActivity {
     private ImageView imageView;
     private GridLayout buttonGrid;
     private LinearLayout letterInput;
+
+    private TextView prefixLabel;
     private TextView[] currentLetters;
     private ProgressDialog initialProgressDialog;
     private Button answerBtn;
@@ -44,6 +52,7 @@ public class PlayActivity extends AppCompatActivity {
 
     private char[] lettersInWord;
     private int currentLetterToAdd;
+
     private int totalTime;
     private final static int TOTALTIME = 15000;
     private final static int TICKER = 1000;
@@ -53,11 +62,17 @@ public class PlayActivity extends AppCompatActivity {
 
     private WordQuestion question;
 
+    private Button[] tiles;
+    private boolean tileSelected;
+    private Button selectedTile;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_play);
+        prefixLabel = (TextView) findViewById(R.id.pefixLabel);
         imageView = (ImageView) findViewById(R.id.imageView);
         buttonGrid = (GridLayout) findViewById(R.id.buttonGrid);
         letterInput = (LinearLayout) findViewById(R.id.linearLayout);
@@ -74,6 +89,9 @@ public class PlayActivity extends AppCompatActivity {
         currentResultListener.onPlayActivityCreated(this);
 
 
+
+
+        tileSelected = false;
     }
 
     private void setImage(int image){
@@ -85,6 +103,9 @@ public class PlayActivity extends AppCompatActivity {
             @Override
             public void run() {
                 question = w;
+                prefixLabel.setText(w.getPrefix());
+                tiles = new Button[question.getWord().length()];
+
                 currentLetters = new TextView[w.getWord().length()];
                 currentLetterToAdd = 0;
                 totalTime = 15;
@@ -142,6 +163,7 @@ public class PlayActivity extends AppCompatActivity {
                 })
                 .setNegativeButton("Nej", null)
                 .show();
+
     }
 
     public void setKeyboard(){
@@ -153,8 +175,8 @@ public class PlayActivity extends AppCompatActivity {
         //Kanske borde göra en till metod i playPresenter som gör båda shuffle och splitstring samtidigt?
         lettersInWord = presenter.shuffle(presenter.splitString(question.getWord()));
         for (int i = 0; i < question.getWord().length(); i++) {
+
             createButtons(i);
-            createTextFields(i);
         }
     }
 
@@ -162,8 +184,8 @@ public class PlayActivity extends AppCompatActivity {
         timer.cancel();
 
         StringBuffer buf = new StringBuffer();
-        for (int i = 0; i < currentLetters.length ; ++i) {
-            buf.append(currentLetters[i].getText());
+        for (Button b : tiles) {
+            buf.append(b.getText());
         }
         String toCheck = buf.toString();
         System.out.println(question.getWord() + ", "+toCheck);
@@ -173,7 +195,7 @@ public class PlayActivity extends AppCompatActivity {
         answerBtn.setTextColor(Color.GRAY);
 
         int pointsAcquired = question.getWord().equals(toCheck) ? 1 : 0;
-        currentResultListener.onQuestionResult(pointsAcquired);
+        currentResultListener.onQuestionResult(pointsAcquired, totalTime);
     }
 
     public void endGame(int correctAnswers, int totalAnswers, List<WordQuestion> questions){
@@ -197,10 +219,14 @@ public class PlayActivity extends AppCompatActivity {
     }
 
     private void createButtons(int i) {
-        final int iCopy = i;
+
+
         Button b = new Button(this);
+
         final Button bCopy = b;
+        tiles[i] = bCopy;
         b.setText(Character.toString(lettersInWord[i]));
+        /**
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -209,7 +235,9 @@ public class PlayActivity extends AppCompatActivity {
                 currentLetterToAdd += 1;
             }
         });
-        buttonGrid.addView(b, 130, 130);
+         */
+        b.setOnTouchListener(new TouchEventListener());
+        buttonGrid.addView(b, 100, 110);
     }
 
     private void createTextFields(int i) {
@@ -220,18 +248,66 @@ public class PlayActivity extends AppCompatActivity {
         tv.setTextColor(0xFF000000);
         tv.setGravity(0x50 | 0x11);
         letterInput.addView(tv, 130, 130);
+
     }
 
     public void speak(View v){
         soundPlayer.speak(this, question);
     }
 
-    public void setPlayerOneScore(int score){
-        playerOneScore.setText(score + "p");
+
+    public void setPlayerOneScore(final int score){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                playerOneScore.setText(score + "p");
+            }
+        });
+
     }
 
-    public void setPlayerTwoScore(int score){
-        playerTwoScore.setText(score + "p");
+    public void setPlayerTwoScore(final int score){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                playerTwoScore.setText(score + "p");
+            }
+        });
     }
 
+
+    protected class TouchEventListener implements View.OnTouchListener {
+        int lastMod;
+        int startOfGrid;
+        public boolean onTouch(View v, MotionEvent e) {
+            final int action = e.getActionMasked();
+            View parent = (View) v.getParent();
+            switch (action) {
+                case MotionEvent.ACTION_MOVE:
+                    if (e.getRawX() > startOfGrid && e.getRawX() < tiles.length*v.getWidth()+startOfGrid) {
+                        if ((e.getRawX() - startOfGrid) / v.getWidth() != lastMod) {
+                            int changedButton = (int) Math.floor((e.getRawX() - startOfGrid) / v.getWidth());
+                            String copy = tiles[lastMod].getText().toString();
+                            tiles[lastMod].setText(tiles[changedButton].getText());
+                            tiles[changedButton].setText(copy);
+                        }
+                        lastMod = (int) Math.floor((e.getRawX() - startOfGrid) / v.getWidth());
+                    }
+                    return true;
+                case MotionEvent.ACTION_DOWN:
+                    startOfGrid = Math.round(parent.getX());
+                    lastMod = (int)Math.floor((e.getRawX() - startOfGrid) / v.getWidth());
+                    return true;
+                case MotionEvent.ACTION_BUTTON_PRESS:
+                    return true;
+                case MotionEvent.ACTION_UP:
+                    v.refreshDrawableState();
+                    return true;
+                default:
+                    Log.e("DragDrop Error","Unknown action type received by TouchEventListener.");
+                    break;
+            }
+            return false;
+        }
+    }
 }

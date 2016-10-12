@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import teamtim.teamtimapp.NetworkUtil;
+import teamtim.teamtimapp.network.NetworkUtil;
 
 public class ClientThread extends Thread {
 

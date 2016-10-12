@@ -28,7 +28,7 @@ public class SinglePlayerClient extends QuestionResultListener {
     }
 
     @Override
-    public void onQuestionResult(int result) {
+    public void onQuestionResult(int result, int time) {
         System.out.println("SinglePlayerClient: got some result! (" + result + " points)");
         score += result;
         currentQ++;

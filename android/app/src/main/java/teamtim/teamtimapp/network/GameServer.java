@@ -12,11 +12,15 @@ import java.util.List;
 import java.util.Map;
 
 import teamtim.teamtimapp.BuildConfig;
-import teamtim.teamtimapp.NetworkUtil;
+import teamtim.teamtimapp.network.NetworkUtil;
 import teamtim.teamtimapp.database.WordQuestion;
 
 public class GameServer extends Thread {
 
+    private class Scores {
+        public int score_p1;
+        public int score_p2;
+    }
     // Data types
 
     enum State {
@@ -124,11 +128,17 @@ public class GameServer extends Thread {
 
                         Map<String, String> c1ResultData  = NetworkUtil.waitForAndReadData(client1);
                         System.out.println("Server: got question result from client 1: " + c1ResultData);
-                        client1Score += Integer.parseInt(c1ResultData.get("QUESTION_RESULT"));
 
                         Map<String, String> c2ResultData  = NetworkUtil.waitForAndReadData(client2);
                         System.out.println("Server: got question result from client 2: " + c2ResultData);
-                        client2Score += Integer.parseInt(c2ResultData.get("QUESTION_RESULT"));
+
+                        Scores score = calculateScores(
+                                Integer.parseInt(c1ResultData.get("QUESTION_RESULT")),
+                                Integer.parseInt(c2ResultData.get("QUESTION_RESULT")),
+                                Integer.parseInt(c1ResultData.get("QUESTION_TIME")),
+                                Integer.parseInt(c2ResultData.get("QUESTION_TIME")));
+                        client1Score += score.score_p1;
+                        client2Score += score.score_p2;
 
                         // Next question or end of game
                         currentQuestionIndex += 1;
@@ -171,4 +181,15 @@ public class GameServer extends Thread {
         }
     }
 
+    private Scores calculateScores(int score_p1, int score_p2, int time_p1, int time_p2){
+        Scores score = new Scores();
+        score.score_p1 = score_p1 * 10;
+        score.score_p2 = score_p2 * 10;
+        if (time_p1 < time_p2){
+            score.score_p2 *= 0.5f;
+        } else if (time_p1 > time_p2){
+            score.score_p1 *= 0.5f;
+        }
+        return score;
+    }
 }

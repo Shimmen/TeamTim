@@ -21,6 +21,6 @@ public abstract class QuestionResultListener implements Serializable {
     }
 
     public abstract void onPlayActivityCreated(PlayActivity currentPlayActivity);
-    public abstract void onQuestionResult(int result);
+    public abstract void onQuestionResult(int result, int time);
 
 }
