@@ -1,4 +1,4 @@
-package teamtim.teamtimapp.Activities;
+package teamtim.teamtimapp.activities;
 
 import android.content.ClipData;
 import android.content.Intent;
@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import teamtim.teamtimapp.R;
 import teamtim.teamtimapp.database.WordQuestion;
-import teamtim.teamtimapp.Presenter.PlayPresenter;
+import teamtim.teamtimapp.presenter.PlayPresenter;
 
 public class PlayActivity extends AppCompatActivity {
 
