@@ -1,14 +1,11 @@
 package teamtim.teamtimapp.database;
 
-import android.graphics.Bitmap;
-import android.media.Image;
-
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class WordQuestion {
+public class WordQuestion implements Serializable {
 
     private final String word;
     private final Prefix prefix;
@@ -16,7 +13,12 @@ public class WordQuestion {
     private final WordDifficulty difficulty;
     private final int imageId;
 
+
+    private int questionId;
+
+
     public WordQuestion(String word, Prefix prefix, List<String> categories, WordDifficulty difficulty, int imageId){
+
 
         assert word != null;
         this.word = word.toLowerCase();
@@ -82,5 +84,13 @@ public class WordQuestion {
         result = 31 * result + difficulty.hashCode();
         result = 31 * result + imageId;
         return result;
+    }
+
+    public void setQuestionId(int questionId) {
+        this.questionId = questionId;
+    }
+
+    public int getQuestionId() {
+        return questionId;
     }
 }

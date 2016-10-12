@@ -3,18 +3,17 @@ package teamtim.teamtimapp.database;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 import teamtim.teamtimapp.R;
 
 public class MockDatabase implements DatabaseInterface {
 
     private static DatabaseInterface instance = null;
-    private List<WordQuestion> wordQuestions;
+    private List<WordQuestion> wordQuestions = new ArrayList<>();
     private Random randomizer = new Random();
 
-    public MockDatabase(){
-        List<String> grapeFruitCategoryTest = new ArrayList<String>();
+    private MockDatabase(){
+        List<String> grapeFruitCategoryTest = new ArrayList<>();
         grapeFruitCategoryTest.add("Frukt");
         grapeFruitCategoryTest.add("Röd frukt");
         grapeFruitCategoryTest.add("Potentiellt mordvapen");
@@ -24,18 +23,25 @@ public class MockDatabase implements DatabaseInterface {
         grapeFruitCategoryTest.add("Objekt med en diameter på cirka en dm");
         grapeFruitCategoryTest.add("Undercover apelsin");
         grapeFruitCategoryTest.add("Saker som har flera kategorier");
-        wordQuestions = new ArrayList<WordQuestion>();
-        wordQuestions.add(WordQuestionFactory.create("Apa",        Prefix.EN, "Djur",  WordDifficulty.EASY,   R.drawable.apa));
-        wordQuestions.add(WordQuestionFactory.create("Giraff",     Prefix.EN, "Djur",  WordDifficulty.HARD,   R.drawable.giraff));
-        wordQuestions.add(WordQuestionFactory.create("Orm",        Prefix.EN, "Djur",  WordDifficulty.EASY,   R.drawable.orm));
-        wordQuestions.add(WordQuestionFactory.create("Häst",       Prefix.EN, "Djur",  WordDifficulty.MEDIUM, R.drawable.horse));
-        wordQuestions.add(WordQuestionFactory.create("Ko",         Prefix.EN, "Djur",  WordDifficulty.EASY,   R.drawable.ko));
-        wordQuestions.add(WordQuestionFactory.create("Banan",      Prefix.EN, "Frukt", WordDifficulty.EASY,   R.drawable.banan));
-        wordQuestions.add(WordQuestionFactory.create("Äpple",      Prefix.ETT, "Frukt", WordDifficulty.MEDIUM, R.drawable.apple));
-        wordQuestions.add(WordQuestionFactory.create("Päron",      Prefix.ETT, "Frukt", WordDifficulty.MEDIUM, R.drawable.pear));
-        wordQuestions.add(WordQuestionFactory.create("Apelsin",    Prefix.EN, "Frukt", WordDifficulty.MEDIUM, R.drawable.apelsin));
-        wordQuestions.add(WordQuestionFactory.create("Grapefrukt", Prefix.EN, grapeFruitCategoryTest, WordDifficulty.HARD,   R.drawable.grapefrukt));
 
+        wordQuestions = new ArrayList<WordQuestion>();
+        add(WordQuestionFactory.create("Apa",        Prefix.EN, "Djur",  WordDifficulty.EASY,   R.drawable.apa));
+        add(WordQuestionFactory.create("Giraff",     Prefix.EN, "Djur",  WordDifficulty.HARD,   R.drawable.giraff));
+        add(WordQuestionFactory.create("Orm",        Prefix.EN, "Djur",  WordDifficulty.EASY,   R.drawable.orm));
+        add(WordQuestionFactory.create("Häst",       Prefix.EN, "Djur",  WordDifficulty.MEDIUM, R.drawable.horse));
+        add(WordQuestionFactory.create("Ko",         Prefix.EN, "Djur",  WordDifficulty.EASY,   R.drawable.ko));
+        add(WordQuestionFactory.create("Banan",      Prefix.EN, "Frukt", WordDifficulty.EASY,   R.drawable.banan));
+        add(WordQuestionFactory.create("Äpple",      Prefix.ETT, "Frukt", WordDifficulty.MEDIUM, R.drawable.apple));
+        add(WordQuestionFactory.create("Päron",      Prefix.ETT, "Frukt", WordDifficulty.MEDIUM, R.drawable.pear));
+        add(WordQuestionFactory.create("Apelsin",    Prefix.EN, "Frukt", WordDifficulty.MEDIUM, R.drawable.apelsin));
+        add(WordQuestionFactory.create("Grapefrukt", Prefix.EN, grapeFruitCategoryTest, WordDifficulty.HARD,   R.drawable.grapefrukt));
+
+    }
+
+    // Helper for adding questions and assigning its id
+    private void add(WordQuestion wordQuestion) {
+        wordQuestion.setQuestionId(wordQuestions.size());
+        wordQuestions.add(wordQuestion);
     }
 
     public static DatabaseInterface getInstance() {
@@ -78,6 +84,11 @@ public class MockDatabase implements DatabaseInterface {
         }
         filter(questions, maxAmount);
         return questions;
+    }
+
+    @Override
+    public WordQuestion getQuestion(int id) {
+        return wordQuestions.get(id);
     }
 
     @Override

@@ -1,0 +1,4 @@
+
+test:
+  override:
+    - ./android/gradlew test
