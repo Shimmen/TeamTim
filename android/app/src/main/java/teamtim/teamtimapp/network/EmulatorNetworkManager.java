@@ -1,15 +1,10 @@
 package teamtim.teamtimapp.network;
 
-import android.content.Context;
-import android.content.Intent;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -17,22 +12,12 @@ import java.util.ArrayList;
 public class EmulatorNetworkManager implements NetworkManager {
 
     @Override
-    public void enableReceiving() {
-        // Do nothing
+    public void beginDiscoveringPeers() {
+
     }
 
     @Override
-    public void disableReceiving() {
-        // Do nothing
-    }
-
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        // Do nothing for now
-    }
-
-    @Override
-    public void beginDiscoveringPeers(WifiP2pManager.PeerListListener peerListListener) {
+    public void setPeerListListener(WifiP2pManager.PeerListListener peerListListener) {
         try {
 
             // Create fake device list
@@ -58,33 +43,46 @@ public class EmulatorNetworkManager implements NetworkManager {
         return device;
     }
 
-
     @Override
-    public void stopDiscoveringPeers() {
-        // Do nothing
-    }
+    public void connectToDevice(WifiP2pDevice device, final WifiP2pManager.ConnectionInfoListener connectionInfoListener) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
 
-    @Override
-    public void connectToDevice(WifiP2pDevice device, WifiP2pManager.ConnectionInfoListener connectionInfoListener) {
-        try {
+                    WifiP2pInfo info = new WifiP2pInfo();
+                    info.groupFormed = true;
 
-            WifiP2pInfo info = new WifiP2pInfo();
-            info.groupFormed = true;
+                    // Must run on non-main thread!
+                    info.groupOwnerAddress = InetAddress.getLocalHost();
+                    info.isGroupOwner = true;
 
-            // Just any data would work, right?
-            info.groupOwnerAddress = InetAddress.getByAddress(new byte[] {(byte)0xBA, (byte)0xDA, (byte)0xA5, (byte)0x50});
-            info.isGroupOwner = true;
+                    connectionInfoListener.onConnectionInfoAvailable(info);
 
-            connectionInfoListener.onConnectionInfoAvailable(info);
-
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     @Override
     public void setOnConnectedListener(WifiP2pManager.ConnectionInfoListener connectionInfoListener) {
         // Do nothing
+    }
+
+    @Override
+    public void cancelAllAttemptingConnections(Then then) {
+        if (then != null) {
+            then.then();
+        }
+    }
+
+    @Override
+    public void removeAllConnectedConnections(Then then) {
+        if (then != null) {
+            then.then();
+        }
     }
 
 }

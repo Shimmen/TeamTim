@@ -1,16 +1,14 @@
 package teamtim.teamtimapp.network;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.nio.charset.Charset;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import teamtim.teamtimapp.BuildConfig;
+import teamtim.teamtimapp.NetworkUtil;
 
 public class ClientThread extends Thread {
 
@@ -19,6 +17,9 @@ public class ClientThread extends Thread {
     public interface OnDataListener {
         /**
          * Callback/listener for data from the server.
+         *
+         * This will be called from another thread so use a Handler (https://developer.android.com/reference/android/os/Handler.html)
+         * if you need to interact with the main thread, i.e. UI related stuff.
          *
          * @param data the incoming data as key-value pairs
          */
@@ -41,12 +42,16 @@ public class ClientThread extends Thread {
     private OnDataListener onDataListener;
     private Queue<Map<String, String>> sendQueue = new ConcurrentLinkedQueue<>();
 
-    public ClientThread(InetAddress serverAddress, OnDataListener onDataListener) {
+    public ClientThread(String name, InetAddress serverAddress) {
+        super(name);
         this.serverAddress= serverAddress;
-        this.onDataListener = onDataListener;
 
         // The first thing a client does is send the 'connection packet'
         currentState = State.WAIT_FOR_AND_SEND_OUTGOING_DATA;
+    }
+
+    public void setOnDataListener(OnDataListener onDataListener) {
+        this.onDataListener = onDataListener;
     }
 
     /**
@@ -88,14 +93,18 @@ public class ClientThread extends Thread {
     public void run() {
         try {
 
-            Socket socket = new Socket(serverAddress, GameServer.PORT);
+            System.out.println(getName() + ": starting up! Waiting for 500ms to make sure server is running.");
+            Thread.sleep(500);
 
-            // Buffer for incoming data (note: never receive more than 1024*10 bytes of data at once!)
-            byte[] buffer = new byte[1024 * 10];
+            Socket socket = new Socket();
+            socket.setReuseAddress(true);
+            socket.connect(new InetSocketAddress(serverAddress, GameServer.PORT));
 
             if (!socket.isConnected()) {
-                System.out.println("Client (this device) could not connect to the server! Closing down client.");
+                System.out.println(getName() + ": could not connect to the server! Closing down client.");
                 return;
+            } else {
+                System.out.println(getName() + ": is now connected to server!");
             }
 
             while (!socketShouldClose()) {
@@ -103,15 +112,7 @@ public class ClientThread extends Thread {
 
                     case WAIT_FOR_INCOMING_DATA: {
 
-                        // The buffer is 'big enough'. Assume all is read in one go. (Will block.)
-                        int bytesRead = socket.getInputStream().read(buffer, 0, buffer.length);
-
-                        // We've read a packet that is bigger than out buffer. This should be considered an error!
-                        if (BuildConfig.DEBUG && bytesRead >= buffer.length) throw new AssertionError();
-
-                        // Convert raw data to a nice map
-                        Map<String, String> data = NetworkSerialization.fromRawData(buffer, bytesRead);
-
+                        Map<String, String> data = NetworkUtil.waitForAndReadData(socket);
                         onDataListener.onData(data);
 
                         // Set to the outgoing data stage.
@@ -133,22 +134,18 @@ public class ClientThread extends Thread {
                             //socketLock.wait();
                         } else {
 
-                            OutputStream socketOut = socket.getOutputStream();
-
-                            for (Map<String, String> data : sendQueue) {
-                                // Convert data to byte array and write unbuffered
-                                byte[] rawData = NetworkSerialization.asByteArray(data);
-                                socketOut.write(rawData);
+                            // Send any data in the send queue
+                            while (!sendQueue.isEmpty()) {
+                                Map<String, String> data = sendQueue.poll();
+                                System.out.println(getName() + ": sending data: " + data);
+                                NetworkUtil.sendData(data, socket);
                             }
 
-                            // Flush the stream to make sure everything is sent
-                            socketOut.flush();
+                            // Set to the incoming data stage.
+                            // NOTE: This only works because the app always alternates between sending and receiving.
+                            // It will never send twice or more in a row or receive twice or more in a row.
+                            currentState = State.WAIT_FOR_INCOMING_DATA;
                         }
-
-                        // Set to the incoming data stage.
-                        // NOTE: This only works because the app always alternates between sending and receiving.
-                        // It will never send twice or more in a row or receive twice or more in a row.
-                        currentState = State.WAIT_FOR_INCOMING_DATA;
 
                     } break;
 

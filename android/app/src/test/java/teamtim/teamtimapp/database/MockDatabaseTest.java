@@ -4,13 +4,15 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class MockDatabaseTest {
 
     @Test
     public void testGetQuestionsNeverNull() throws Exception {
-        DatabaseInterface db = new MockDatabase();
+        DatabaseInterface db = MockDatabase.getInstance();
 
         String category = "Nonexisting category name. If nothing is found, it should return an empty list!";
 
@@ -22,7 +24,7 @@ public class MockDatabaseTest {
 
     @Test
     public void testGetQuestionsCorrectCategory() throws Exception {
-        DatabaseInterface db = new MockDatabase();
+        DatabaseInterface db = MockDatabase.getInstance();
 
         String category = "frukt";
 
@@ -36,7 +38,7 @@ public class MockDatabaseTest {
 
     @Test
     public void testGetQuestionsCorrectDifficulty() throws Exception {
-        DatabaseInterface db = new MockDatabase();
+        DatabaseInterface db = MockDatabase.getInstance();
 
         WordDifficulty difficulty = WordDifficulty.EASY;
 
@@ -50,7 +52,7 @@ public class MockDatabaseTest {
 
     @Test
     public void testGetQuestionsCorrectCategoryAndDifficulty() throws Exception {
-        DatabaseInterface db = new MockDatabase();
+        DatabaseInterface db = MockDatabase.getInstance();
 
         String category = "frukt";
         WordDifficulty difficulty = WordDifficulty.EASY;
@@ -66,7 +68,7 @@ public class MockDatabaseTest {
 
     @Test
     public void testGetQuestionsCorrectMaxAmount() throws Exception {
-        DatabaseInterface db = new MockDatabase();
+        DatabaseInterface db = MockDatabase.getInstance();
 
         int maxAmount = 2;
         List<WordQuestion> questions = db.getQuestions("Djur", maxAmount);
@@ -81,7 +83,7 @@ public class MockDatabaseTest {
 
     @Test
     public void testGetQuestionsCaseInsensitiveCategory() throws Exception {
-        DatabaseInterface db = new MockDatabase();
+        DatabaseInterface db = MockDatabase.getInstance();
 
         String category1 = "Frukt";
         String category2 = "fRuKt";
