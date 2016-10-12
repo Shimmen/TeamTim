@@ -24,6 +24,7 @@ public class SinglePlayerClient extends QuestionResultListener {
     public void onPlayActivityCreated(PlayActivity currentPlayActivity) {
         this.currentPlayActivity = currentPlayActivity;
         currentPlayActivity.newQuestion(questions.get(currentQ));
+        currentPlayActivity.setPlayerOneScore(score);
     }
 
     @Override
@@ -38,6 +39,8 @@ public class SinglePlayerClient extends QuestionResultListener {
         } else {
             currentPlayActivity.endGame(score, questions.size());
         }
+
+        currentPlayActivity.setPlayerOneScore(score);
 
     }
 }

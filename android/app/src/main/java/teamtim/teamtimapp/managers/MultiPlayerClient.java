@@ -55,7 +55,7 @@ public class MultiPlayerClient extends QuestionResultListener implements ClientT
             case "GAME_RESULTS":
                 System.out.println(clientName + ": received game results: " + data);
                 // TODO: Use data!
-                updateScore(0, 0);
+                updateScore(Integer.parseInt(data.get("C1SCORE")), Integer.parseInt(data.get("C2SCORE")));
                 break;
 
             default:
@@ -67,6 +67,8 @@ public class MultiPlayerClient extends QuestionResultListener implements ClientT
     @Override
     public void onPlayActivityCreated(PlayActivity currentPlayActivity) {
         this.currentPlayActivity = currentPlayActivity;
+        currentPlayActivity.setPlayerOneScore(0);
+        currentPlayActivity.setPlayerTwoScore(0);
     }
 
     @Override
@@ -80,7 +82,8 @@ public class MultiPlayerClient extends QuestionResultListener implements ClientT
     }
 
     public void updateScore(int player1, int player2){
-        // TODO: Implement!
+        currentPlayActivity.setPlayerOneScore(player1);
+        currentPlayActivity.setPlayerTwoScore(player2);
     }
 
 }
