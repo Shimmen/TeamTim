@@ -1,20 +1,28 @@
 package teamtim.teamtimapp.activities;
 
+import android.annotation.TargetApi;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import java.util.List;
 
 import teamtim.teamtimapp.R;
+import teamtim.teamtimapp.database.CategoryWrapper;
 import teamtim.teamtimapp.managers.SinglePlayerClient;
 import teamtim.teamtimapp.presenter.CategoryPresenter;
 
@@ -54,22 +62,33 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void setCategories(String query){
-        List<String> list = presenter.getCategories();
+        List<CategoryWrapper> list = presenter.getCategories();
         if(categoryLayout != null) {
             categoryLayout.removeAllViews();
         }
-        for (String category : list) {
-            if (!category.contains(query.toLowerCase())) continue;
-            Button categoryButton = new Button(this);
-            categoryButton.setText(category);
-            categoryButton.setOnClickListener(this);
-            categoryLayout.addView(categoryButton);
+        for (CategoryWrapper category : list) {
+            if (!category.getCategory().contains(query.toLowerCase())) continue;
+            LinearLayout wrapper = new LinearLayout(this);
+            wrapper.setBackgroundColor(Color.GREEN);
+            wrapper.setOrientation(LinearLayout.HORIZONTAL);
+
+            ImageView iv = new ImageView(this);
+            iv.setLayoutParams(new LinearLayout.LayoutParams(300, 300));
+            TextView tv = new TextView(this);
+            tv.setTextSize(18f);
+            //Button categoryButton = new Button(this);
+            tv.setText(category.getCategory());
+            iv.setImageResource(category.getImage());
+            wrapper.addView(iv);
+            wrapper.addView(tv);
+            wrapper.setOnClickListener(this);
+            categoryLayout.addView(wrapper);
         }
     }
 
     @Override
     public void onClick(View v) {
-        String category = ((Button) v).getText().toString();
+        String category = ((TextView)((LinearLayout) v).getChildAt(1)).getText().toString(); //err...
         if (mode.equals("Single")) {
 
             new SinglePlayerClient(category);

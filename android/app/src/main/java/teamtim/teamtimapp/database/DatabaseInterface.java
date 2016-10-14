@@ -9,5 +9,5 @@ public interface DatabaseInterface {
     public List<WordQuestion> getQuestions(WordDifficulty difficulty, String category, int maxAmount);
     public WordQuestion getQuestion(int id);
 
-    public List<String> getCategories();
+    public List<CategoryWrapper> getCategories();
 }

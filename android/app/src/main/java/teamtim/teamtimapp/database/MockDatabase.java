@@ -12,6 +12,7 @@ public class MockDatabase implements DatabaseInterface {
     private List<WordQuestion> wordQuestions = new ArrayList<>();
     private Random randomizer = new Random();
 
+
     private MockDatabase(){
         List<String> grapeFruitCategoryTest = new ArrayList<>();
         grapeFruitCategoryTest.add("Frukt");
@@ -35,7 +36,6 @@ public class MockDatabase implements DatabaseInterface {
         add(WordQuestionFactory.create("Päron",      Prefix.ETT, "Frukt", WordDifficulty.MEDIUM, R.drawable.pear));
         add(WordQuestionFactory.create("Apelsin",    Prefix.EN, "Frukt", WordDifficulty.MEDIUM, R.drawable.apelsin));
         add(WordQuestionFactory.create("Grapefrukt", Prefix.EN, grapeFruitCategoryTest, WordDifficulty.HARD,   R.drawable.grapefrukt));
-
     }
 
     // Helper for adding questions and assigning its id
@@ -92,12 +92,19 @@ public class MockDatabase implements DatabaseInterface {
     }
 
     @Override
-    public List<String> getCategories() {
-        List<String> categories = new ArrayList<>();
+    public List<CategoryWrapper> getCategories() {
+        List<CategoryWrapper> categories = new ArrayList<>();
+        //TODO Optimize this, its really slow
         for (WordQuestion question : wordQuestions) {
             for (String category : question.getCategories()) {
-                if (!categories.contains(category))
-                    categories.add(category);
+                boolean alreadyAppended = false;
+                for (CategoryWrapper cw : categories) {
+                    if (cw.getCategory().equals(category))
+                        alreadyAppended = true;
+                }
+                if (!alreadyAppended)
+                    //TODO write/read success ratio
+                    categories.add(new CategoryWrapper(category, question.getImage(), 100f));
             }
         }
         return categories;
