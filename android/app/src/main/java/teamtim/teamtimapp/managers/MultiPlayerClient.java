@@ -60,6 +60,10 @@ public class MultiPlayerClient extends QuestionResultListener implements ClientT
                 System.out.println(clientName + ": received game results: " + data);
                 updateScore(Integer.parseInt(data.get("C1SCORE")), Integer.parseInt(data.get("C2SCORE")));
                 break;
+            case "END_GAME":
+                System.out.println("Shutting Down");
+                updateScore(Integer.parseInt(data.get("C1SCORE")), Integer.parseInt(data.get("C2SCORE")));
+                currentPlayActivity.endMultiGame(gameData);
 
             default:
                 System.err.println(clientName + ": got some unknown packet?!" + data);

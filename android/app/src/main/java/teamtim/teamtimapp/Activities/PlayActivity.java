@@ -223,8 +223,15 @@ public class PlayActivity extends AppCompatActivity {
     }
      */
 
-    public void endGame(GameData data){
+    public void endSingleGame(GameData data){
         Intent i = new Intent(PlayActivity.this, EndGameActivity.class);
+
+        i.putExtra("DATA", data);
+        startActivity(i);
+    }
+
+    public void endMultiGame(GameData data){
+        Intent i = new Intent(PlayActivity.this, EndMultiplayerActivity.class);
 
         i.putExtra("DATA", data);
         startActivity(i);
