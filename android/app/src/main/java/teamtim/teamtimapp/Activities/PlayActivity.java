@@ -197,7 +197,7 @@ public class PlayActivity extends AppCompatActivity {
         answerBtn.setTextColor(Color.GRAY);
 
         int pointsAcquired = question.getWord().equals(toCheck) ? 1 : 0;
-        currentResultListener.onQuestionResult(pointsAcquired, totalTime);
+        currentResultListener.onQuestionResult(pointsAcquired, totalTime, toCheck);
     }
 
     public void endGame(int correctAnswers, int totalAnswers, List<WordQuestion> questions){
