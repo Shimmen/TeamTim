@@ -14,11 +14,14 @@ public class MultiPlayerClient extends QuestionResultListener implements ClientT
 
     private ClientThread clientThread;
     private PlayActivity currentPlayActivity;
+    private GameData gameData;
 
     public MultiPlayerClient(String clientName, InetAddress serverAddress, List<WordQuestion> questions) {
 
         // Make this the global globalListener for all question result events
         QuestionResultListener.setGlobalListener(this);
+
+        gameData = new GameData();
 
         // Start the client thread
         clientThread = new ClientThread(clientName, serverAddress);
@@ -48,6 +51,8 @@ public class MultiPlayerClient extends QuestionResultListener implements ClientT
                 WordQuestion currentQuestion = NetworkUtil.decodeQuestion(data.get("QUESTION"));
                 System.out.println(clientName + ": received new question: " + data + ", i.e., " + currentQuestion.getWord());
                 updateScore(Integer.parseInt(data.get("C1SCORE")), Integer.parseInt(data.get("C2SCORE")));
+                //Add question to gameData
+                gameData.addQuestion(currentQuestion);
                 // Load next question
                 currentPlayActivity.newQuestion(currentQuestion);
                 break;
@@ -55,6 +60,10 @@ public class MultiPlayerClient extends QuestionResultListener implements ClientT
                 System.out.println(clientName + ": received game results: " + data);
                 updateScore(Integer.parseInt(data.get("C1SCORE")), Integer.parseInt(data.get("C2SCORE")));
                 break;
+            case "END_GAME":
+                System.out.println("Shutting Down");
+                updateScore(Integer.parseInt(data.get("C1SCORE")), Integer.parseInt(data.get("C2SCORE")));
+                currentPlayActivity.endMultiGame(gameData);
 
             default:
                 System.err.println(clientName + ": got some unknown packet?!" + data);
@@ -70,8 +79,10 @@ public class MultiPlayerClient extends QuestionResultListener implements ClientT
     }
 
     @Override
-    public void onQuestionResult(int result, int time) {
+    public void onQuestionResult(int result, int time, String answer) {
         System.out.println("MultiPlayerClient: got some question results!");
+
+        gameData.addAnswer(answer);
 
         System.out.println(clientThread.getName() + ": sending question results (" + result + ")!");
         Map<String, String> resultData = new HashMap<>();
@@ -82,7 +93,10 @@ public class MultiPlayerClient extends QuestionResultListener implements ClientT
 
     public void updateScore(int player1, int player2){
         currentPlayActivity.setPlayerOneScore(player1);
+        gameData.setP1Score(player1);
+
         currentPlayActivity.setPlayerTwoScore(player2);
+        gameData.setP2Score(player2);
     }
 
 }

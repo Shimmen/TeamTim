@@ -7,28 +7,33 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
 import teamtim.teamtimapp.R;
+import teamtim.teamtimapp.database.WordQuestion;
+import teamtim.teamtimapp.managers.GameData;
 
 public class SingleplayerResultActivity extends AppCompatActivity {
 
-    private String[] questions;
+    private List<WordQuestion> questions;
     private LinearLayout list;
+    private GameData gameData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
-        Bundle extras = getIntent().getExtras();
-        questions = extras.getStringArray("QUESTIONS");
+        gameData = (GameData) getIntent().getSerializableExtra("DATA");
+        questions = gameData.getQuestions();
         list = (LinearLayout) findViewById(R.id.resultList);
         showResult(questions);
     }
 
-    private void showResult(String[] questions) {
-        for (int i = 0; i < questions.length; i++) {
+    private void showResult(List<WordQuestion> questions) {
+        for (int i = 0; i < questions.size(); i++) {
             LinearLayout horizontal = new LinearLayout(this);
             horizontal.setOrientation(LinearLayout.HORIZONTAL);
-            createText(questions[i], horizontal);
+            createText(questions.get(i).getWord(), horizontal);
             list.addView(horizontal);
         }
     }
