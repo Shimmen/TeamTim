@@ -1,10 +1,11 @@
 package teamtim.teamtimapp.managers;
 
+import java.io.Serializable;
 import java.util.List;
 
 import teamtim.teamtimapp.database.WordQuestion;
 
-public class GameData {
+public class GameData implements Serializable{
 
     private List<WordQuestion> questions;
     private List<String> answers;

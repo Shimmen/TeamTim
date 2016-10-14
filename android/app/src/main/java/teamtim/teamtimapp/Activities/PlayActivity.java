@@ -27,6 +27,7 @@ import java.util.List;
 
 import teamtim.teamtimapp.R;
 import teamtim.teamtimapp.database.WordQuestion;
+import teamtim.teamtimapp.managers.GameData;
 import teamtim.teamtimapp.managers.QuestionResultListener;
 import teamtim.teamtimapp.presenter.PlayPresenter;
 import teamtim.teamtimapp.speechSynthesizer.ISpeechSynthesizer;
@@ -200,6 +201,7 @@ public class PlayActivity extends AppCompatActivity {
         currentResultListener.onQuestionResult(pointsAcquired, totalTime, toCheck);
     }
 
+    /** TODO: remove this if other endGame works
     public void endGame(int correctAnswers, int totalAnswers, List<WordQuestion> questions){
         Intent i = new Intent(PlayActivity.this, EndGameActivity.class);
         Bundle extras = new Bundle();
@@ -217,6 +219,14 @@ public class PlayActivity extends AppCompatActivity {
         extras.putString("TOTAL_ANSWERS", total);
 
         i.putExtras(extras);
+        startActivity(i);
+    }
+     */
+
+    public void endGame(GameData data){
+        Intent i = new Intent(PlayActivity.this, EndGameActivity.class);
+
+        i.putExtra("DATA", data);
         startActivity(i);
     }
 

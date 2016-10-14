@@ -41,7 +41,7 @@ public class SinglePlayerClient extends QuestionResultListener {
             currentPlayActivity.newQuestion(questions.get(currentQ));
         } else {
             gameData.setP1Score(score);
-            currentPlayActivity.endGame(score, questions.size(), questions);
+            currentPlayActivity.endGame(gameData);
         }
 
         currentPlayActivity.setPlayerOneScore(score);
