@@ -50,7 +50,7 @@
         <activity
             android:name=".activities.EndGameActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activities.ResultActivity"></activity>
+        <activity android:name=".activities.SingleplayerResultActivity"></activity>
     </application>
 
 </manifest>

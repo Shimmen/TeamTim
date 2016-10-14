@@ -40,7 +40,7 @@ public class EndGameActivity extends AppCompatActivity {
     }
 
     public void showResult(View v){
-        Intent i = new Intent(this, ResultActivity.class);
+        Intent i = new Intent(this, SingleplayerResultActivity.class);
         Bundle extras = new Bundle();
         extras.putStringArray("QUESTIONS", questions);
         i.putExtras(extras);
