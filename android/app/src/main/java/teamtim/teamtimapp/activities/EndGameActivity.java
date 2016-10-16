@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import teamtim.teamtimapp.R;
+import teamtim.teamtimapp.database.MockDatabase;
 
 public class EndGameActivity extends AppCompatActivity {
 

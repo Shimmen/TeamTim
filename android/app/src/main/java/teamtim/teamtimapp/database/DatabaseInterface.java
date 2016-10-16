@@ -10,4 +10,5 @@ public interface DatabaseInterface {
     public WordQuestion getQuestion(int id);
 
     public List<CategoryWrapper> getCategories();
+    public void updateCategorySuccessRatio(String category, int points, int total_points);
 }

@@ -69,7 +69,8 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
         for (CategoryWrapper category : list) {
             if (!category.getCategory().contains(query.toLowerCase())) continue;
             LinearLayout wrapper = new LinearLayout(this);
-            wrapper.setBackgroundColor(Color.GREEN);
+            //TODO: more colors maybe
+            wrapper.setBackgroundColor(category.getRatio() < .5f ? Color.RED : Color.GREEN);
             wrapper.setOrientation(LinearLayout.HORIZONTAL);
 
             ImageView iv = new ImageView(this);

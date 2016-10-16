@@ -1,5 +1,8 @@
 package teamtim.teamtimapp.database;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -9,9 +12,9 @@ import teamtim.teamtimapp.R;
 public class MockDatabase implements DatabaseInterface {
 
     private static DatabaseInterface instance = null;
+    private static SharedPreferences preferences;
     private List<WordQuestion> wordQuestions = new ArrayList<>();
     private Random randomizer = new Random();
-
 
     private MockDatabase(){
         List<String> grapeFruitCategoryTest = new ArrayList<>();
@@ -44,9 +47,15 @@ public class MockDatabase implements DatabaseInterface {
         wordQuestions.add(wordQuestion);
     }
 
-    public static DatabaseInterface getInstance() {
+    public static void initialize(Context context) throws Exception{
+        if (instance != null) throw new Exception("Database already initialized!");
+        instance = new MockDatabase();
+        preferences = context.getSharedPreferences("CategoryData", Context.MODE_PRIVATE);
+    }
+
+    public static DatabaseInterface getInstance() throws NullPointerException {
         if (instance == null){
-            instance = new MockDatabase();
+            throw new NullPointerException("Database not initialized!");
         }
         return instance;
     }
@@ -102,12 +111,23 @@ public class MockDatabase implements DatabaseInterface {
                     if (cw.getCategory().equals(category))
                         alreadyAppended = true;
                 }
-                if (!alreadyAppended)
-                    //TODO write/read success ratio
-                    categories.add(new CategoryWrapper(category, question.getImage(), 100f));
+                if (!alreadyAppended) {
+                    float ratio = preferences.getFloat(category, 0f);
+                    categories.add(new CategoryWrapper(category, question.getImage(), ratio));
+                }
             }
         }
         return categories;
+    }
+
+    public void updateCategorySuccessRatio(String category, int points, int total_points){
+        float ratio = preferences.getFloat(category, 0f);
+        ratio += points/total_points;
+        ratio/=2;
+        //NOT TESTED
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putFloat(category, ratio);
+        editor.commit();
     }
 
     /**
