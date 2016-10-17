@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import teamtim.teamtimapp.application.TeamTimApp;
 import teamtim.teamtimapp.network.NetworkUtil;
 import teamtim.teamtimapp.activities.PlayActivity;
 import teamtim.teamtimapp.database.WordQuestion;
@@ -59,11 +60,10 @@ public class MultiPlayerClient extends QuestionResultListener implements ClientT
             case "GAME_RESULTS":
                 System.out.println(clientName + ": received game results: " + data);
                 updateScore(Integer.parseInt(data.get("C1SCORE")), Integer.parseInt(data.get("C2SCORE")));
-                break;
-            case "END_GAME":
-                System.out.println("Shutting Down");
-                updateScore(Integer.parseInt(data.get("C1SCORE")), Integer.parseInt(data.get("C2SCORE")));
+                clientThread.closeSocket();
+                ((TeamTimApp)currentPlayActivity.getApplication()).becomeActiveOnConnectedListener();
                 currentPlayActivity.endMultiGame(gameData);
+                break;
 
             default:
                 System.err.println(clientName + ": got some unknown packet?!" + data);

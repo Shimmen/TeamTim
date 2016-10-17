@@ -15,6 +15,7 @@ public class GameData implements Serializable{
 
     public GameData(){
         answers = new ArrayList<String>();
+        questions = new ArrayList<WordQuestion>();
     }
 
     public void setQuestions(List<WordQuestion> w){

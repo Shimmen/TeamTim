@@ -1,8 +1,10 @@
 package teamtim.teamtimapp.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import teamtim.teamtimapp.R;
@@ -23,10 +25,11 @@ public class EndMultiplayerActivity extends AppCompatActivity {
         gameData = (GameData)getIntent().getSerializableExtra("DATA");
 
         winnerText = (TextView) findViewById(R.id.winnerText);
-        yourScore = (TextView) findViewById(R.id.your_score);
-        theirScore = (TextView) findViewById(R.id.their_score);
+        //yourScore = (TextView) findViewById(R.id.your_score);
+        //theirScore = (TextView) findViewById(R.id.their_score);
 
         setWinner();
+        setSore();
     }
 
     private void setWinner(){
@@ -43,8 +46,23 @@ public class EndMultiplayerActivity extends AppCompatActivity {
     }
 
     private void setSore(){
-
+        //yourScore.setText(gameData.getP1Score());
+        //theirScore.setText(gameData.getP2Score());
     }
 
+    public void playAgain(View v) {
+        Intent i = new Intent(this, CategoryActivity.class);
+        startActivity(i);
+    }
 
+    public void showResult(View v) {
+        Intent i = new Intent(this, SingleplayerResultActivity.class);
+        i.putExtra("DATA", gameData);
+        startActivity(i);
+    }
+
+    public void endGame(View v) {
+        Intent i = new Intent(this, MainMenuActivity.class);
+        startActivity(i);
+    }
 }
