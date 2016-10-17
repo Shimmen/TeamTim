@@ -29,6 +29,7 @@ public class MockDatabase implements DatabaseInterface {
         add(WordQuestionFactory.create("Päron",      Prefix.ETT, "Frukt", WordDifficulty.MEDIUM, R.drawable.pear));
         add(WordQuestionFactory.create("Apelsin",    Prefix.EN, "Frukt", WordDifficulty.MEDIUM, R.drawable.apelsin));
         add(WordQuestionFactory.create("Grapefrukt", Prefix.EN, "Frukt", WordDifficulty.HARD,   R.drawable.grapefrukt));
+        add(WordQuestionFactory.create("TEST", Prefix.ETT, "TEST2", WordDifficulty.EASY,   R.drawable.grapefrukt));
     }
 
     // Helper for adding questions and assigning its id
@@ -104,7 +105,7 @@ public class MockDatabase implements DatabaseInterface {
                         alreadyAppended = true;
                 }
                 if (!alreadyAppended) {
-                    float ratio = preferences.getFloat(category, 0f);
+                    float ratio = preferences.getFloat(category, 0.5f);
                     categories.add(new CategoryWrapper(category, question.getImage(), ratio));
                     System.out.println(category.toLowerCase() + ", Ratio: " + ratio);
                 }
@@ -116,7 +117,7 @@ public class MockDatabase implements DatabaseInterface {
     }
 
     public void updateCategorySuccessRatio(String category, int points, int total_points){
-        float ratio = preferences.getFloat(category.toLowerCase(), 0f);
+        float ratio = preferences.getFloat(category.toLowerCase(), 0.5f);
         ratio += (float)((float)points/(float)total_points);
         ratio/=2;
         //NOT TESTED
