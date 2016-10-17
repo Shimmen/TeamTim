@@ -10,6 +10,7 @@ public class SinglePlayerClient extends QuestionResultListener {
 
     private PlayActivity currentPlayActivity;
 
+    private String category;
     private int score = 0;
 
     private List<WordQuestion> questions;
@@ -17,6 +18,7 @@ public class SinglePlayerClient extends QuestionResultListener {
 
     public SinglePlayerClient(String category) {
         QuestionResultListener.setGlobalListener(this);
+        this.category = category;
         questions = MockDatabase.getInstance().getQuestions(category, -1);
     }
 
@@ -35,6 +37,7 @@ public class SinglePlayerClient extends QuestionResultListener {
         if (currentQ < questions.size()) {
             currentPlayActivity.newQuestion(questions.get(currentQ));
         } else {
+            MockDatabase.getInstance().updateCategorySuccessRatio(category, score, questions.size());
             currentPlayActivity.endGame(score, questions.size(), questions);
         }
 

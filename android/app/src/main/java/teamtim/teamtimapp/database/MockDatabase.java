@@ -2,6 +2,7 @@ package teamtim.teamtimapp.database;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,17 +18,6 @@ public class MockDatabase implements DatabaseInterface {
     private Random randomizer = new Random();
 
     private MockDatabase(){
-        List<String> grapeFruitCategoryTest = new ArrayList<>();
-        grapeFruitCategoryTest.add("Frukt");
-        grapeFruitCategoryTest.add("Röd frukt");
-        grapeFruitCategoryTest.add("Potentiellt mordvapen");
-        grapeFruitCategoryTest.add("Frukt som inte är banan");
-        grapeFruitCategoryTest.add("Saker som är röda på insidan men orangea utanpå");
-        grapeFruitCategoryTest.add("Runda saker");
-        grapeFruitCategoryTest.add("Objekt med en diameter på cirka en dm");
-        grapeFruitCategoryTest.add("Undercover apelsin");
-        grapeFruitCategoryTest.add("Saker som har flera kategorier");
-
         wordQuestions = new ArrayList<WordQuestion>();
         add(WordQuestionFactory.create("Apa",        Prefix.EN, "Djur",  WordDifficulty.EASY,   R.drawable.apa));
         add(WordQuestionFactory.create("Giraff",     Prefix.EN, "Djur",  WordDifficulty.HARD,   R.drawable.giraff));
@@ -38,7 +28,7 @@ public class MockDatabase implements DatabaseInterface {
         add(WordQuestionFactory.create("Äpple",      Prefix.ETT, "Frukt", WordDifficulty.MEDIUM, R.drawable.apple));
         add(WordQuestionFactory.create("Päron",      Prefix.ETT, "Frukt", WordDifficulty.MEDIUM, R.drawable.pear));
         add(WordQuestionFactory.create("Apelsin",    Prefix.EN, "Frukt", WordDifficulty.MEDIUM, R.drawable.apelsin));
-        add(WordQuestionFactory.create("Grapefrukt", Prefix.EN, grapeFruitCategoryTest, WordDifficulty.HARD,   R.drawable.grapefrukt));
+        add(WordQuestionFactory.create("Grapefrukt", Prefix.EN, "Frukt", WordDifficulty.HARD,   R.drawable.grapefrukt));
     }
 
     // Helper for adding questions and assigning its id
@@ -50,7 +40,9 @@ public class MockDatabase implements DatabaseInterface {
     public static void initialize(Context context) throws Exception{
         if (instance != null) throw new Exception("Database already initialized!");
         instance = new MockDatabase();
-        preferences = context.getSharedPreferences("CategoryData", Context.MODE_PRIVATE);
+        preferences = context.getSharedPreferences("categories", Context.MODE_PRIVATE);
+        //PreferenceManager.getDefaultSharedPreferences(context);
+
     }
 
     public static DatabaseInterface getInstance() throws NullPointerException {
@@ -114,20 +106,24 @@ public class MockDatabase implements DatabaseInterface {
                 if (!alreadyAppended) {
                     float ratio = preferences.getFloat(category, 0f);
                     categories.add(new CategoryWrapper(category, question.getImage(), ratio));
+                    System.out.println(category.toLowerCase() + ", Ratio: " + ratio);
                 }
             }
         }
+        System.out.println(preferences.getAll());
+
         return categories;
     }
 
     public void updateCategorySuccessRatio(String category, int points, int total_points){
-        float ratio = preferences.getFloat(category, 0f);
-        ratio += points/total_points;
+        float ratio = preferences.getFloat(category.toLowerCase(), 0f);
+        ratio += (float)((float)points/(float)total_points);
         ratio/=2;
         //NOT TESTED
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putFloat(category, ratio);
-        editor.commit();
+        preferences.edit().putFloat(category.toLowerCase(), ratio).apply();
+        //SharedPreferences.Editor editor = preferences.edit();
+        //editor.putFloat(category, ratio);
+        //editor.commit();
     }
 
     /**

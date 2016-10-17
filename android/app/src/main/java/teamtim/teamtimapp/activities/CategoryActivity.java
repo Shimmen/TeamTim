@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -70,20 +71,27 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
             if (!category.getCategory().contains(query.toLowerCase())) continue;
             LinearLayout wrapper = new LinearLayout(this);
             //TODO: more colors maybe
-            wrapper.setBackgroundColor(category.getRatio() < .5f ? Color.RED : Color.GREEN);
+            //category.getRatio() < .5f ? Color.RED : Color.GREEN
+            wrapper.setBackgroundColor(Color.TRANSPARENT);
             wrapper.setOrientation(LinearLayout.HORIZONTAL);
 
             ImageView iv = new ImageView(this);
             iv.setLayoutParams(new LinearLayout.LayoutParams(300, 300));
             TextView tv = new TextView(this);
             tv.setTextSize(18f);
+            ImageView emoji = new ImageView(this);
+            int[] emojiRef = new int[]{R.drawable.ic_sentiment_dissatisfied_black_24dp, R.drawable.ic_sentiment_neutral_black_24dp, R.drawable.ic_sentiment_satisfied_black_24dp, R.drawable.ic_sentiment_very_satisfied_black_24dp};
+            //TODO: DO better
+            int pick = Math.round(category.getRatio() * 4);
+            emoji.setImageResource(emojiRef[pick]);
             //Button categoryButton = new Button(this);
-            tv.setText(category.getCategory());
+            tv.setText(category.getCategory().toUpperCase());
             iv.setImageResource(category.getImage());
-            tv.setPadding(300,100,0,0);
-
+            tv.setPadding(14,100,0,0);
+            emoji.setPadding(14, 100, 0, 14);
             wrapper.addView(iv);
             wrapper.addView(tv);
+            wrapper.addView(emoji);
             wrapper.setOnClickListener(this);
             categoryLayout.addView(wrapper);
         }
