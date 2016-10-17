@@ -27,6 +27,7 @@ public class EndGameActivity extends AppCompatActivity {
         String correct = extras.getString("CORRECT_ANSWERS");
         String total = extras.getString("TOTAL_ANSWERS");
         stats.setText(correct + " av " + total + " rätt!");
+        getSupportActionBar().hide();
     }
 
     public void goToMainMenu(View v){

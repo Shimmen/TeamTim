@@ -80,6 +80,8 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
             //Button categoryButton = new Button(this);
             tv.setText(category.getCategory());
             iv.setImageResource(category.getImage());
+            tv.setPadding(300,100,0,0);
+
             wrapper.addView(iv);
             wrapper.addView(tv);
             wrapper.setOnClickListener(this);

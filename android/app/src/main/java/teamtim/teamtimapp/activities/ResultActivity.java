@@ -22,6 +22,7 @@ public class ResultActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         questions = extras.getStringArray("QUESTIONS");
         showResult(questions);
+        getSupportActionBar().hide();
     }
 
     private void showResult(String[] questions) {
