@@ -4,18 +4,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.List;
-
 import teamtim.teamtimapp.R;
-import teamtim.teamtimapp.database.WordQuestion;
 import teamtim.teamtimapp.managers.GameData;
 
 public class SingleplayerResultActivity extends AppCompatActivity {
 
-    private List<WordQuestion> questions;
     private LinearLayout list;
     private GameData gameData;
 
@@ -24,24 +23,30 @@ public class SingleplayerResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
         gameData = (GameData) getIntent().getSerializableExtra("DATA");
-        questions = gameData.getQuestions();
         list = (LinearLayout) findViewById(R.id.resultList);
-        showResult(questions);
+        showResult(gameData);
     }
 
-    private void showResult(List<WordQuestion> questions) {
-        for (int i = 0; i < questions.size(); i++) {
-            LinearLayout horizontal = new LinearLayout(this);
-            horizontal.setOrientation(LinearLayout.HORIZONTAL);
-            createText(questions.get(i).getWord(), horizontal);
-            list.addView(horizontal);
+    private void showResult(GameData data) {
+        for (int i = 0; i < data.getQuestions().size(); i++) {
+            LinearLayout linAnswer = CreateLinear();
+            WriteText(data.getAnswers().get(i), linAnswer);
+            WriteText(data.getQuestions().get(i).getWord(), linAnswer);
+
+            list.addView(linAnswer);
         }
     }
-    private void createText(String question, LinearLayout linear){
+    private LinearLayout CreateLinear(){
+        LinearLayout linear = new LinearLayout(this);
+        linear.setOrientation(LinearLayout.HORIZONTAL);
+        linear.setGravity(Gravity.CENTER);
+        return linear;
+    }
+    private void WriteText(String question, LinearLayout linear){
         TextView text = new TextView(this);
         text.setText(question);
         text.setTextSize(18);
-        text.setGravity(Gravity.CENTER);
+        text.setGravity(Gravity.START);
         linear.addView(text);
     }
 }
