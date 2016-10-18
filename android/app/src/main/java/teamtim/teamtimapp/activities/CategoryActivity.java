@@ -125,4 +125,10 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
         setCategories(newText);
         return false;
     }
+
+    @Override
+    public void onBackPressed(){
+        Intent i = new Intent(this, MainMenuActivity.class);
+        startActivity(i);
+    }
 }
