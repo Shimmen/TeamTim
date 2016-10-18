@@ -161,8 +161,8 @@ public class GameServer extends Thread {
 
                         Map<String, String> gameResultData = new HashMap<>();
                         gameResultData.put("METHOD", "GAME_RESULTS");
-                        gameResultData.put("C1SCORE", String.valueOf(client1Score));
-                        gameResultData.put("C2SCORE", String.valueOf(client2Score));
+                        gameResultData.put(c1Name, String.valueOf(client1Score));
+                        gameResultData.put(c2Name, String.valueOf(client2Score));
 
                         NetworkUtil.sendData(gameResultData, client1);
                         NetworkUtil.sendData(gameResultData, client2);
