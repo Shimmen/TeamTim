@@ -1,14 +1,13 @@
 package teamtim.teamtimapp.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import teamtim.teamtimapp.R;
-import teamtim.teamtimapp.network.DefaultNetworkManager;
 
 public class MainMenuActivity extends AppCompatActivity {
     private ImageButton burgerButton;
@@ -52,4 +51,10 @@ public class MainMenuActivity extends AppCompatActivity {
     public void openMenu(View v){
         //Do stuff
     }
+
+    @Override
+    public void onBackPressed() {
+        // We're in the main menu, do nothing.
+    }
+
 }
