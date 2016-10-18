@@ -107,6 +107,7 @@
         android:layout_alignRight="@+id/imageView"
         android:layout_alignEnd="@+id/imageView"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        android:onClick="speak" />
 
 </RelativeLayout>
