@@ -28,6 +28,7 @@ import teamtim.teamtimapp.R;
 import teamtim.teamtimapp.database.WordQuestion;
 import teamtim.teamtimapp.managers.GameData;
 import teamtim.teamtimapp.managers.QuestionResultListener;
+import teamtim.teamtimapp.managers.SinglePlayerClient;
 import teamtim.teamtimapp.presenter.PlayPresenter;
 import teamtim.teamtimapp.speechSynthesizer.ISpeechSynthesizer;
 import teamtim.teamtimapp.speechSynthesizer.SoundPlayer;
@@ -103,9 +104,12 @@ public class PlayActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        setTime(timeRemaining);
-
+        currentResultListener.onResume();
         //Handle multiplayer? Can this be done from MPC
+    }
+
+    public void resumeSinglePlayer(){
+        setTime(timeRemaining);
     }
 
     private void setTime(int timeInSeconds){
