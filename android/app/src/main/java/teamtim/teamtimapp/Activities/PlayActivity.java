@@ -207,7 +207,8 @@ public class PlayActivity extends AppCompatActivity {
     }
 
     public void checkAnswer(View v){
-        timer.cancel();
+        if (timer != null)
+            timer.cancel();
 
         StringBuffer buf = new StringBuffer();
         for (Button b : tiles) {

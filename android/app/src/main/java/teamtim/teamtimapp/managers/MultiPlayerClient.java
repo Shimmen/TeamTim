@@ -1,5 +1,7 @@
 package teamtim.teamtimapp.managers;
 
+import android.os.Build;
+
 import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.List;
@@ -16,11 +18,14 @@ public class MultiPlayerClient extends QuestionResultListener implements ClientT
     private ClientThread clientThread;
     private PlayActivity currentPlayActivity;
     private GameData gameData;
+    private boolean isHosting;
 
     public MultiPlayerClient(String clientName, InetAddress serverAddress, List<WordQuestion> questions) {
 
         // Make this the global globalListener for all question result events
         QuestionResultListener.setGlobalListener(this);
+
+        isHosting = clientName.equals("InitiatingClient");
 
         gameData = new GameData();
 
@@ -31,6 +36,7 @@ public class MultiPlayerClient extends QuestionResultListener implements ClientT
 
         Map<String, String> readyData = new HashMap<>();
         readyData.put("METHOD", "READY");
+        readyData.put("NAME", clientName);
 
         if (questions != null) {
             // Add questions to ready packet
@@ -51,7 +57,11 @@ public class MultiPlayerClient extends QuestionResultListener implements ClientT
             case "NEW_QUESTION":
                 WordQuestion currentQuestion = NetworkUtil.decodeQuestion(data.get("QUESTION"));
                 System.out.println(clientName + ": received new question: " + data + ", i.e., " + currentQuestion.getWord());
-                updateScore(Integer.parseInt(data.get("C1SCORE")), Integer.parseInt(data.get("C2SCORE")));
+                if(isHosting) {
+                    updateScore(Integer.parseInt(data.get("InitiatingClient")), Integer.parseInt(data.get("ExternalClient")));
+                } else {
+                    updateScore(Integer.parseInt(data.get("ExternalClient")), Integer.parseInt(data.get("InitiatingClient")));
+                }
                 //Add question to gameData
                 gameData.addQuestion(currentQuestion);
                 // Load next question
