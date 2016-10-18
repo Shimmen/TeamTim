@@ -20,52 +20,6 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:text="DINA POÄNG:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/winnerText"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="35dp"
-        android:id="@+id/your_score"
-        android:textColor="@android:color/holo_green_dark" />
-
-    <TextView
-        android:text="MOTSTÅNDARENS:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/their_score"
-        android:layout_marginRight="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_alignBaseline="@+id/your_score"
-        android:layout_alignBottom="@+id/your_score"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:textColor="@android:color/holo_red_dark" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/your_score"
-        android:layout_alignLeft="@+id/your_score"
-        android:layout_alignStart="@+id/your_score"
-        android:layout_marginTop="3dp"
-        android:id="@+id/textView11" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView12"
-        android:layout_alignBaseline="@+id/textView11"
-        android:layout_alignBottom="@+id/textView11"
-        android:layout_alignLeft="@+id/their_score"
-        android:layout_alignStart="@+id/their_score" />
-
     <Button
         android:text="Avsluta"
         android:layout_width="wrap_content"
@@ -99,4 +53,46 @@
         android:layout_marginTop="20dp"
         android:layout_below="@+id/button2"
         android:onClick="showResult" />
+
+    <TextView
+        android:text="Din poäng:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView29"
+        android:textColor="@android:color/holo_green_dark"
+        android:textSize="18sp"
+        android:layout_below="@+id/winnerText"
+        android:layout_toLeftOf="@+id/button2"
+        android:layout_toStartOf="@+id/button2"
+        android:layout_marginTop="15dp" />
+
+    <TextView
+        android:text="DERAS POÄNG:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView30"
+        android:layout_alignBaseline="@+id/textView29"
+        android:layout_alignBottom="@+id/textView29"
+        android:textColor="@android:color/holo_red_dark"
+        android:layout_toRightOf="@+id/winnerText" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView29"
+        android:layout_alignLeft="@+id/textView29"
+        android:layout_alignStart="@+id/textView29"
+        android:layout_marginTop="12dp"
+        android:id="@+id/your_score" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/your_score"
+        android:layout_alignLeft="@+id/textView30"
+        android:layout_alignStart="@+id/textView30"
+        android:id="@+id/their_score" />
+
 </RelativeLayout>

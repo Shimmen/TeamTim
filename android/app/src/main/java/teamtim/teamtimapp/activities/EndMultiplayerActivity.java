@@ -25,8 +25,8 @@ public class EndMultiplayerActivity extends AppCompatActivity {
         gameData = (GameData)getIntent().getSerializableExtra("DATA");
 
         winnerText = (TextView) findViewById(R.id.winnerText);
-        //yourScore = (TextView) findViewById(R.id.your_score);
-        //theirScore = (TextView) findViewById(R.id.their_score);
+        yourScore = (TextView) findViewById(R.id.your_score);
+        theirScore = (TextView) findViewById(R.id.their_score);
 
         setWinner();
         setSore();
@@ -46,8 +46,8 @@ public class EndMultiplayerActivity extends AppCompatActivity {
     }
 
     private void setSore(){
-        //yourScore.setText(gameData.getP1Score());
-        //theirScore.setText(gameData.getP2Score());
+        yourScore.setText(gameData.getP1Score()+"");
+        theirScore.setText(gameData.getP2Score()+"");
     }
 
     public void playAgain(View v) {
