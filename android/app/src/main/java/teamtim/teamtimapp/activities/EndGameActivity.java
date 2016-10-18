@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import teamtim.teamtimapp.R;
+
 import teamtim.teamtimapp.managers.GameData;
 
 public class EndGameActivity extends AppCompatActivity {
@@ -22,6 +23,7 @@ public class EndGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_game);
         stats = (TextView) findViewById(R.id.nbrCorrectText);
+
 
         gameData = (GameData) getIntent().getSerializableExtra("DATA");
         stats.setText("Du fick " + gameData.getP1Score() +" rätt!");

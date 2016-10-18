@@ -10,6 +10,7 @@ public class SinglePlayerClient extends QuestionResultListener {
 
     private PlayActivity currentPlayActivity;
 
+    private String category;
     private int score = 0;
 
     private List<WordQuestion> questions;
@@ -19,6 +20,7 @@ public class SinglePlayerClient extends QuestionResultListener {
     public SinglePlayerClient(String category) {
         gameData = new GameData();
         QuestionResultListener.setGlobalListener(this);
+        this.category = category;
         questions = MockDatabase.getInstance().getQuestions(category, -1);
         gameData.setQuestions(questions);
     }
