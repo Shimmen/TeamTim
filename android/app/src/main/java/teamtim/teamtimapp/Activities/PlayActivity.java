@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -21,7 +20,11 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 
@@ -42,7 +45,6 @@ public class PlayActivity extends AppCompatActivity {
     private LinearLayout letterInput;
 
     private TextView prefixLabel;
-    private TextView[] currentLetters;
     private ProgressDialog initialProgressDialog;
     private Button answerBtn;
     private TextView timerText;
@@ -52,7 +54,6 @@ public class PlayActivity extends AppCompatActivity {
     private ISpeechSynthesizer soundPlayer = new SoundPlayer();
 
     private char[] lettersInWord;
-    private int currentLetterToAdd;
 
     private int totalTime;
     private final static int TOTALTIME = 15000;
@@ -91,7 +92,6 @@ public class PlayActivity extends AppCompatActivity {
 
 
 
-
         tileSelected = false;
     }
 
@@ -107,8 +107,6 @@ public class PlayActivity extends AppCompatActivity {
                 prefixLabel.setText(w.getPrefix());
                 tiles = new Button[question.getWord().length()];
 
-                currentLetters = new TextView[w.getWord().length()];
-                currentLetterToAdd = 0;
                 totalTime = 15;
                 setImage(w.getImage());
                 //Set keyboard for new question
@@ -228,29 +226,8 @@ public class PlayActivity extends AppCompatActivity {
         final Button bCopy = b;
         tiles[i] = bCopy;
         b.setText(Character.toString(lettersInWord[i]));
-        /**
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                currentLetters[currentLetterToAdd].setText(Character.toString(lettersInWord[iCopy]));
-                bCopy.setEnabled(false);
-                currentLetterToAdd += 1;
-            }
-        });
-         */
         b.setOnTouchListener(new TouchEventListener());
         buttonGrid.addView(b, 100, 110);
-    }
-
-    private void createTextFields(int i) {
-        TextView tv = new TextView(this);
-        currentLetters[i] = tv;
-        tv.setEnabled(false);
-        tv.setPaintFlags(tv.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
-        tv.setTextColor(0xFF000000);
-        tv.setGravity(0x50 | 0x11);
-        letterInput.addView(tv, 130, 130);
-
     }
 
     public void speak(View v){
@@ -279,37 +256,90 @@ public class PlayActivity extends AppCompatActivity {
 
 
     protected class TouchEventListener implements View.OnTouchListener {
-        int lastMod;
+        int currentPos;
         int startOfGrid;
+        int gridY;
+        TextView left;
+        TextView middle;
+        TextView right;
+        RelativeLayout.LayoutParams params1;
+        RelativeLayout.LayoutParams params2;
+        RelativeLayout.LayoutParams params3;
+
+        public void removeTextViews(RelativeLayout layout) {
+            layout.removeView(left);
+            layout.removeView(middle);
+            layout.removeView(right);
+        }
+
+        public TextView createTextView(TextView text, int position) {
+            text.setText(tiles[position].getText());
+            return text;
+        }
+
+        public RelativeLayout.LayoutParams createParams(int position) {
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100, 100);
+            params.topMargin = gridY;
+            params.leftMargin = (int) Math.floor(startOfGrid + tiles[position].getX());
+            return params;
+        }
+
+        public void createTextViews(RelativeLayout layout) {
+            if (currentPos > 0) {
+                left = new TextView(layout.getContext());
+                layout.addView(createTextView(left, currentPos-1), createParams(currentPos-1));
+            }
+
+            middle = new TextView(layout.getContext());
+            middle.setTextColor(Color.parseColor("#737aff"));
+            layout.addView(createTextView(middle, currentPos), createParams(currentPos));
+
+            if (currentPos < tiles.length - 1) {
+                right = new TextView(layout.getContext());
+                layout.addView(createTextView(right, currentPos+1), createParams(currentPos+1));
+            }
+        }
+
         public boolean onTouch(View v, MotionEvent e) {
             final int action = e.getActionMasked();
             View parent = (View) v.getParent();
+            RelativeLayout layout = (RelativeLayout) parent.getParent();
             switch (action) {
                 case MotionEvent.ACTION_MOVE:
                     if (e.getRawX() > startOfGrid && e.getRawX() < tiles.length*v.getWidth()+startOfGrid) {
-                        if ((e.getRawX() - startOfGrid) / v.getWidth() != lastMod) {
+                        if (((int) Math.floor(e.getRawX() - startOfGrid) / v.getWidth()) != currentPos) {
                             int changedButton = (int) Math.floor((e.getRawX() - startOfGrid) / v.getWidth());
-                            String copy = tiles[lastMod].getText().toString();
-                            tiles[lastMod].setText(tiles[changedButton].getText());
+                            String copy = tiles[currentPos].getText().toString();
+                            tiles[currentPos].setText(tiles[changedButton].getText());
                             tiles[changedButton].setText(copy);
-                            tiles[lastMod].getBackground().clearColorFilter();
+                            tiles[currentPos].getBackground().clearColorFilter();
                             tiles[changedButton].getBackground().setColorFilter(Color.parseColor("#737aff"), PorterDuff.Mode.MULTIPLY);
+                            v.performHapticFeedback(1);
+                            removeTextViews(layout);
+                            currentPos = (int) Math.floor((e.getRawX() - startOfGrid) / v.getWidth());
+                            createTextViews(layout);
                         }
-                        lastMod = (int) Math.floor((e.getRawX() - startOfGrid) / v.getWidth());
+                        currentPos = (int) Math.floor((e.getRawX() - startOfGrid) / v.getWidth());
                     }
                     return true;
                 case MotionEvent.ACTION_DOWN:
                     v.performHapticFeedback(0);
                     startOfGrid = Math.round(parent.getX());
-                    lastMod = (int)Math.floor((e.getRawX() - startOfGrid) / v.getWidth());
-                    tiles[lastMod].getBackground().setColorFilter(Color.parseColor("#737aff"), PorterDuff.Mode.MULTIPLY);
+                    gridY = Math.round(parent.getY() - v.getHeight() -  14);
+                    currentPos = (int)Math.floor((e.getRawX() - startOfGrid) / v.getWidth());
+                    tiles[currentPos].getBackground().setColorFilter(Color.parseColor("#737aff"), PorterDuff.Mode.MULTIPLY);
+
+                    createTextViews(layout);
                     return true;
                 case MotionEvent.ACTION_BUTTON_PRESS:
                     return true;
                 case MotionEvent.ACTION_UP:
-                    tiles[lastMod].getBackground().clearColorFilter();
+                    tiles[currentPos].getBackground().clearColorFilter();
+                    removeTextViews(layout);
                     v.refreshDrawableState();
                     return true;
+                case MotionEvent.ACTION_CANCEL:
+                    removeTextViews(layout);
                 default:
                     Log.e("DragDrop Error","Unknown action type received by TouchEventListener.");
                     break;
