@@ -14,11 +14,14 @@
         android:text="Spela igen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
         android:id="@+id/PlayAgainButton"
         android:textSize="24sp"
-        android:onClick="playAgain" />
+        android:onClick="playAgain"
+        android:layout_above="@+id/showResultButton"
+        android:layout_alignLeft="@+id/showResultButton"
+        android:layout_alignStart="@+id/showResultButton"
+        android:layout_alignRight="@+id/showResultButton"
+        android:layout_alignEnd="@+id/showResultButton" />
 
     <TextView
         android:text="TextView"
@@ -26,9 +29,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/nbrCorrectText"
         android:textSize="24sp"
-        android:layout_above="@+id/PlayAgainButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp" />
+        android:layout_below="@+id/finishText"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -39,31 +41,38 @@
         android:layout_centerInParent="false"
         android:textStyle="bold"
         android:textSize="36sp"
-        android:layout_above="@+id/nbrCorrectText"
-        android:layout_centerHorizontal="true"
         android:elegantTextHeight="false"
-        android:textColor="@android:color/holo_orange_dark" />
-
-    <Button
-        android:text="visa resultat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:id="@+id/showResultButton"
-        android:layout_below="@+id/PlayAgainButton"
+        android:textColor="@android:color/holo_orange_dark"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:onClick="showResult"
-        android:textSize="24sp" />
+        android:layout_marginTop="90dp" />
 
     <Button
+
         android:text="Avsluta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="21dp"
         android:id="@+id/EndGameButton"
         android:textSize="24sp"
         android:onClick="goToMainMenu"
-        android:layout_below="@+id/showResultButton"
+        android:layout_marginBottom="42dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/showResultButton"
+        android:layout_alignStart="@+id/showResultButton"
+        android:layout_alignRight="@+id/showResultButton"
+        android:layout_alignEnd="@+id/showResultButton" />
+
+    <Button
+
+        android:text="visa resultat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/showResultButton"
+        android:onClick="showResult"
+        android:textSize="24sp"
+        android:layout_above="@+id/EndGameButton"
         android:layout_centerHorizontal="true" />
+
+
 
 </RelativeLayout>

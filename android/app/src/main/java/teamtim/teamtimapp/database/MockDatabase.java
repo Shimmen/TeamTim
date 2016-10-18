@@ -28,8 +28,37 @@ public class MockDatabase implements DatabaseInterface {
         add(WordQuestionFactory.create("Äpple",      Prefix.ETT, "Frukt", WordDifficulty.MEDIUM, R.drawable.apple));
         add(WordQuestionFactory.create("Päron",      Prefix.ETT, "Frukt", WordDifficulty.MEDIUM, R.drawable.pear));
         add(WordQuestionFactory.create("Apelsin",    Prefix.EN, "Frukt", WordDifficulty.MEDIUM, R.drawable.apelsin));
-        add(WordQuestionFactory.create("Grapefrukt", Prefix.EN, "Frukt", WordDifficulty.HARD,   R.drawable.grapefrukt));
-        add(WordQuestionFactory.create("TEST", Prefix.ETT, "TEST2", WordDifficulty.EASY,   R.drawable.grapefrukt));
+
+        add(WordQuestionFactory.create("Köttbulle",  Prefix.EN, "Mat",  WordDifficulty.HARD,   R.drawable.kottbulle));
+        add(WordQuestionFactory.create("Kebabpizza", Prefix.EN, "Mat",  WordDifficulty.MEDIUM,   R.drawable.kebabpizza));
+        add(WordQuestionFactory.create("Ägg",        Prefix.ETT, "Mat",  WordDifficulty.EASY,   R.drawable.agg));
+        add(WordQuestionFactory.create("Smörgås",    Prefix.EN, "Mat",  WordDifficulty.MEDIUM,   R.drawable.smorgas));
+        add(WordQuestionFactory.create("Äta",        Prefix.ATT, "Mat",  WordDifficulty.EASY,   R.drawable.ata));
+
+        add(WordQuestionFactory.create("Penna",      Prefix.EN, "Skola",  WordDifficulty.EASY,   R.drawable.penna));
+        add(WordQuestionFactory.create("Suddigum",   Prefix.ETT, "Skola",  WordDifficulty.HARD,   R.drawable.suddigum));
+        add(WordQuestionFactory.create("Bok",        Prefix.EN, "Skola",  WordDifficulty.EASY,   R.drawable.bok));
+        add(WordQuestionFactory.create("Klassrum",   Prefix.ETT, "Skola",  WordDifficulty.MEDIUM,   R.drawable.klassrum));
+        add(WordQuestionFactory.create("Kollegieblock",Prefix.ETT, "Skola",  WordDifficulty.HARD,   R.drawable.kollegieblock));
+
+        add(WordQuestionFactory.create("Fotboll",    Prefix.EN, "Sport",  WordDifficulty.MEDIUM,   R.drawable.fotboll));
+        add(WordQuestionFactory.create("Tennisracket",Prefix.ETT, "Sport",  WordDifficulty.HARD,   R.drawable.tennisracket));
+        add(WordQuestionFactory.create("Basketboll", Prefix.EN, "Sport",  WordDifficulty.MEDIUM,   R.drawable.basketboll));
+        add(WordQuestionFactory.create("Lag",        Prefix.ETT, "Sport",  WordDifficulty.EASY,   R.drawable.lag));
+        add(WordQuestionFactory.create("Jogga",      Prefix.ATT, "Sport",  WordDifficulty.EASY,   R.drawable.jogga));
+
+        add(WordQuestionFactory.create("Kanelbulle", Prefix.EN, "Fika",  WordDifficulty.HARD,   R.drawable.kanelbulle));
+        add(WordQuestionFactory.create("Fika",       Prefix.ATT, "Fika",  WordDifficulty.EASY,   R.drawable.fika));
+        add(WordQuestionFactory.create("Kaffe",      Prefix.EN, "Fika",  WordDifficulty.MEDIUM,   R.drawable.kaffe));
+        add(WordQuestionFactory.create("Läsk",       Prefix.EN, "Fika",  WordDifficulty.EASY,   R.drawable.lask));
+        add(WordQuestionFactory.create("Prata",      Prefix.ATT, "Fika",  WordDifficulty.EASY,   R.drawable.prata));
+
+        add(WordQuestionFactory.create("Kompis",      Prefix.EN, "Vänner",  WordDifficulty.HARD,   R.drawable.kompis));
+        add(WordQuestionFactory.create("Leka",        Prefix.ATT, "Vänner",  WordDifficulty.EASY,   R.drawable.leka));
+        add(WordQuestionFactory.create("Spel",        Prefix.ETT, "Vänner",  WordDifficulty.HARD,   R.drawable.spel));
+        add(WordQuestionFactory.create("Skratta",     Prefix.ATT, "Vänner",  WordDifficulty.HARD,   R.drawable.skratta));
+        add(WordQuestionFactory.create("Vän",         Prefix.EN, "Vänner",  WordDifficulty.HARD,   R.drawable.kompis));
+
     }
 
     // Helper for adding questions and assigning its id

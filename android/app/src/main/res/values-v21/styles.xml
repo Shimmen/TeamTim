@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="StavaTheme" parent="AppTheme">
+        <item name="android:navigationBarColor">@color/colorForeground</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:colorButtonNormal">@color/colorButton</item>
+    </style>
+
+</resources>

@@ -21,6 +21,7 @@ public class EndMultiplayerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("In EndGame");
         setContentView(R.layout.activity_end_multiplayer);
         gameData = (GameData)getIntent().getSerializableExtra("DATA");
 

@@ -21,30 +21,25 @@
         android:layout_alignParentRight="true"
         android:layout_above="@+id/playAloneLayout">
 
-        <TextView
-            android:layout_width="fill_parent"
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Aa"
-            android:id="@+id/Aa"
-            android:textAlignment="center"
-            android:textSize="240dp"
-            android:textColor="#737aff"
-            android:layout_gravity="center" />
+            android:id="@+id/logoImageView"
+            android:src="@drawable/logo" />
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#737aff"
         android:id="@+id/playAloneLayout"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_above="@+id/playTogetherLayout"
         android:layout_marginBottom="10dp"
         android:clickable="true"
-        android:onClick="playGame">
+        android:onClick="playGame"
+        android:background="@color/colorPrimary">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -54,7 +49,8 @@
             android:maxHeight="72dp"
             android:maxWidth="72dp"
             android:minHeight="72dp"
-            android:minWidth="72dp" />
+            android:minWidth="72dp"
+            android:src="@drawable/play_alone_image" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -75,7 +71,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:id="@+id/playTogetherLayout"
-        android:background="#737aff"
+        android:background="@color/colorPrimary"
         android:onClick="playTogether"
         android:clickable="true">
 
@@ -87,7 +83,8 @@
             android:maxHeight="72dp"
             android:maxWidth="72dp"
             android:minHeight="72dp"
-            android:minWidth="72dp" />
+            android:minWidth="72dp"
+            android:src="@drawable/play_together_image" />
 
         <TextView
             android:layout_width="wrap_content"
