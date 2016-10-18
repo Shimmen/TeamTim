@@ -107,12 +107,10 @@ public class MockDatabase implements DatabaseInterface {
                 if (!alreadyAppended) {
                     float ratio = preferences.getFloat(category, 0.5f);
                     categories.add(new CategoryWrapper(category, question.getImage(), ratio));
-                    System.out.println(category.toLowerCase() + ", Ratio: " + ratio);
                 }
             }
         }
         System.out.println(preferences.getAll());
-
         return categories;
     }
 
@@ -120,11 +118,7 @@ public class MockDatabase implements DatabaseInterface {
         float ratio = preferences.getFloat(category.toLowerCase(), 0.5f);
         ratio += (float)((float)points/(float)total_points);
         ratio/=2;
-        //NOT TESTED
         preferences.edit().putFloat(category.toLowerCase(), ratio).apply();
-        //SharedPreferences.Editor editor = preferences.edit();
-        //editor.putFloat(category, ratio);
-        //editor.commit();
     }
 
     /**

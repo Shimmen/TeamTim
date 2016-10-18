@@ -95,7 +95,8 @@ public class PlayActivity extends AppCompatActivity {
     @Override
     protected void onPause(){
         super.onPause();
-        timer.cancel();
+        if (timer != null)
+            timer.cancel();
         currentResultListener.onPause();
     }
 
@@ -103,9 +104,13 @@ public class PlayActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         setTime(timeRemaining);
+
+        //Handle multiplayer? Can this be done from MPC
     }
 
     private void setTime(int timeInSeconds){
+        if (timer != null)
+            timer.cancel();
         timer = new CountDownTimer(timeInSeconds * 1000, TICKER) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -238,6 +243,8 @@ public class PlayActivity extends AppCompatActivity {
      */
 
     public void endSingleGame(GameData data){
+        timer.cancel();
+        timer = null;
         Intent i = new Intent(PlayActivity.this, EndGameActivity.class);
 
         i.putExtra("DATA", data);
@@ -245,6 +252,8 @@ public class PlayActivity extends AppCompatActivity {
     }
 
     public void endMultiGame(GameData data){
+        timer.cancel();
+        timer = null;
         Intent i = new Intent(PlayActivity.this, EndMultiplayerActivity.class);
 
         i.putExtra("DATA", data);
