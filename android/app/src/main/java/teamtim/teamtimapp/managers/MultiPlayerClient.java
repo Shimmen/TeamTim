@@ -69,7 +69,11 @@ public class MultiPlayerClient extends QuestionResultListener implements ClientT
                 break;
             case "GAME_RESULTS":
                 System.out.println(clientName + ": received game results: " + data);
-                updateScore(Integer.parseInt(data.get("C1SCORE")), Integer.parseInt(data.get("C2SCORE")));
+                if(isHosting) {
+                    updateScore(Integer.parseInt(data.get("InitiatingClient")), Integer.parseInt(data.get("ExternalClient")));
+                } else {
+                    updateScore(Integer.parseInt(data.get("ExternalClient")), Integer.parseInt(data.get("InitiatingClient")));
+                }
                 clientThread.closeSocket();
                 ((TeamTimApp)currentPlayActivity.getApplication()).becomeActiveOnConnectedListener();
                 currentPlayActivity.endMultiGame(gameData);
