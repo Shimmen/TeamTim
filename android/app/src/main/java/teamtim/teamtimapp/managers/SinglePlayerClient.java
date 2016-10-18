@@ -44,6 +44,7 @@ public class SinglePlayerClient extends QuestionResultListener {
             currentPlayActivity.newQuestion(questions.get(currentQ));
         } else {
             gameData.setP1Score(score);
+            MockDatabase.getInstance().updateCategorySuccessRatio(category, score, questions.size());
             currentPlayActivity.endSingleGame(gameData);
         }
 
