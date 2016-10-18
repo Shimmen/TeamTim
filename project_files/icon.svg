@@ -29,10 +29,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="2"
-     inkscape:cx="47.922657"
-     inkscape:cy="73.666024"
+     inkscape:cx="52.672657"
+     inkscape:cy="138.5492"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer2"
      showgrid="true"
      inkscape:window-width="1920"
      inkscape:window-height="1017"
@@ -42,8 +42,8 @@
     <inkscape:grid
        type="xygrid"
        id="grid3336"
-       spacingx="50.000001"
-       spacingy="50" />
+       spacingx="9.9999998"
+       spacingy="10" />
   </sodipodi:namedview>
   <metadata
      id="metadata7">
@@ -64,7 +64,7 @@
      transform="translate(0,-804.33074)">
     <path
        sodipodi:type="star"
-       style="fill:#00ffff;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:#1caff6;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
        id="path3356"
        sodipodi:sides="6"
        sodipodi:cx="100"
@@ -78,11 +78,6 @@
        inkscape:randomized="0"
        d="m 250,652.36218 -161.602539,79.90381 -149.999995,-100 11.602539,-179.9038 161.602535,-79.90381 149.99999,99.99999 z"
        transform="matrix(-0.04435379,-0.68075953,0.68075953,-0.04435379,-246.87706,1020.4445)" />
-    <path
-       style="fill:#1caff6;fill-opacity:1;stroke:none"
-       d="M 32.949587,981.16825 2.1802232,927.92864 17.327565,901.65916 c 8.331038,-14.44821 22.047351,-38.23418 30.4807,-52.85772 l 15.333353,-26.58826 61.537202,0 61.5372,0 30.23462,52.15388 c 16.62902,28.68463 30.25191,52.63881 30.27307,53.2315 0.0212,0.59271 -13.6716,24.86726 -30.42837,53.94347 l -30.46685,52.86587 -61.05476,0 -61.05478,0 -30.769363,-53.23965 z m 104.338973,11.36909 c 14.14365,-3.61734 21.39878,-8.86463 26.45373,-19.13268 2.92913,-5.94992 3.32157,-7.73583 3.30858,-15.05698 -0.0358,-20.14469 -12.21101,-32.13086 -43.17551,-42.50495 -12.6057,-4.2233 -18.0687,-6.86745 -21.70826,-10.507 -2.48687,-2.48688 -3.003792,-3.84645 -3.003792,-7.90036 0,-9.01851 7.202712,-14.33108 19.429872,-14.33108 11.37199,0 19.48353,5.51006 20.95782,14.23635 l 0.69708,4.12599 13.77821,0 13.77821,0 -0.70741,-4.85747 c -1.85689,-12.75049 -10.25966,-24.59294 -21.15475,-29.81448 -15.94452,-7.6415 -37.37932,-7.75662 -53.342615,-0.28649 -13.532196,6.33248 -20.129024,15.64445 -20.852873,29.43555 -0.389065,7.41262 -0.13043,8.98891 2.400012,14.62751 5.281081,11.76779 17.098776,19.84781 41.342246,28.26657 5.88573,2.04389 12.3343,4.54922 14.33014,5.56742 7.78569,3.97197 11.02393,9.66935 9.65207,16.98197 -1.7378,9.26329 -14.81765,13.85801 -29.06164,10.20889 -9.65911,-2.47456 -15.336872,-8.73844 -15.336872,-16.92013 l 0,-3.10072 -13.948513,0 -13.948504,0 0.57556,5.57657 c 1.780921,17.25553 16.229838,31.36505 36.658899,35.79782 9.7268,2.11056 23.69912,1.93534 32.87831,-0.4123 z"
-       id="path4182"
-       inkscape:connector-curvature="0" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -92,19 +87,19 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:40.49388504px;line-height:125%;font-family:Roboto;-inkscape-font-specification:'Roboto Bold';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="61.446667"
+       x="71.446671"
        y="684.2793"
        id="text4225"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan4227"
-         x="61.446667"
+         x="71.446671"
          y="684.2793"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:182.2224884px;font-family:Roboto;-inkscape-font-specification:'Roboto Bold';fill:#ffffff">S</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:182.2224884px;font-family:Roboto;-inkscape-font-specification:Roboto;fill:#ffffff">S</tspan><tspan
          sodipodi:role="line"
-         x="61.446667"
+         x="71.446671"
          y="912.05743"
          id="tspan4229"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:182.2224884px;font-family:Roboto;-inkscape-font-specification:'Roboto Bold'" /></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:182.2224884px;font-family:Roboto;-inkscape-font-specification:Roboto" /></text>
   </g>
 </svg>
