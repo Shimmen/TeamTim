@@ -19,15 +19,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
-
 import java.util.List;
-
-
 
 import teamtim.teamtimapp.R;
 import teamtim.teamtimapp.database.WordQuestion;
@@ -38,14 +33,13 @@ import teamtim.teamtimapp.speechSynthesizer.SoundPlayer;
 
 public class PlayActivity extends AppCompatActivity {
 
-    public static final int POST_ANSWER_DELAY_MS = 1250;
+    public static final int POST_ANSWER_DELAY_MS = 1000;
 
     private QuestionResultListener currentResultListener;
     private PlayPresenter presenter;
 
     private ImageView imageView;
     private GridLayout buttonGrid;
-    private LinearLayout letterInput;
 
     private TextView prefixLabel;
     private ProgressDialog initialProgressDialog;
@@ -69,8 +63,6 @@ public class PlayActivity extends AppCompatActivity {
     private WordQuestion question;
 
     private Button[] tiles;
-    private boolean tileSelected;
-    private Button selectedTile;
 
 
     @Override
@@ -81,7 +73,6 @@ public class PlayActivity extends AppCompatActivity {
         prefixLabel = (TextView) findViewById(R.id.pefixLabel);
         imageView = (ImageView) findViewById(R.id.imageView);
         buttonGrid = (GridLayout) findViewById(R.id.buttonGrid);
-        letterInput = (LinearLayout) findViewById(R.id.linearLayout);
         answerBtn = (Button) findViewById(R.id.answerButton);
         timerText = (TextView) findViewById(R.id.timerText);
         playerOneScore = (TextView) findViewById(R.id.playerOne);
@@ -94,10 +85,6 @@ public class PlayActivity extends AppCompatActivity {
 
         currentResultListener = QuestionResultListener.getGlobalListener();
         currentResultListener.onPlayActivityCreated(this);
-
-
-
-        tileSelected = false;
     }
 
     private void setImage(int image){
@@ -173,9 +160,8 @@ public class PlayActivity extends AppCompatActivity {
 
     public void setKeyboard(){
         //Will change a lot, purely for demonstration
-        if(buttonGrid != null && letterInput != null) {
+        if(buttonGrid != null) {
             buttonGrid.removeAllViews();
-            letterInput.removeAllViews();
         }
         //Kanske borde göra en till metod i playPresenter som gör båda shuffle och splitstring samtidigt?
         lettersInWord = presenter.shuffle(presenter.splitString(question.getWord()));
@@ -200,6 +186,7 @@ public class PlayActivity extends AppCompatActivity {
 
         if (!isCorrect) {
             imageView.startAnimation(wobbleAnimation);
+            v.performHapticFeedback(1);
         }
 
         answerBtn.setClickable(false);
@@ -246,7 +233,7 @@ public class PlayActivity extends AppCompatActivity {
         tiles[i] = bCopy;
         b.setText(Character.toString(lettersInWord[i]));
         b.setOnTouchListener(new TouchEventListener());
-        buttonGrid.addView(b, 100, 110);
+        buttonGrid.addView(b, 150, 150);
     }
 
     public void speak(View v){
@@ -281,9 +268,6 @@ public class PlayActivity extends AppCompatActivity {
         TextView left;
         TextView middle;
         TextView right;
-        RelativeLayout.LayoutParams params1;
-        RelativeLayout.LayoutParams params2;
-        RelativeLayout.LayoutParams params3;
 
         public void removeTextViews(RelativeLayout layout) {
             layout.removeView(left);
