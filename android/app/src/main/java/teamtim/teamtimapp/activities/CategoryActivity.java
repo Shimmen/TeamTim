@@ -13,10 +13,12 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -74,31 +76,49 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
             //category.getRatio() < .5f ? Color.RED : Color.GREEN
             wrapper.setBackgroundColor(Color.TRANSPARENT);
             wrapper.setOrientation(LinearLayout.HORIZONTAL);
-
             ImageView iv = new ImageView(this);
             iv.setLayoutParams(new LinearLayout.LayoutParams(300, 300));
             TextView tv = new TextView(this);
             tv.setTextSize(18f);
             ImageView emoji = new ImageView(this);
-            int[] emojiRef = new int[]{R.drawable.ic_sentiment_dissatisfied_black_24dp, R.drawable.ic_sentiment_neutral_black_24dp, R.drawable.ic_sentiment_satisfied_black_24dp, R.drawable.ic_sentiment_very_satisfied_black_24dp};
+            int[] emojiRef = new int[]{R.drawable.ic_sentiment_dissatisfied_black_48dp, R.drawable.ic_sentiment_neutral_black_48dp, R.drawable.ic_sentiment_satisfied_black_48dp, R.drawable.ic_sentiment_very_satisfied_black_48dp};
             //TODO: DO better
             int pick = Math.min(Math.round(category.getRatio() * 3), 3);
             emoji.setImageResource(emojiRef[pick]);
             //Button categoryButton = new Button(this);
             tv.setText(category.getCategory().toUpperCase());
             iv.setImageResource(category.getImage());
-            tv.setPadding(14,100,0,0);
-            emoji.setPadding(14, 100, 0, 14);
+            RelativeLayout emojiContainer = new RelativeLayout(this);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            emojiContainer.setLayoutParams(params);
+            emojiContainer.addView(emoji);
+            emojiContainer.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+            emojiContainer.setPadding(0, 0, 34, 0);
+            tv.setPadding(28, 0, 0, 0);
+            wrapper.setGravity(Gravity.CENTER_VERTICAL);
             wrapper.addView(iv);
             wrapper.addView(tv);
-            wrapper.addView(emoji);
+            wrapper.addView(emojiContainer);
             wrapper.setOnClickListener(this);
+
+
+            RelativeLayout stroke = new RelativeLayout(this);
+            stroke.setBackgroundColor(Color.GRAY);
+            stroke.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 2));
+            categoryLayout.addView(stroke);
             categoryLayout.addView(wrapper);
         }
+
+
+        RelativeLayout stroke = new RelativeLayout(this);
+        stroke.setBackgroundColor(Color.GRAY);
+        stroke.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 2));
+        categoryLayout.addView(stroke);
     }
 
     @Override
     public void onClick(View v) {
+        if (v instanceof LinearLayout == false) return; //Is this enough?
         String category = ((TextView)((LinearLayout) v).getChildAt(1)).getText().toString(); //err...
         if (mode.equals("Single")) {
 
@@ -109,7 +129,7 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
         } else {
 
             Intent intent = new Intent(this, MultiplayerActivity.class);
-            intent.putExtra("CATEGORY", ((TextView)((LinearLayout) v).getChildAt(1)).getText().toString());
+            intent.putExtra("CATEGORY", category);
             startActivity(intent);
 
         }
