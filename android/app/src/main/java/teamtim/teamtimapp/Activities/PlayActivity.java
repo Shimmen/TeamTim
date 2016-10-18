@@ -9,21 +9,21 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-
-
 import android.util.Log;
 import android.view.MotionEvent;
-
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import java.util.List;
 
+import java.util.List;
 
 import teamtim.teamtimapp.R;
 import teamtim.teamtimapp.database.WordQuestion;
@@ -33,6 +33,8 @@ import teamtim.teamtimapp.speechSynthesizer.ISpeechSynthesizer;
 import teamtim.teamtimapp.speechSynthesizer.SoundPlayer;
 
 public class PlayActivity extends AppCompatActivity {
+
+    public static final int POST_ANSWER_DELAY_MS = 1250;
 
     private QuestionResultListener currentResultListener;
     private PlayPresenter presenter;
@@ -59,6 +61,7 @@ public class PlayActivity extends AppCompatActivity {
     private final static int TICKER = 1000;
 
     private CountDownTimer timer;
+    Animation wobbleAnimation;
 
 
     private WordQuestion question;
@@ -81,6 +84,7 @@ public class PlayActivity extends AppCompatActivity {
         timerText = (TextView) findViewById(R.id.timerText);
         playerOneScore = (TextView) findViewById(R.id.playerOne);
         playerTwoScore = (TextView) findViewById(R.id.playerTwo);
+        wobbleAnimation = AnimationUtils.loadAnimation(this, R.anim.wobble);
 
         initialProgressDialog = ProgressDialog.show(this, "Laddar", "Väntar på första frågan...", true, false, null);
 
@@ -191,13 +195,27 @@ public class PlayActivity extends AppCompatActivity {
         }
         String toCheck = buf.toString();
         System.out.println(question.getWord() + ", "+toCheck);
-        soundPlayer.speak(this, question.getWord().equals(toCheck));
+
+        boolean isCorrect = question.getWord().equals(toCheck);
+        soundPlayer.speak(this, isCorrect);
+
+        if (!isCorrect) {
+            imageView.startAnimation(wobbleAnimation);
+        }
 
         answerBtn.setClickable(false);
         answerBtn.setTextColor(Color.GRAY);
 
-        int pointsAcquired = question.getWord().equals(toCheck) ? 1 : 0;
-        currentResultListener.onQuestionResult(pointsAcquired, totalTime);
+        final int pointsAcquired = question.getWord().equals(toCheck) ? 1 : 0;
+        final int answerTime = totalTime;
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                currentResultListener.onQuestionResult(pointsAcquired, answerTime);
+            }
+        }, POST_ANSWER_DELAY_MS);
     }
 
     public void endGame(int correctAnswers, int totalAnswers, List<WordQuestion> questions){
