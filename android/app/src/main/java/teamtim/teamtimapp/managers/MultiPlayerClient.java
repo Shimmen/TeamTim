@@ -113,6 +113,11 @@ public class MultiPlayerClient extends QuestionResultListener implements ClientT
         //Do something
     }
 
+    @Override
+    public void onResume() {
+        //Do nothing...
+    }
+
     public void updateScore(int player1, int player2){
         currentPlayActivity.setPlayerOneScore(player1);
         gameData.setP1Score(player1);

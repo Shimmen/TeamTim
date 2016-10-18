@@ -56,4 +56,9 @@ public class SinglePlayerClient extends QuestionResultListener {
     public void onPause() {
         //Do nothing...
     }
+
+    @Override
+    public void onResume() {
+        currentPlayActivity.resumeSinglePlayer();
+    }
 }
