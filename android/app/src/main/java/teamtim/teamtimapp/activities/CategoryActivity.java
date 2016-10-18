@@ -82,7 +82,7 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
             ImageView emoji = new ImageView(this);
             int[] emojiRef = new int[]{R.drawable.ic_sentiment_dissatisfied_black_24dp, R.drawable.ic_sentiment_neutral_black_24dp, R.drawable.ic_sentiment_satisfied_black_24dp, R.drawable.ic_sentiment_very_satisfied_black_24dp};
             //TODO: DO better
-            int pick = Math.min(Math.round(category.getRatio() * 4), 4) -1;
+            int pick = Math.min(Math.round(category.getRatio() * 3), 3);
             emoji.setImageResource(emojiRef[pick]);
             //Button categoryButton = new Button(this);
             tv.setText(category.getCategory().toUpperCase());

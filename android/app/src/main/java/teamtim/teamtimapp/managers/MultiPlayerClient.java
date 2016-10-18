@@ -91,6 +91,13 @@ public class MultiPlayerClient extends QuestionResultListener implements ClientT
         clientThread.addDataToSendQueue(resultData);
     }
 
+    @Override
+    public void onPause() {
+        Map<String, String> resultData = new HashMap<>();
+        resultData.put("PAUSE", "");
+        clientThread.addDataToSendQueue(resultData);
+    }
+
     public void updateScore(int player1, int player2){
         currentPlayActivity.setPlayerOneScore(player1);
         gameData.setP1Score(player1);

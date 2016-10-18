@@ -51,4 +51,9 @@ public class SinglePlayerClient extends QuestionResultListener {
         currentPlayActivity.setPlayerOneScore(score);
 
     }
+
+    @Override
+    public void onPause() {
+        //Do nothing...
+    }
 }

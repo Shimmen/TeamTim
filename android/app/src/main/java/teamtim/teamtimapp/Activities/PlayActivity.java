@@ -22,7 +22,6 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import java.util.List;
 
 
 import teamtim.teamtimapp.R;
@@ -55,8 +54,8 @@ public class PlayActivity extends AppCompatActivity {
     private char[] lettersInWord;
     private int currentLetterToAdd;
 
+    private int timeRemaining;
     private int totalTime;
-    private final static int TOTALTIME = 15000;
     private final static int TICKER = 1000;
 
     private CountDownTimer timer;
@@ -93,6 +92,41 @@ public class PlayActivity extends AppCompatActivity {
         tileSelected = false;
     }
 
+    @Override
+    protected void onPause(){
+        super.onPause();
+        timer.cancel();
+        currentResultListener.onPause();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        setTime(timeRemaining);
+    }
+
+    private void setTime(int timeInSeconds){
+        timer = new CountDownTimer(timeInSeconds * 1000, TICKER) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timeRemaining--;
+                System.out.print("Time remaining: "+timeRemaining);
+                timerText.setText(timeRemaining + "");
+                if(timeRemaining <= 5) {
+                    timerText.setTextColor(Color.RED);
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                //timeRemaining = 15;
+                checkAnswer(timerText);
+                //currentResultListener.onQuestionResult(0);
+                //this.cancel();
+            }
+        }.start();
+    }
+
     private void setImage(int image){
         imageView.setImageResource(image);
     }
@@ -107,7 +141,10 @@ public class PlayActivity extends AppCompatActivity {
 
                 currentLetters = new TextView[w.getWord().length()];
                 currentLetterToAdd = 0;
-                totalTime = 15;
+
+                totalTime = 10 + 3*w.getWord().length();
+                System.out.println("TOTAL TIME: " + totalTime);
+                timeRemaining = totalTime;
                 setImage(w.getImage());
                 //Set keyboard for new question
                 setKeyboard();
@@ -120,24 +157,7 @@ public class PlayActivity extends AppCompatActivity {
                 answerBtn.setTextColor(Color.BLACK);
                 timerText.setTextColor(Color.BLACK);
 
-                timer = new CountDownTimer(TOTALTIME, TICKER) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-                        totalTime--;
-                        timerText.setText(totalTime + "");
-                        if(totalTime <= 5) {
-                            timerText.setTextColor(Color.RED);
-                        }
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        totalTime = 15;
-                        checkAnswer(timerText);
-                        //currentResultListener.onQuestionResult(0);
-                        //this.cancel();
-                    }
-                }.start();
+                setTime(totalTime);
             }
         });
     }
@@ -192,7 +212,7 @@ public class PlayActivity extends AppCompatActivity {
         answerBtn.setTextColor(Color.GRAY);
 
         int pointsAcquired = question.getWord().equals(toCheck) ? 1 : 0;
-        currentResultListener.onQuestionResult(pointsAcquired, totalTime, toCheck);
+        currentResultListener.onQuestionResult(pointsAcquired, timeRemaining, toCheck);
     }
 
     /** TODO: remove this if other endGame works
