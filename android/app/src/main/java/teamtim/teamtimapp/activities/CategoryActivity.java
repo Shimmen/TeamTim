@@ -109,7 +109,7 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
         } else {
 
             Intent intent = new Intent(this, MultiplayerActivity.class);
-            intent.putExtra("CATEGORY", ((Button) v).getText().toString());
+            intent.putExtra("CATEGORY", ((TextView)((LinearLayout) v).getChildAt(1)).getText().toString());
             startActivity(intent);
 
         }

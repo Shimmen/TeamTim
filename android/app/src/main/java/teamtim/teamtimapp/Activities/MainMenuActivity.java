@@ -2,7 +2,9 @@ package teamtim.teamtimapp.activities;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -54,5 +56,23 @@ public class MainMenuActivity extends AppCompatActivity {
 
     public void openMenu(View v){
         //Do stuff
+    }
+
+    @Override
+    public void onBackPressed(){
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Avsluta")
+                .setMessage("Vill du stänga appen?")
+                .setPositiveButton("Ja", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        System.exit(1);
+                    }
+
+                })
+                .setNegativeButton("Nej", null)
+                .show();
     }
 }
