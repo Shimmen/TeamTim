@@ -26,7 +26,9 @@ import java.util.List;
 
 import teamtim.teamtimapp.R;
 import teamtim.teamtimapp.database.WordQuestion;
+import teamtim.teamtimapp.managers.GameData;
 import teamtim.teamtimapp.managers.QuestionResultListener;
+import teamtim.teamtimapp.managers.SinglePlayerClient;
 import teamtim.teamtimapp.presenter.PlayPresenter;
 import teamtim.teamtimapp.speechSynthesizer.ISpeechSynthesizer;
 import teamtim.teamtimapp.speechSynthesizer.SoundPlayer;
@@ -52,8 +54,8 @@ public class PlayActivity extends AppCompatActivity {
 
     private char[] lettersInWord;
 
+    private int timeRemaining;
     private int totalTime;
-    private final static int TOTALTIME = 15000;
     private final static int TICKER = 1000;
 
     private CountDownTimer timer;
@@ -82,9 +84,55 @@ public class PlayActivity extends AppCompatActivity {
         initialProgressDialog = ProgressDialog.show(this, "Laddar", "Väntar på första frågan...", true, false, null);
 
         presenter = new PlayPresenter();
-
+        getSupportActionBar().hide();
         currentResultListener = QuestionResultListener.getGlobalListener();
         currentResultListener.onPlayActivityCreated(this);
+
+
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        if (timer != null)
+            timer.cancel();
+        currentResultListener.onPause();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        currentResultListener.onResume();
+        //Handle multiplayer? Can this be done from MPC
+    }
+
+    public void resumeSinglePlayer(){
+        setTime(timeRemaining);
+    }
+
+    private void setTime(int timeInSeconds){
+        if (timer != null)
+            timer.cancel();
+        timer = new CountDownTimer(timeInSeconds * 1000, TICKER) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timeRemaining--;
+                System.out.print("Time remaining: "+timeRemaining);
+                timerText.setText(timeRemaining + "");
+                if(timeRemaining <= 5) {
+                    timerText.setTextColor(Color.RED);
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                //timeRemaining = 15;
+                checkAnswer(timerText);
+                //currentResultListener.onQuestionResult(0);
+                //this.cancel();
+            }
+        }.start();
+
     }
 
     private void setImage(int image){
@@ -99,7 +147,11 @@ public class PlayActivity extends AppCompatActivity {
                 prefixLabel.setText(w.getPrefix());
                 tiles = new Button[question.getWord().length()];
 
-                totalTime = 15;
+
+                totalTime = 10 + 3*w.getWord().length();
+                System.out.println("TOTAL TIME: " + totalTime);
+                timeRemaining = totalTime;
+
                 setImage(w.getImage());
                 //Set keyboard for new question
                 setKeyboard();
@@ -112,27 +164,7 @@ public class PlayActivity extends AppCompatActivity {
                 answerBtn.setTextColor(Color.BLACK);
                 timerText.setTextColor(Color.BLACK);
 
-                timer = new CountDownTimer(TOTALTIME, TICKER) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-                        totalTime--;
-                        timerText.setText(totalTime + "");
-                        if(totalTime <= 5) {
-                            timerText.setTextColor(Color.RED);
-                        }
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        totalTime = 15;
-                        checkAnswer(timerText);
-                        //currentResultListener.onQuestionResult(0);
-                        //this.cancel();
-                    }
-                }.start();
-
-
-
+                setTime(totalTime);
             }
         });
     }
@@ -172,13 +204,14 @@ public class PlayActivity extends AppCompatActivity {
     }
 
     public void checkAnswer(View v){
-        timer.cancel();
+        if (timer != null)
+            timer.cancel();
 
         StringBuffer buf = new StringBuffer();
         for (Button b : tiles) {
             buf.append(b.getText());
         }
-        String toCheck = buf.toString();
+        final String toCheck = buf.toString();
         System.out.println(question.getWord() + ", "+toCheck);
 
         boolean isCorrect = question.getWord().equals(toCheck);
@@ -192,6 +225,7 @@ public class PlayActivity extends AppCompatActivity {
         answerBtn.setClickable(false);
         answerBtn.setTextColor(Color.GRAY);
 
+
         final int pointsAcquired = question.getWord().equals(toCheck) ? 1 : 0;
         final int answerTime = totalTime;
 
@@ -199,11 +233,13 @@ public class PlayActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                currentResultListener.onQuestionResult(pointsAcquired, answerTime);
+                currentResultListener.onQuestionResult(pointsAcquired, answerTime, toCheck);
             }
         }, POST_ANSWER_DELAY_MS);
+
     }
 
+    /** TODO: remove this if other endGame works
     public void endGame(int correctAnswers, int totalAnswers, List<WordQuestion> questions){
         Intent i = new Intent(PlayActivity.this, EndGameActivity.class);
         Bundle extras = new Bundle();
@@ -221,6 +257,26 @@ public class PlayActivity extends AppCompatActivity {
         extras.putString("TOTAL_ANSWERS", total);
 
         i.putExtras(extras);
+        startActivity(i);
+    }
+     */
+
+    public void endSingleGame(GameData data){
+        timer.cancel();
+        timer = null;
+        System.out.println("PlayActivity -> EndGAme");
+        Intent i = new Intent(PlayActivity.this, EndGameActivity.class);
+
+        i.putExtra("DATA", data);
+        startActivity(i);
+    }
+
+    public void endMultiGame(GameData data){
+        timer.cancel();
+        timer = null;
+        Intent i = new Intent(PlayActivity.this, EndMultiplayerActivity.class);
+
+        i.putExtra("DATA", data);
         startActivity(i);
     }
 

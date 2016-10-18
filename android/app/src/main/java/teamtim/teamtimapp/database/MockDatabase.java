@@ -1,5 +1,9 @@
 package teamtim.teamtimapp.database;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -9,21 +13,11 @@ import teamtim.teamtimapp.R;
 public class MockDatabase implements DatabaseInterface {
 
     private static DatabaseInterface instance = null;
+    private static SharedPreferences preferences;
     private List<WordQuestion> wordQuestions = new ArrayList<>();
     private Random randomizer = new Random();
 
     private MockDatabase(){
-        List<String> grapeFruitCategoryTest = new ArrayList<>();
-        grapeFruitCategoryTest.add("Frukt");
-        grapeFruitCategoryTest.add("Röd frukt");
-        grapeFruitCategoryTest.add("Potentiellt mordvapen");
-        grapeFruitCategoryTest.add("Frukt som inte är banan");
-        grapeFruitCategoryTest.add("Saker som är röda på insidan men orangea utanpå");
-        grapeFruitCategoryTest.add("Runda saker");
-        grapeFruitCategoryTest.add("Objekt med en diameter på cirka en dm");
-        grapeFruitCategoryTest.add("Undercover apelsin");
-        grapeFruitCategoryTest.add("Saker som har flera kategorier");
-
         wordQuestions = new ArrayList<WordQuestion>();
         add(WordQuestionFactory.create("Apa",        Prefix.EN, "Djur",  WordDifficulty.EASY,   R.drawable.apa));
         add(WordQuestionFactory.create("Giraff",     Prefix.EN, "Djur",  WordDifficulty.HARD,   R.drawable.giraff));
@@ -34,7 +28,6 @@ public class MockDatabase implements DatabaseInterface {
         add(WordQuestionFactory.create("Äpple",      Prefix.ETT, "Frukt", WordDifficulty.MEDIUM, R.drawable.apple));
         add(WordQuestionFactory.create("Päron",      Prefix.ETT, "Frukt", WordDifficulty.MEDIUM, R.drawable.pear));
         add(WordQuestionFactory.create("Apelsin",    Prefix.EN, "Frukt", WordDifficulty.MEDIUM, R.drawable.apelsin));
-        add(WordQuestionFactory.create("Grapefrukt", Prefix.EN, grapeFruitCategoryTest, WordDifficulty.HARD,   R.drawable.grapefrukt));
 
         add(WordQuestionFactory.create("Köttbulle",  Prefix.EN, "Mat",  WordDifficulty.HARD,   R.drawable.kottbulle));
         add(WordQuestionFactory.create("Kebabpizza", Prefix.EN, "Mat",  WordDifficulty.MEDIUM,   R.drawable.kebabpizza));
@@ -74,9 +67,17 @@ public class MockDatabase implements DatabaseInterface {
         wordQuestions.add(wordQuestion);
     }
 
-    public static DatabaseInterface getInstance() {
+    public static void initialize(Context context) throws Exception{
+        if (instance != null) throw new Exception("Database already initialized!");
+        instance = new MockDatabase();
+        preferences = context.getSharedPreferences("categories", Context.MODE_PRIVATE);
+        //PreferenceManager.getDefaultSharedPreferences(context);
+
+    }
+
+    public static DatabaseInterface getInstance() throws NullPointerException {
         if (instance == null){
-            instance = new MockDatabase();
+            throw new NullPointerException("Database not initialized!");
         }
         return instance;
     }
@@ -122,15 +123,31 @@ public class MockDatabase implements DatabaseInterface {
     }
 
     @Override
-    public List<String> getCategories() {
-        List<String> categories = new ArrayList<>();
+    public List<CategoryWrapper> getCategories() {
+        List<CategoryWrapper> categories = new ArrayList<>();
+        //TODO Optimize this, its really slow
         for (WordQuestion question : wordQuestions) {
             for (String category : question.getCategories()) {
-                if (!categories.contains(category))
-                    categories.add(category);
+                boolean alreadyAppended = false;
+                for (CategoryWrapper cw : categories) {
+                    if (cw.getCategory().equals(category))
+                        alreadyAppended = true;
+                }
+                if (!alreadyAppended) {
+                    float ratio = preferences.getFloat(category, 0.5f);
+                    categories.add(new CategoryWrapper(category, question.getImage(), ratio));
+                }
             }
         }
+        System.out.println(preferences.getAll());
         return categories;
+    }
+
+    public void updateCategorySuccessRatio(String category, int points, int total_points){
+        float ratio = preferences.getFloat(category.toLowerCase(), 0.5f);
+        ratio += (float)((float)points/(float)total_points);
+        ratio/=2;
+        preferences.edit().putFloat(category.toLowerCase(), ratio).apply();
     }
 
     /**

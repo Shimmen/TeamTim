@@ -48,6 +48,7 @@
         android:layout_marginTop="90dp" />
 
     <Button
+
         android:text="Avsluta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -62,6 +63,7 @@
         android:layout_alignEnd="@+id/showResultButton" />
 
     <Button
+
         android:text="visa resultat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -70,5 +72,7 @@
         android:textSize="24sp"
         android:layout_above="@+id/EndGameButton"
         android:layout_centerHorizontal="true" />
+
+
 
 </RelativeLayout>
