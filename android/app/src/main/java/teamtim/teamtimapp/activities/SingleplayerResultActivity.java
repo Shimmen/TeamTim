@@ -2,6 +2,7 @@ package teamtim.teamtimapp.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,6 @@ public class SingleplayerResultActivity extends AppCompatActivity {
         TextView text = new TextView(this);
         text.setText(question);
         text.setTextSize(18);
-        text.setGravity(Gravity.START);
         linear.addView(text);
     }
 }
