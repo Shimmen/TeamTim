@@ -1,5 +1,6 @@
 package teamtim.teamtimapp.activities;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -26,21 +27,32 @@ public class SingleplayerResultActivity extends AppCompatActivity {
     private void showResult(GameData data) {
         LinearLayout your = (LinearLayout) findViewById(R.id.yourList);
         LinearLayout correct = (LinearLayout) findViewById(R.id.correctList);
-        your.setWeightSum(0.5f);
-        correct.setWeightSum(0.5f);
 
         for (int i = 0; i < data.getQuestions().size(); i++) {
-            WriteText(data.getAnswers().get(i), your);
-            WriteText(data.getQuestions().get(i).getWord(), correct);
+            TextView answer = WriteText(data.getAnswers().get(i), your);
+            TextView question = WriteText(data.getQuestions().get(i).getWord(), correct);
+
+            if(answer.getText().equals(question.getText())){
+                answer.setTextColor(Color.GREEN);
+                question.setTextColor(Color.GREEN);
+            }
+            else{
+                answer.setTextColor(Color.RED);
+                question.setTextColor(Color.RED);
+            }
+
+            your.addView(answer);
+            correct.addView(question);
+
         }
     }
-    private void WriteText(String question, LinearLayout linear){
+    private TextView WriteText(String question, LinearLayout linear){
         TextView text = new TextView(this);
         text.setText(question);
         text.setTextSize(18);
         text.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
-        linear.addView(text);
+        return text;
     }
 }
