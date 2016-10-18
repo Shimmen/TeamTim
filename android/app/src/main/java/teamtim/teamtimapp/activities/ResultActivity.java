@@ -1,47 +1,58 @@
 package teamtim.teamtimapp.activities;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.Gravity;
-import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import teamtim.teamtimapp.R;
+import teamtim.teamtimapp.managers.GameData;
 
 public class ResultActivity extends AppCompatActivity {
 
-    private String[] questions;
+    private LinearLayout list;
+    private GameData gameData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
-
-        Bundle extras = getIntent().getExtras();
-        questions = extras.getStringArray("QUESTIONS");
-        showResult(questions);
-        getSupportActionBar().hide();
+        gameData = (GameData) getIntent().getSerializableExtra("DATA");
+        showResult(gameData);
     }
 
-    private void showResult(String[] questions) {
-        LinearLayout list = (LinearLayout) findViewById(R.id.resultList);
+    private void showResult(GameData data) {
+        LinearLayout your = (LinearLayout) findViewById(R.id.yourList);
+        LinearLayout correct = (LinearLayout) findViewById(R.id.correctList);
 
+        for (int i = 0; i < data.getQuestions().size(); i++) {
+            TextView answer = WriteText(data.getAnswers().get(i), your);
+            TextView question = WriteText(data.getQuestions().get(i).getWord(), correct);
 
-        for (int i = 0; i < questions.length; i++) {
-            LinearLayout horizontal = new LinearLayout(this);
-            horizontal.setOrientation(LinearLayout.HORIZONTAL);
+            if(answer.getText().equals(question.getText())){
+                answer.setTextColor(Color.GREEN);
+                question.setTextColor(Color.GREEN);
+            }
+            else{
+                answer.setTextColor(Color.RED);
+                question.setTextColor(Color.RED);
+            }
 
-            TextView text = new TextView(this);
+            your.addView(answer);
+            correct.addView(question);
 
-            text.setText(questions[i]);
-
-            text.setGravity(Gravity.END);
-            text.setTextSize(18);
-
-            horizontal.addView(text);
-            list.addView(horizontal);
         }
+    }
+    private TextView WriteText(String question, LinearLayout linear){
+        TextView text = new TextView(this);
+        text.setText(question);
+        text.setTextSize(18);
+        text.setLayoutParams(new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        return text;
     }
 }

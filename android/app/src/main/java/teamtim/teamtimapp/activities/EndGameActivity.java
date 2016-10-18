@@ -41,7 +41,7 @@ public class EndGameActivity extends AppCompatActivity {
     }
 
     public void showResult(View v){
-        Intent i = new Intent(this, SingleplayerResultActivity.class);
+        Intent i = new Intent(this, ResultActivity.class);
         i.putExtra("DATA", gameData);
         startActivity(i);
     }
