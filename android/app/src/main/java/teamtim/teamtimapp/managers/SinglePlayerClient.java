@@ -15,11 +15,14 @@ public class SinglePlayerClient extends QuestionResultListener {
 
     private List<WordQuestion> questions;
     private int currentQ = 0;
+    private GameData gameData;
 
     public SinglePlayerClient(String category) {
+        gameData = new GameData();
         QuestionResultListener.setGlobalListener(this);
         this.category = category;
         questions = MockDatabase.getInstance().getQuestions(category, -1);
+        gameData.setQuestions(questions);
     }
 
     @Override
@@ -30,15 +33,18 @@ public class SinglePlayerClient extends QuestionResultListener {
     }
 
     @Override
-    public void onQuestionResult(int result, int time) {
+    public void onQuestionResult(int result, int time, String answer) {
         System.out.println("SinglePlayerClient: got some result! (" + result + " points)");
         score += result;
         currentQ++;
+
+        gameData.addAnswer(answer);
+
         if (currentQ < questions.size()) {
             currentPlayActivity.newQuestion(questions.get(currentQ));
         } else {
-            MockDatabase.getInstance().updateCategorySuccessRatio(category, score, questions.size());
-            currentPlayActivity.endGame(score, questions.size(), questions);
+            gameData.setP1Score(score);
+            currentPlayActivity.endSingleGame(gameData);
         }
 
         currentPlayActivity.setPlayerOneScore(score);
