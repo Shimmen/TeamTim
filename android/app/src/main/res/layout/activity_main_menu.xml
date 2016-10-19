@@ -98,4 +98,15 @@
 
     </LinearLayout>
 
+    <WebView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/demoWebView"
+        android:layout_gravity="bottom"
+        android:layout_alignLeft="@+id/logoLayout"
+        android:layout_toRightOf="@+id/logoLayout"
+        android:layout_alignBottom="@+id/logoLayout"
+        android:layout_marginBottom="18dp"
+        android:scrollIndicators="none" />
+
 </RelativeLayout>
