@@ -83,8 +83,13 @@ public class PlayActivity extends AppCompatActivity {
 
         initialProgressDialog = ProgressDialog.show(this, "Laddar", "Väntar på första frågan...", true, false, null);
 
+        if (getActionBar() != null) {
+            getActionBar().hide();
+        } else if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+
         presenter = new PlayPresenter();
-        getSupportActionBar().hide();
         currentResultListener = QuestionResultListener.getGlobalListener();
         currentResultListener.onPlayActivityCreated(this);
 

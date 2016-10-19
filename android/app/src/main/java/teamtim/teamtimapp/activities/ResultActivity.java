@@ -20,6 +20,13 @@ public class ResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+
+        if (getActionBar() != null) {
+            getActionBar().hide();
+        } else if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+
         gameData = (GameData) getIntent().getSerializableExtra("DATA");
         showResult(gameData);
     }

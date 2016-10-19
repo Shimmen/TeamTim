@@ -25,6 +25,12 @@ public class EndMultiplayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_end_multiplayer);
         gameData = (GameData)getIntent().getSerializableExtra("DATA");
 
+        if (getActionBar() != null) {
+            getActionBar().hide();
+        } else if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+
         winnerText = (TextView) findViewById(R.id.winnerText);
         yourScore = (TextView) findViewById(R.id.your_score);
         theirScore = (TextView) findViewById(R.id.their_score);

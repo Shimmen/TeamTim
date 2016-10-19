@@ -6,29 +6,42 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.webkit.DownloadListener;
 import android.webkit.WebView;
+import android.widget.ImageView;
 
 import teamtim.teamtimapp.R;
 
 public class MainMenuActivity extends AppCompatActivity {
+
+    private static boolean isFirstActivityLoad = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        WebView demoWebView = (WebView) findViewById(R.id.demoWebView);
-        //demoWebView.setAlpha(0.0f);
+        if (getActionBar() != null) {
+            getActionBar().hide();
+        } else if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
 
-        // Load the contents...
+        // Load and animate the demo gif
+        WebView demoWebView = (WebView) findViewById(R.id.demoWebView);
         demoWebView.getSettings().setLoadWithOverviewMode(true);
         demoWebView.getSettings().setUseWideViewPort(true);
         demoWebView.loadUrl("file:///android_res/raw/demo_stava.gif");
-
-        // ...then fade in
         Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         demoWebView.startAnimation(fadeIn);
+
+        if (isFirstActivityLoad) {
+            // Animate logo
+            ImageView logo = (ImageView) findViewById(R.id.logoImageView);
+            Animation logoAnim = AnimationUtils.loadAnimation(this, R.anim.logo_load);
+            logo.startAnimation(logoAnim);
+
+            isFirstActivityLoad = false;
+        }
     }
 
     public void playGame(View v){

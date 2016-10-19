@@ -32,8 +32,8 @@ public class MockDatabase implements DatabaseInterface {
 
         //add(WordQuestionFactory.create("Köttbulle",  Prefix.EN, "Mat",  WordDifficulty.HARD,   R.drawable.kottbulle));
         //add(WordQuestionFactory.create("Kebabpizza", Prefix.EN, "Mat",  WordDifficulty.MEDIUM,   R.drawable.kebabpizza));
-        add(WordQuestionFactory.create("Ägg",        Prefix.ETT, "Mat",  WordDifficulty.EASY,   R.drawable.agg));
         add(WordQuestionFactory.create("Smörgås",    Prefix.EN, "Mat",  WordDifficulty.MEDIUM,   R.drawable.smorgas));
+        add(WordQuestionFactory.create("Ägg",        Prefix.ETT, "Mat",  WordDifficulty.EASY,   R.drawable.agg));
         add(WordQuestionFactory.create("Äta",        Prefix.ATT, "Mat",  WordDifficulty.EASY,   R.drawable.ata));
 
         add(WordQuestionFactory.create("Penna",      Prefix.EN, "Skola",  WordDifficulty.EASY,   R.drawable.penna));

@@ -24,6 +24,11 @@ public class EndGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_end_game);
         stats = (TextView) findViewById(R.id.nbrCorrectText);
 
+        if (getActionBar() != null) {
+            getActionBar().hide();
+        } else if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
 
         gameData = (GameData) getIntent().getSerializableExtra("DATA");
         stats.setText("Du fick " + gameData.getP1Score() +" rätt!");
