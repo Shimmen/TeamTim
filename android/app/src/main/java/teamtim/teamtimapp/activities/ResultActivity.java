@@ -38,7 +38,7 @@ public class ResultActivity extends AppCompatActivity {
             }
             else{
                 answer.setTextColor(Color.RED);
-                question.setTextColor(Color.RED);
+                question.setTextColor(Color.GREEN);
             }
 
             your.addView(answer);

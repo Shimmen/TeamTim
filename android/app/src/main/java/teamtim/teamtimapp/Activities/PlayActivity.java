@@ -164,6 +164,8 @@ public class PlayActivity extends AppCompatActivity {
                 answerBtn.setTextColor(Color.BLACK);
                 timerText.setTextColor(Color.BLACK);
 
+                speak(answerBtn);
+
                 setTime(totalTime);
             }
         });
