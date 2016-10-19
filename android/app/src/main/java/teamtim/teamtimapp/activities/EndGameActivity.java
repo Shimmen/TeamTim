@@ -10,10 +10,13 @@ import android.widget.TextView;
 
 import teamtim.teamtimapp.R;
 
+import teamtim.teamtimapp.managers.GameData;
+
 public class EndGameActivity extends AppCompatActivity {
 
     private TextView stats;
     private String[] questions;
+    private GameData gameData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,11 +24,9 @@ public class EndGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_end_game);
         stats = (TextView) findViewById(R.id.nbrCorrectText);
 
-        Bundle extras = getIntent().getExtras();
-        questions = extras.getStringArray("QUESTIONS");
-        String correct = extras.getString("CORRECT_ANSWERS");
-        String total = extras.getString("TOTAL_ANSWERS");
-        stats.setText(correct + " av " + total + " rätt!");
+
+        gameData = (GameData) getIntent().getSerializableExtra("DATA");
+        stats.setText("Du fick " + gameData.getP1Score() +" rätt!");
     }
 
     public void goToMainMenu(View v){
@@ -41,9 +42,7 @@ public class EndGameActivity extends AppCompatActivity {
 
     public void showResult(View v){
         Intent i = new Intent(this, ResultActivity.class);
-        Bundle extras = new Bundle();
-        extras.putStringArray("QUESTIONS", questions);
-        i.putExtras(extras);
+        i.putExtra("DATA", gameData);
         startActivity(i);
     }
 

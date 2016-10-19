@@ -30,15 +30,13 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="EN"
+        android:text="ETT"
         android:id="@+id/pefixLabel"
-        android:layout_below="@+id/imageView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
         android:textAlignment="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="26dp"
         android:textSize="25dp"
-        android:layout_marginBottom="20dp" />
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true" />
 
     <GridLayout
         android:layout_width="wrap_content"
@@ -49,21 +47,10 @@
         android:layout_alignParentLeft="false"
         android:layout_alignParentRight="false"
         android:columnCount="10"
-        android:layout_below="@+id/pefixLabel">
+        android:layout_below="@+id/pefixLabel"
+        android:layout_marginTop="100dp">
 
     </GridLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/imageView"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/linearLayout"
-        android:layout_above="@+id/buttonGrid"
-        android:baselineAligned="false"
-        android:gravity="bottom|center">
-    </LinearLayout>
 
     <Button
         android:layout_width="wrap_content"
@@ -75,18 +62,20 @@
         android:textSize="24sp"
         android:textAllCaps="false"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentLeft="false" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/imageView"
-        android:layout_alignEnd="@+id/imageView"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="7dp"
         android:id="@+id/timerText"
         android:textSize="24sp"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:layout_alignRight="@+id/playerOne"
+        android:layout_alignEnd="@+id/playerOne"
+        android:layout_alignParentEnd="false" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -108,10 +97,18 @@
         android:textColor="@android:color/holo_green_dark"
         android:textSize="18sp" />
 
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"></GridLayout>
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton"
+        android:layout_row="0"
+        android:layout_column="21"
+        android:background="@drawable/ic_hearing_black_36dp"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_alignRight="@+id/imageView"
+        android:layout_alignEnd="@+id/imageView"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="speak" />
 
 </RelativeLayout>
