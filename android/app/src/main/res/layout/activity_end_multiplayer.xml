@@ -20,40 +20,6 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
-    <Button
-        android:text="Avsluta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button"
-        android:layout_marginBottom="0dp"
-        android:layout_alignParentBottom="false"
-        android:layout_centerHorizontal="true"
-        android:textSize="24sp"
-        android:layout_below="@+id/button3"
-        android:layout_marginTop="20dp"
-        android:onClick="endGame" />
-
-    <Button
-        android:text="Spela igen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button2"
-        android:textSize="24sp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="playAgain" />
-
-    <Button
-        android:text="Visa resultat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button3"
-        android:textSize="24sp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/button2"
-        android:onClick="showResult" />
-
     <TextView
         android:text="Din poäng:"
         android:layout_width="wrap_content"
@@ -94,5 +60,27 @@
         android:layout_alignLeft="@+id/textView30"
         android:layout_alignStart="@+id/textView30"
         android:id="@+id/their_score" />
+
+    <Button
+        android:text="Visa resultat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button3"
+        android:textSize="24sp"
+        android:onClick="showResult"
+        android:layout_below="@+id/their_score"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="180dp" />
+
+    <Button
+        android:text="Avsluta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button"
+        android:textSize="24sp"
+        android:onClick="endGame"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/button3"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
