@@ -15,7 +15,7 @@ public class WordQuestionTest {
         categories.add("category2");
         categories.add("category3");
 
-        WordQuestion question = WordQuestionFactory.create("Test", categories, WordDifficulty.EASY, -1);
+        WordQuestion question = WordQuestionFactory.create("Test", Prefix.EN, categories, WordDifficulty.EASY, -1);
 
         assertNotNull(question.getCategories());
         assertEquals(categories.size(), question.getCategories().size());
@@ -28,7 +28,7 @@ public class WordQuestionTest {
     @Test
     public void testGetImage() throws Exception {
         int imageId = 12345;
-        WordQuestion question = WordQuestionFactory.create("Test", "category", WordDifficulty.EASY, imageId);
+        WordQuestion question = WordQuestionFactory.create("Test", Prefix.EN, "category", WordDifficulty.EASY, imageId);
 
         assertEquals(imageId, question.getImage());
     }
@@ -36,7 +36,7 @@ public class WordQuestionTest {
     @Test
     public void testGetWord() throws Exception {
         String word = "word";
-        WordQuestion question = WordQuestionFactory.create(word, "category", WordDifficulty.EASY, -1);
+        WordQuestion question = WordQuestionFactory.create(word, Prefix.EN, "category", WordDifficulty.EASY, -1);
 
         assertNotNull(question.getWord());
         assertEquals(word, question.getWord());
@@ -45,9 +45,20 @@ public class WordQuestionTest {
     @Test
     public void testGetDifficulty() throws Exception {
         WordDifficulty difficulty = WordDifficulty.HARD;
-        WordQuestion question = WordQuestionFactory.create("Test", "category", WordDifficulty.HARD, -1);
+        WordQuestion question = WordQuestionFactory.create("Test", Prefix.EN, "category", WordDifficulty.HARD, -1);
 
         assertNotNull(question.getDifficulty());
         assertEquals(difficulty, question.getDifficulty());
+    }
+
+    @Test
+    public void testGetPrefix() throws Exception{
+        WordQuestion question = WordQuestionFactory.create("Banan", Prefix.EN, "category", WordDifficulty.EASY, -1);
+        Prefix prefix = Prefix.EN;
+        String pString = "EN";
+
+        assertNotNull(question.getPrefix());
+        assertEquals(prefix.toString(), question.getPrefix());
+        assertEquals(pString, question.getPrefix());
     }
 }

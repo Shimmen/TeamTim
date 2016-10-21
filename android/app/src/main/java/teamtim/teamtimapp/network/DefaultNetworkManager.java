@@ -197,6 +197,7 @@ public class DefaultNetworkManager extends BroadcastReceiver implements NetworkM
     }
 
     private void onFailureHandler(String context, int reason) {
+/*
         // TODO: These aren't really user presentable error messages!
         String message = "Error (" + context + "): ";
         if (reason == WifiP2pManager.P2P_UNSUPPORTED){
@@ -208,5 +209,6 @@ public class DefaultNetworkManager extends BroadcastReceiver implements NetworkM
         }
 
         Toast.makeText(appContext, message, Toast.LENGTH_LONG).show();
+*/
     }
 }

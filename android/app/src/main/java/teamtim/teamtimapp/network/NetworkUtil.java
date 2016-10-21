@@ -1,4 +1,4 @@
-package teamtim.teamtimapp;
+package teamtim.teamtimapp.network;
 
 import java.io.BufferedReader;
 import java.io.IOException;
