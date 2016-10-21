@@ -160,9 +160,7 @@ public class PlayActivity extends AppCompatActivity {
                 setImage(w.getImage());
                 //Set keyboard for new question
                 setKeyboard();
-                //Change this somehow, since setKeyboard is called before the presenter has been completely
-                //created the app crashes. Either change some implementation or move shuffle and split
-                //back into Activity
+
 
                 initialProgressDialog.hide();
                 answerBtn.setClickable(true);
@@ -198,11 +196,11 @@ public class PlayActivity extends AppCompatActivity {
     }
 
     public void setKeyboard(){
-        //Will change a lot, purely for demonstration
+
         if(buttonGrid != null) {
             buttonGrid.removeAllViews();
         }
-        //Kanske borde göra en till metod i playPresenter som gör båda shuffle och splitstring samtidigt?
+
         lettersInWord = presenter.shuffle(presenter.splitString(question.getWord()));
         for (int i = 0; i < question.getWord().length(); i++) {
 
@@ -245,28 +243,6 @@ public class PlayActivity extends AppCompatActivity {
         }, POST_ANSWER_DELAY_MS);
 
     }
-
-    /** TODO: remove this if other endGame works
-    public void endGame(int correctAnswers, int totalAnswers, List<WordQuestion> questions){
-        Intent i = new Intent(PlayActivity.this, EndGameActivity.class);
-        Bundle extras = new Bundle();
-
-        String answers = String.valueOf(correctAnswers);
-        String total = String.valueOf(totalAnswers);
-        String[] questionArray = new String[questions.size()];
-
-        for(int j = 0; j < questions.size(); j++){
-            questionArray[j] = questions.get(j).getWord();
-        }
-
-        extras.putStringArray("QUESTIONS", questionArray);
-        extras.putString("CORRECT_ANSWERS", answers);
-        extras.putString("TOTAL_ANSWERS", total);
-
-        i.putExtras(extras);
-        startActivity(i);
-    }
-     */
 
     public void endSingleGame(GameData data){
         timer.cancel();

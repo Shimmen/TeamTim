@@ -36,16 +36,16 @@ public class ResultActivity extends AppCompatActivity {
         LinearLayout correct = (LinearLayout) findViewById(R.id.correctList);
 
         for (int i = 0; i < data.getQuestions().size(); i++) {
-            TextView answer = WriteText(data.getAnswers().get(i), your);
-            TextView question = WriteText(data.getQuestions().get(i).getWord(), correct);
+            TextView answer = WriteText(data.getAnswers().get(i).toUpperCase(), your);
+            TextView question = WriteText(data.getQuestions().get(i).getWord().toUpperCase(), correct);
 
             if(answer.getText().equals(question.getText())){
-                answer.setTextColor(Color.GREEN);
-                question.setTextColor(Color.GREEN);
+                answer.setTextColor(Color.BLUE);
+                question.setTextColor(Color.BLUE);
             }
             else{
                 answer.setTextColor(Color.RED);
-                question.setTextColor(Color.GREEN);
+                question.setTextColor(Color.BLUE);
             }
 
             your.addView(answer);

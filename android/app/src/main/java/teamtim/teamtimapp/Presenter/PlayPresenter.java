@@ -1,22 +1,11 @@
 package teamtim.teamtimapp.presenter;
 
-import android.content.Context;
-import java.util.List;
-
-import teamtim.teamtimapp.activities.PlayActivity;
-import teamtim.teamtimapp.database.DatabaseInterface;
-import teamtim.teamtimapp.database.MockDatabase;
-import teamtim.teamtimapp.database.WordQuestion;
-import teamtim.teamtimapp.speechSynthesizer.ISpeechSynthesizer;
-import teamtim.teamtimapp.speechSynthesizer.SoundPlayer;
 
 public class PlayPresenter {
 
     public PlayPresenter(){
     }
 
-    //Put into another class or something later
-    //And write better methods
     public char[] shuffle(char[] wordLetters) {
         for (int i = 0; i < wordLetters.length; i ++) {
             int newPos = (int)((Math.random() * wordLetters.length)-1);
