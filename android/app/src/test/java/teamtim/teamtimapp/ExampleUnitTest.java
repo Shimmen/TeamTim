@@ -46,7 +46,6 @@ public class ExampleUnitTest {
         }
         assertTrue(isEasy);
 
-
         for (int i = 0; i < 5; i++) {
             System.out.println(dbase.getQuestions("Djur", 1).get(0).getWord());
         }
