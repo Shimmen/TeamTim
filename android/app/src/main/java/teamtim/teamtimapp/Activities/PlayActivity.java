@@ -1,6 +1,5 @@
 package teamtim.teamtimapp.activities;
 
-
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,13 +21,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.List;
-
 import teamtim.teamtimapp.R;
 import teamtim.teamtimapp.database.WordQuestion;
 import teamtim.teamtimapp.managers.GameData;
 import teamtim.teamtimapp.managers.QuestionResultListener;
-import teamtim.teamtimapp.managers.SinglePlayerClient;
 import teamtim.teamtimapp.presenter.PlayPresenter;
 import teamtim.teamtimapp.speechSynthesizer.ISpeechSynthesizer;
 import teamtim.teamtimapp.speechSynthesizer.SoundPlayer;
@@ -108,7 +104,6 @@ public class PlayActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         currentResultListener.onResume();
-        //Handle multiplayer? Can this be done from MPC
     }
 
     public void resumeSinglePlayer(){
@@ -131,10 +126,7 @@ public class PlayActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                //timeRemaining = 15;
                 checkAnswer(timerText);
-                //currentResultListener.onQuestionResult(0);
-                //this.cancel();
             }
         }.start();
 
@@ -330,15 +322,18 @@ public class PlayActivity extends AppCompatActivity {
             if (currentPos > 0) {
                 left = new TextView(layout.getContext());
                 layout.addView(createTextView(left, currentPos-1), createParams(currentPos-1));
+                left.setText(left.getText().toString().toUpperCase());
             }
 
             middle = new TextView(layout.getContext());
             middle.setTextColor(Color.parseColor("#737aff"));
             layout.addView(createTextView(middle, currentPos), createParams(currentPos));
+            middle.setText(middle.getText().toString().toUpperCase());
 
             if (currentPos < tiles.length - 1) {
                 right = new TextView(layout.getContext());
                 layout.addView(createTextView(right, currentPos+1), createParams(currentPos+1));
+                right.setText(right.getText().toString().toUpperCase());
             }
         }
 
