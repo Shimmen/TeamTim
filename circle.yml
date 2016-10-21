@@ -1,4 +1,4 @@
 
 test:
   override:
-    - ./android/gradlew test
+    - cd android/;./gradlew test
