@@ -71,7 +71,9 @@ public class MockDatabase implements DatabaseInterface {
     public static void initialize(Context context) throws Exception{
         if (instance != null) throw new Exception("Database already initialized!");
         instance = new MockDatabase();
-        preferences = context.getSharedPreferences("categories", Context.MODE_PRIVATE);
+        if(context != null) {
+            preferences = context.getSharedPreferences("categories", Context.MODE_PRIVATE);
+        }
         //PreferenceManager.getDefaultSharedPreferences(context);
 
     }

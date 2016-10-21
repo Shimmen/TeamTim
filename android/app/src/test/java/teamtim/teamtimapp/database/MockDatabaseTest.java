@@ -9,6 +9,14 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class MockDatabaseTest {
+    public MockDatabaseTest() {
+        try {
+            MockDatabase.initialize(null);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void testGetQuestionsNeverNull() throws Exception {
