@@ -16,6 +16,15 @@ import static org.junit.Assert.assertTrue;
  * To work on unit tests, switch the Test Artifact in the Build Variants view.
  */
 public class ExampleUnitTest {
+    public ExampleUnitTest() {
+        try {
+            MockDatabase.initialize(null);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Test
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
@@ -25,9 +34,9 @@ public class ExampleUnitTest {
     public void testDatabaseInterface() throws Exception {
         DatabaseInterface dbase = MockDatabase.getInstance();
         List<WordQuestion> questions = dbase.getQuestions("Frukt", -1);
-        assertTrue(questions.size() == 5);
+        assertEquals(4, questions.size());
         questions = dbase.getQuestions("Djur", 3);
-        assertTrue(questions.size() == 3);
+        assertEquals(3, questions.size());
 
         questions = dbase.getQuestions(WordDifficulty.EASY, "Djur", -1);
         boolean isEasy = true;
