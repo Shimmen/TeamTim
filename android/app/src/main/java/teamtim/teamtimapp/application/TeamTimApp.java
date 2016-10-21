@@ -17,6 +17,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import teamtim.teamtimapp.activities.PlayActivity;
+import teamtim.teamtimapp.database.MockDatabase;
 import teamtim.teamtimapp.managers.MultiPlayerClient;
 import teamtim.teamtimapp.network.DefaultNetworkManager;
 import teamtim.teamtimapp.network.NetworkManager;
@@ -32,7 +33,11 @@ public class TeamTimApp extends Application implements WifiP2pManager.Connection
         System.out.println("Application created!");
 
         this.networkManager = DefaultNetworkManager.initialize(getApplicationContext());
-
+        try {
+            MockDatabase.initialize(getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         // Become the active listener for when a connection is established
         becomeActiveOnConnectedListener();
 

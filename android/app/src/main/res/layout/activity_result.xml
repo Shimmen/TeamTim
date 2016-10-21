@@ -15,18 +15,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView3"
-        android:textAlignment="center"
         android:textStyle="normal|bold"
-        android:textSize="32sp"
+        android:textSize="30sp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:fontFamily="sans-serif"
-        android:textColor="?attr/colorControlActivated" />
+        android:textColor="?attr/colorControlActivated"
+        android:textAlignment="center" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/textView3">
+        android:layout_below="@+id/textView3"
+        android:fillViewport="false">
 
         <LinearLayout
             android:orientation="vertical"
@@ -40,15 +41,50 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:text="Rätt svar"
+                    android:text="Ditt svar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView10"
                     android:layout_weight="1"
-                    android:textAlignment="textStart"
-                    android:textSize="24sp" />
+                    android:textAlignment="center"
+                    android:textSize="21sp"
+                    android:gravity="center" />
+
+                <TextView
+                    android:text="Rätt svar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView4"
+                    android:layout_weight="1"
+                    android:textSize="21sp"
+                    android:textAlignment="center"
+                    android:gravity="center" />
 
             </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/yourList"
+                    android:layout_weight="0.5"
+                    android:gravity="top|center"></LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:id="@+id/correctList"
+                    android:gravity="top|center"></LinearLayout>
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 

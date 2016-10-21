@@ -36,6 +36,12 @@ public class MultiplayerActivity extends AppCompatActivity implements WifiP2pMan
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (getActionBar() != null) {
+            getActionBar().hide();
+        } else if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+
         setContentView(R.layout.activity_search_friends);
         userList = (LinearLayout) findViewById(R.id.user_list);
 

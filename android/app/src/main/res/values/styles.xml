@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="StavaTheme" parent="AppTheme" >
+        <item name="android:colorForeground">@color/colorForeground</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="colorButtonNormal">@color/colorButton</item>
+    </style>
+
 </resources>
