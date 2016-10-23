@@ -12,6 +12,7 @@ public class SinglePlayerClient extends QuestionResultListener {
 
     private String category;
     private int score = 0;
+    static final long serialVersionUID = 1;
 
     private List<WordQuestion> questions;
     private int currentQ = 0;

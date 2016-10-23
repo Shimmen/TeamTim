@@ -3,6 +3,7 @@ package teamtim.teamtimapp.database;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 public class WordQuestion implements Serializable {
@@ -12,7 +13,7 @@ public class WordQuestion implements Serializable {
     private final Set<String> categories;
     private final WordDifficulty difficulty;
     private final int imageId;
-
+    static final long serialVersionUID = 2;
 
     private int questionId;
 
@@ -21,7 +22,7 @@ public class WordQuestion implements Serializable {
 
 
         assert word != null;
-        this.word = word.toLowerCase();
+        this.word = word.toLowerCase(new Locale("swe"));
 
         assert prefix != null;
         this.prefix = prefix;
@@ -29,7 +30,7 @@ public class WordQuestion implements Serializable {
         assert categories != null;
         this.categories = new HashSet<String>();
         for (String category: categories) {
-            this.categories.add(category.toLowerCase());
+            this.categories.add(category.toLowerCase(new Locale("swe")));
         }
 
         assert difficulty != null;

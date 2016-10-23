@@ -23,6 +23,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Locale;
 
 import teamtim.teamtimapp.R;
 import teamtim.teamtimapp.database.CategoryWrapper;
@@ -76,7 +77,7 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
             categoryLayout.removeAllViews();
         }
         for (CategoryWrapper category : list) {
-            if (!category.getCategory().contains(query.toLowerCase())) continue;
+            if (!category.getCategory().contains(query.toLowerCase(new Locale("swe")))) continue;
             LinearLayout wrapper = new LinearLayout(this);
             //TODO: more colors maybe
             //category.getRatio() < .5f ? Color.RED : Color.GREEN
@@ -92,7 +93,7 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
             int pick = Math.min(Math.round(category.getRatio() * 3), 3);
             emoji.setImageResource(emojiRef[pick]);
             //Button categoryButton = new Button(this);
-            tv.setText(category.getCategory().toUpperCase());
+            tv.setText(category.getCategory().toUpperCase(new Locale("swe")));
             iv.setImageResource(category.getImage());
             RelativeLayout emojiContainer = new RelativeLayout(this);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);

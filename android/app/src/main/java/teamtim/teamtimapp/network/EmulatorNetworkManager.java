@@ -29,6 +29,8 @@ public class EmulatorNetworkManager implements NetworkManager {
             WifiP2pDeviceList deviceList = WifiP2pDeviceList.class.getConstructor(ArrayList.class).newInstance(devices);
             peerListListener.onPeersAvailable(deviceList);
 
+        } catch (RuntimeException e) {
+            throw e;
         } catch (Exception e) {
             e.printStackTrace();
         }

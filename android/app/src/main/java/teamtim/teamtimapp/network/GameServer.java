@@ -17,7 +17,7 @@ import teamtim.teamtimapp.database.WordQuestion;
 
 public class GameServer extends Thread {
 
-    private class Scores {
+    private static class Scores {
         public int score_p1;
         public int score_p2;
     }

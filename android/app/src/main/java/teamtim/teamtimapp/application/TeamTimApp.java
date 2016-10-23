@@ -47,7 +47,9 @@ public class TeamTimApp extends Application implements WifiP2pManager.Connection
     }
 
     public void becomeActiveOnConnectedListener() {
-        networkManager.setOnConnectedListener(this);
+        if(networkManager != null) {
+            networkManager.setOnConnectedListener(this);
+        }
     }
 
     @Override
@@ -90,13 +92,15 @@ public class TeamTimApp extends Application implements WifiP2pManager.Connection
         // Invalidate the old list since it probably isn't up to date anymore
         availableDevices.clear();
 
-        networkManager.setPeerListListener(new WifiP2pManager.PeerListListener() {
-            @Override
-            public void onPeersAvailable(WifiP2pDeviceList peers) {
-                availableDevices.clear();
-                availableDevices.addAll(peers.getDeviceList());
-            }
-        });
+        if (networkManager != null) {
+            networkManager.setPeerListListener(new WifiP2pManager.PeerListListener() {
+                @Override
+                public void onPeersAvailable(WifiP2pDeviceList peers) {
+                    availableDevices.clear();
+                    availableDevices.addAll(peers.getDeviceList());
+                }
+            });
+        }
     }
 
     public List<WifiP2pDevice> getAvailablePeers() {
