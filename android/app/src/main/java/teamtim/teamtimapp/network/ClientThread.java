@@ -113,8 +113,9 @@ public class ClientThread extends Thread {
                     case WAIT_FOR_INCOMING_DATA: {
 
                         Map<String, String> data = NetworkUtil.waitForAndReadData(socket);
-                        onDataListener.onData(data);
-
+                        if (onDataListener != null) {
+                            onDataListener.onData(data);
+                        }
                         // Set to the outgoing data stage.
                         // NOTE: This only works because the app always alternates between sending and receiving.
                         // It will never send twice or more in a row or receive twice or more in a row.

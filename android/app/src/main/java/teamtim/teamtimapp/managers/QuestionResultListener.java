@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import teamtim.teamtimapp.activities.PlayActivity;
 
-public abstract class QuestionResultListener implements Serializable {
+public abstract class QuestionResultListener {
 
     static QuestionResultListener globalListener = null;
 

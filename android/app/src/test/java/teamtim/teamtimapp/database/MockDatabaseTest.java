@@ -80,12 +80,12 @@ public class MockDatabaseTest {
 
         int maxAmount = 2;
         List<WordQuestion> questions = db.getQuestions("Djur", maxAmount);
-        assertTrue(questions.size() >= 0);
+        assertTrue(questions.size() >= 1);
         assertTrue(questions.size() <= maxAmount);
 
         maxAmount = 20_000_000;
         questions = db.getQuestions("Djur", maxAmount);
-        assertTrue(questions.size() >= 0);
+        assertTrue(questions.size() >= 1);
         assertTrue(questions.size() <= maxAmount);
     }
 

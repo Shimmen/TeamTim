@@ -34,13 +34,13 @@ public class MainMenuActivity extends AppCompatActivity {
         Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         demoWebView.startAnimation(fadeIn);
 
-        if (isFirstActivityLoad) {
+        if (MainMenuActivity.isFirstActivityLoad) {
             // Animate logo
             ImageView logo = (ImageView) findViewById(R.id.logoImageView);
             Animation logoAnim = AnimationUtils.loadAnimation(this, R.anim.logo_load);
             logo.startAnimation(logoAnim);
 
-            isFirstActivityLoad = false;
+            MainMenuActivity.setActivityHasBeenLoaded();
         }
     }
 
@@ -50,6 +50,10 @@ public class MainMenuActivity extends AppCompatActivity {
 
     public void playTogether(View v){
         toCategory("Multi");
+    }
+
+    private static void setActivityHasBeenLoaded() {
+        MainMenuActivity.isFirstActivityLoad = false;
     }
 
     public void toCategory(String mode){

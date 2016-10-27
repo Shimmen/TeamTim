@@ -12,6 +12,7 @@ public class GameData implements Serializable{
     private List<String> answers;
     private int p1Score;
     private int p2Score;
+    static final long serialVersionUID = 3;
 
     public GameData(){
         answers = new ArrayList<String>();

@@ -21,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 import teamtim.teamtimapp.R;
 import teamtim.teamtimapp.database.WordQuestion;
 import teamtim.teamtimapp.managers.GameData;
@@ -59,6 +61,7 @@ public class PlayActivity extends AppCompatActivity {
 
 
     private WordQuestion question;
+    private Locale locale = new Locale("swe");
 
     private Button[] tiles;
 
@@ -113,7 +116,7 @@ public class PlayActivity extends AppCompatActivity {
     private void setTime(int timeInSeconds){
         if (timer != null)
             timer.cancel();
-        timer = new CountDownTimer(timeInSeconds * 1000, TICKER) {
+        timer = new CountDownTimer(timeInSeconds * 1000L, TICKER) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timeRemaining--;
@@ -322,18 +325,18 @@ public class PlayActivity extends AppCompatActivity {
             if (currentPos > 0) {
                 left = new TextView(layout.getContext());
                 layout.addView(createTextView(left, currentPos-1), createParams(currentPos-1));
-                left.setText(left.getText().toString().toUpperCase());
+                left.setText(left.getText().toString().toUpperCase(locale));
             }
 
             middle = new TextView(layout.getContext());
             middle.setTextColor(Color.parseColor("#737aff"));
             layout.addView(createTextView(middle, currentPos), createParams(currentPos));
-            middle.setText(middle.getText().toString().toUpperCase());
+            middle.setText(middle.getText().toString().toUpperCase(locale));
 
             if (currentPos < tiles.length - 1) {
                 right = new TextView(layout.getContext());
                 layout.addView(createTextView(right, currentPos+1), createParams(currentPos+1));
-                right.setText(right.getText().toString().toUpperCase());
+                right.setText(right.getText().toString().toUpperCase(locale));
             }
         }
 
@@ -377,6 +380,7 @@ public class PlayActivity extends AppCompatActivity {
                     return true;
                 case MotionEvent.ACTION_CANCEL:
                     removeTextViews(layout);
+                    break;
                 default:
                     Log.e("DragDrop Error","Unknown action type received by TouchEventListener.");
                     break;

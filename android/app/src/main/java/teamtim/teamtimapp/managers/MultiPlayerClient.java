@@ -13,12 +13,13 @@ import teamtim.teamtimapp.activities.PlayActivity;
 import teamtim.teamtimapp.database.WordQuestion;
 import teamtim.teamtimapp.network.ClientThread;
 
-public class MultiPlayerClient extends QuestionResultListener implements ClientThread.OnDataListener {
+public final class MultiPlayerClient extends QuestionResultListener implements ClientThread.OnDataListener {
 
     private ClientThread clientThread;
     private PlayActivity currentPlayActivity;
     private GameData gameData;
     private boolean isHosting;
+    static final long serialVersionUID = 4;
 
     public MultiPlayerClient(String clientName, InetAddress serverAddress, List<WordQuestion> questions) {
 
@@ -65,7 +66,9 @@ public class MultiPlayerClient extends QuestionResultListener implements ClientT
                 //Add question to gameData
                 gameData.addQuestion(currentQuestion);
                 // Load next question
-                currentPlayActivity.newQuestion(currentQuestion);
+                if (currentPlayActivity != null) {
+                    currentPlayActivity.newQuestion(currentQuestion);
+                }
                 break;
             case "GAME_RESULTS":
                 System.out.println(clientName + ": received game results: " + data);
@@ -119,11 +122,13 @@ public class MultiPlayerClient extends QuestionResultListener implements ClientT
     }
 
     public void updateScore(int player1, int player2){
-        currentPlayActivity.setPlayerOneScore(player1);
-        gameData.setP1Score(player1);
+        if (currentPlayActivity != null) {
+            currentPlayActivity.setPlayerOneScore(player1);
+            gameData.setP1Score(player1);
 
-        currentPlayActivity.setPlayerTwoScore(player2);
-        gameData.setP2Score(player2);
+            currentPlayActivity.setPlayerTwoScore(player2);
+            gameData.setP2Score(player2);
+        }
     }
 
 }

@@ -54,7 +54,6 @@ public class DefaultNetworkManager extends BroadcastReceiver implements NetworkM
     // Instance
     //
 
-    private Context appContext;
     private WifiP2pManager manager;
     private WifiP2pManager.Channel channel;
 
@@ -62,7 +61,6 @@ public class DefaultNetworkManager extends BroadcastReceiver implements NetworkM
     private WifiP2pManager.ConnectionInfoListener currentConnectionInfoListener;
 
     private DefaultNetworkManager(Context appContext) {
-        this.appContext = appContext;
         manager = (WifiP2pManager) appContext.getSystemService(Context.WIFI_P2P_SERVICE);
         channel = manager.initialize(appContext, appContext.getMainLooper(), null);
 
@@ -108,11 +106,6 @@ public class DefaultNetworkManager extends BroadcastReceiver implements NetworkM
                 }
             }
         }
-
-        if (WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION.equals(action)) {
-            // Relevant?
-        }
-
     }
 
     @Override

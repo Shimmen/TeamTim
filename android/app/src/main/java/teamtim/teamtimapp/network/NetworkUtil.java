@@ -22,14 +22,16 @@ public class NetworkUtil {
     public static Map<String, String> waitForAndReadData(Socket socket) {
         try {
 
-            InputStreamReader inputStreamReader = new InputStreamReader(socket.getInputStream());
+            InputStreamReader inputStreamReader = new InputStreamReader(socket.getInputStream(), Charset.forName("UTF-8"));
             BufferedReader in = new BufferedReader(inputStreamReader);
 
             // Read packet as a line
             String line = in.readLine();
 
             // Convert raw data to a nice map
-            return NetworkUtil.dataFromString(line);
+            if (line != null) {
+                return NetworkUtil.dataFromString(line);
+            }
 
         } catch (IOException e) {
             e.printStackTrace();

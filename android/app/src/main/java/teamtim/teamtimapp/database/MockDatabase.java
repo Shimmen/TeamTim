@@ -5,16 +5,18 @@ import android.content.SharedPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 import teamtim.teamtimapp.R;
 
 public class MockDatabase implements DatabaseInterface {
 
-    private static DatabaseInterface instance = null;
+    private volatile static DatabaseInterface instance = null;
     private static SharedPreferences preferences;
     private List<WordQuestion> wordQuestions = new ArrayList<>();
     private Random randomizer = new Random();
+    private Locale locale = new Locale("swe");
 
     private MockDatabase(){
         wordQuestions = new ArrayList<WordQuestion>();
@@ -90,7 +92,7 @@ public class MockDatabase implements DatabaseInterface {
     public List<WordQuestion> getQuestions(String category, int maxAmount) {
         List<WordQuestion> questions = new ArrayList<>();
         for (WordQuestion question : wordQuestions){
-            if (question.getCategories().contains(category.toLowerCase())) {
+            if (question.getCategories().contains(category.toLowerCase(locale))) {
                 questions.add(question);
             }
         }
@@ -102,7 +104,7 @@ public class MockDatabase implements DatabaseInterface {
     public List<WordQuestion> getQuestions(WordDifficulty difficulty, String category, int maxAmount) {
         List<WordQuestion> questions = new ArrayList<>();
         for (WordQuestion question : wordQuestions){
-            if (question.getDifficulty() == difficulty && question.getCategories().contains(category.toLowerCase())) {
+            if (question.getDifficulty() == difficulty && question.getCategories().contains(category.toLowerCase(locale))) {
                 questions.add(question);
             }
         }
@@ -137,10 +139,10 @@ public class MockDatabase implements DatabaseInterface {
     }
 
     public void updateCategorySuccessRatio(String category, int points, int total_points){
-        float ratio = preferences.getFloat(category.toLowerCase(), 0.5f);
+        float ratio = preferences.getFloat(category.toLowerCase(locale), 0.5f);
         ratio += (float)((float)points/(float)total_points);
         ratio/=2;
-        preferences.edit().putFloat(category.toLowerCase(), ratio).apply();
+        preferences.edit().putFloat(category.toLowerCase(locale), ratio).apply();
     }
 
     /**
