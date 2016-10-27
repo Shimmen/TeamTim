@@ -47,25 +47,7 @@ public class EmulatorNetworkManager implements NetworkManager {
 
     @Override
     public void connectToDevice(WifiP2pDevice device, final WifiP2pManager.ConnectionInfoListener connectionInfoListener) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-
-                    WifiP2pInfo info = new WifiP2pInfo();
-                    info.groupFormed = true;
-
-                    // Must run on non-main thread!
-                    info.groupOwnerAddress = InetAddress.getLocalHost();
-                    info.isGroupOwner = true;
-
-                    connectionInfoListener.onConnectionInfoAvailable(info);
-
-                } catch (UnknownHostException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+        new Thread(new ConnectToDeviceRunnable(connectionInfoListener)).start();
     }
 
     @Override
@@ -87,4 +69,29 @@ public class EmulatorNetworkManager implements NetworkManager {
         }
     }
 
+    private static class ConnectToDeviceRunnable implements Runnable {
+        private final WifiP2pManager.ConnectionInfoListener connectionInfoListener;
+
+        public ConnectToDeviceRunnable(WifiP2pManager.ConnectionInfoListener connectionInfoListener) {
+            this.connectionInfoListener = connectionInfoListener;
+        }
+
+        @Override
+        public void run() {
+            try {
+
+                WifiP2pInfo info = new WifiP2pInfo();
+                info.groupFormed = true;
+
+                // Must run on non-main thread!
+                info.groupOwnerAddress = InetAddress.getLocalHost();
+                info.isGroupOwner = true;
+
+                connectionInfoListener.onConnectionInfoAvailable(info);
+
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

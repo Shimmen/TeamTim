@@ -13,7 +13,7 @@ import teamtim.teamtimapp.activities.PlayActivity;
 import teamtim.teamtimapp.database.WordQuestion;
 import teamtim.teamtimapp.network.ClientThread;
 
-public class MultiPlayerClient extends QuestionResultListener implements ClientThread.OnDataListener {
+public final class MultiPlayerClient extends QuestionResultListener implements ClientThread.OnDataListener {
 
     private ClientThread clientThread;
     private PlayActivity currentPlayActivity;
